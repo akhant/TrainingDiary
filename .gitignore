@@ -1,6 +1,4 @@
 node_modules
-.vscode
+/.vscode
 .eslintrc
-.gitignore
-.gitmodules
 yarn.lock
