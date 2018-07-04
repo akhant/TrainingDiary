@@ -1,0 +1,30 @@
+{
+  "name": "training_diary",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently  \"npm run start:server\" \"npm run start:client\" ",
+    "start:client": "cd client && npm run dev",
+    "start:server": "cd server && npm run start"
+  },
+  "author": "akhant <a.khantelev@mail.ru>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-eslint": "^8.2.5",
+    "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
+    "cors": "^2.8.4",
+    "eslint": "^5.0.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.10.0",
+    "file-loader": "^1.1.11",
+    "global": "^4.3.2",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.14.12",
+    "prop-types": "^15.6.1",
+    "victory": "^0.25.6",
+    "whatwg-fetch": "^2.0.3"
+  }
+}

@@ -1,0 +1,94 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import _ from "lodash";
+import { workoutStart, showMessage, workoutFinish } from "../AC";
+import elapsedTime from "../helpers";
+
+class Timer extends Component {
+  state = {
+    start: "",
+    elapsed: 0
+  };
+
+  componentDidUpdate = () => {
+    if (this.checkStat()) {
+      let workoutTime = this.checkStat().workoutTime;
+      if (!this.started && this.state.elapsed !== workoutTime) {
+        this.setState({
+          elapsed: workoutTime
+        });
+      }
+    } else if (this.state.elapsed) {
+      this.setState({
+        elapsed: 0
+      });
+    }
+  };
+
+  componentWillUnmount = () => {
+    clearInterval(this.timer);
+  };
+
+  //есть ли выбранный день в statistic
+  checkStat = () => {
+    return _.find(this.props.statistic, {
+      date: this.props.pickDate._d.toDateString()
+    });
+  };
+
+  tick = () => {
+    this.setState({
+      elapsed: Math.round((Date.now() - this.state.start) / 1000)
+    });
+  };
+
+  startSport = () => {
+    this.setState({
+      start: Date.now()
+    });
+    this.timer = setInterval(this.tick, 1000);
+    this.props.workoutStart(this.props.pickDate, Date.now());
+    this.started = 1;
+    this.props.showMessage({ message: "", started: this.started });
+  };
+  finishSport = () => {
+    if (this.started) {
+      
+      clearInterval(this.timer);
+      this.props.workoutFinish(this.props.pickDate, Date.now());
+      this.started = 0;
+      this.props.showMessage({ message: "", started: this.started });
+    }
+  };
+
+  render() {
+    return (
+      <div className="timer">
+        <div className="timer_time">
+          <div className="center timer_time_numerals">
+            {" "}
+            {elapsedTime(this.state.elapsed)}
+          </div>
+        </div>
+        <button className="timer_btn btn" onClick={this.startSport}>
+          {" "}
+          Начать тренировку
+          {/* {this.timer ? "Продолжить тренировку" : "Начать тренировку"} */}
+        </button>
+        <button className="timer_btn btn" onClick={this.finishSport}>
+          {" "}
+          Закончить тренировку{" "}
+        </button>
+      </div>
+    );
+  }
+}
+
+export default connect(
+  state => {
+    return {
+      statistic: state.statistic
+    };
+  },
+  { workoutStart, showMessage, workoutFinish }
+)(Timer);
