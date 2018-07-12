@@ -1,13 +1,19 @@
-﻿//express
-var express = require("express"),
-  path = require("path");
+﻿import morgan from "morgan";
+import bodyParser from "body-parser";
+import cors from "cors";
+import mongoose from "mongoose";
+import express from "express";
+import path from "path";
+import dotenv from "dotenv";
+import * as route from "./controllers";
 
+
+dotenv.config();
+// express
 const app = express();
 app.set("port", process.env.PORT || 3000);
 
-//mongodb
-import mongoose from "mongoose";
-
+// mongodb
 mongoose.Promise = global.Promise;
 mongoose.connect(
   "mongodb://localhost:27017/training",
@@ -16,17 +22,10 @@ mongoose.connect(
       console.error("Please make sure Mongodb is installed and running!"); // eslint-disable-line no-console
       throw error;
     }
-    
   }
 );
 
-
-//middlewares
-import morgan from "morgan";
-import bodyParser from "body-parser";
-import cors from "cors";
-
-
+// middlewares
 app.use(morgan("dev"));
 app.use(express.errorHandler());
 app.use(cors());
@@ -38,32 +37,20 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-//routes
-import {
-  getData,
-  addExercise,
-  dropDatabase,
-  deleteExercise,
-  changeName,
-  addApproach,
-  deleteApproach,
-  changeApproach,
-  workoutFinish,
-  workoutStart
-} from "./controllers";
-
-app.get("/api/data", getData);
-app.post("/api/data", addExercise);
-app.post("/api/drop", dropDatabase);
-app.post("/api/deleteEx", deleteExercise);
-app.post("/api/changeName", changeName);
-app.post("/api/addApproach", addApproach);
-app.post("/api/deleteApproach", deleteApproach);
-app.post("/api/changeApproach", changeApproach);
-app.post("/api/workoutStart", workoutStart);
-app.post("/api/workoutFinish", workoutFinish);
-
-//server
-app.listen(app.get("port"), function() {
-  console.log("Express server listening on port " + app.get("port"));
-});
+// routes
+app.get("/api/data", route.getData);
+app.post("/api/data", route.addExercise);
+app.post("/api/drop", route.dropDatabase);
+app.post("/api/deleteEx", route.deleteExercise);
+app.post("/api/changeName", route.changeName);
+app.post("/api/addApproach", route.addApproach);
+app.post("/api/deleteApproach", route.deleteApproach);
+app.post("/api/changeApproach",route.changeApproach);
+app.post("/api/workoutStart", route.workoutStart);
+app.post("/api/workoutFinish", route.workoutFinish);
+app.post("/api/users", route.userSignup);
+app.post("/api/auth", route.userLogin);
+// server
+app.listen(app.get("port"), () =>
+  console.log(`Express server listening on port ${app.get("port")}`)
+);

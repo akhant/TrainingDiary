@@ -70,7 +70,7 @@ export class Main extends Component {
   };
 
   handleStatisticClick = () => {
-    //отправим pickDate в редакс
+    // отправим pickDate в редакс
     this.props.addParam({ pickDate: this.state.pickDate });
   };
 
@@ -117,7 +117,7 @@ export class Main extends Component {
             </div>
           </Col>
         </Row>
-        
+
         <Message />
       </Grid>
     );
@@ -126,10 +126,10 @@ export class Main extends Component {
 
 export default connect(
   ({ date, exercises, messages, params }) => ({
-    date: date,
-    exercises: exercises,
-    messages: messages,
-    params: params
+    date,
+    exercises,
+   messages,
+    params
   }),
   { addExercise, fetchData, dropDatabase, showMessage, addParam }
 )(Main);

@@ -16,11 +16,11 @@ const Chart = createReactClass({
       }
     };
   },
- 
+
   componentDidMount: function() {
     this.onMount();
   },
-  
+
   componentDidUpdate: function(prevProps) {
     this.onUpdate(prevProps);
   },
@@ -81,14 +81,14 @@ const Chart = createReactClass({
       bounce = (Math.log10(val) * weight) / (10 * len);
       _values.push({ x: key, y: bounce });
     }
-    //отсортировать по дате
+    // отсортировать по дате
     _values = _.sortBy(_values, "x");
     //перевести в нужный формат даты
     data.values = _.map(_values, v => {
       let d = new Date();
       d.setTime(v.x);
       let zeroMonth = d.getMonth() + 1 < 10 ? "0" : "";
-      v.x = `${d.getDate()}.${zeroMonth}${d.getMonth() + 1}.${d.getFullYear()}`;
+      v.x = `${d.getDate()}.${zeroMonth}${d.getMonth() + 1}`;
       v.y = v.y;
       return v;
     });

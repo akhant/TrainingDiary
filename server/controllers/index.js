@@ -2,7 +2,8 @@ import Date from "../models/date";
 import Exercise from "../models/exercise";
 import Approach from "../models/approach";
 import Statistic from "../models/statistic";
-import mongoose from "mongoose";
+import User from "../models/User";
+import parseErrors from "../utils/parseErrors";
 
 export function getData(req, res) {
   Date.find({}).exec((err, date) => {
@@ -15,7 +16,6 @@ export function getData(req, res) {
     });
   });
 }
-
 
 export function addExercise(req, res) {
   // если уже есть документ, с датой из req.body.date, то создать exercise и вернуть его в ответе
@@ -167,8 +167,36 @@ export function workoutFinish(req, res) {
   Statistic.findOne({ date: req.body.date }, (err, statistic) => {
     statistic.set({
       workoutFinish: req.body.workoutFinish,
-      workoutTime: ~~((req.body.workoutFinish - statistic.workoutStart) / 1000)
+      workoutTime: Math.ceil(
+        (req.body.workoutFinish - statistic.workoutStart) / 1000
+      )
     });
     statistic.save((err, statistic) => res.json(statistic));
+  });
+}
+
+export function userSignup(req, res) {
+  console.log(req.body);
+  const { email, password } = req.body.data;
+  const user = new User({ email });
+  user.setPassword(password);
+  user.setConfirmationToken();
+  user
+    .save()
+    .then(userRecord => {
+      /* sendConfirmationEmail(userRecord); */
+      res.json({ user: userRecord.toAuthJSON() });
+    })
+    .catch(err => res.status(400).json({ errors: parseErrors(err.errors) }));
+}
+
+export function userLogin(req, res) {
+  const { email, token } = req.body.user;
+  User.findOne({ email }).then(user => {
+    if (user && user.isValidPassword(token)) {
+      res.json({ user: user.toAuthJSON() });
+    } else {
+      res.status(400).json({ errors: { global: "Invalid credentials" } });
+    }
   });
 }

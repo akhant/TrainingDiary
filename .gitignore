@@ -1,7 +1,3 @@
 node_modules
 /.vscode
-/.eslintrc
-/yarn.lock
-/client/.eslintrc
-/client/yarn.lock
-/.gitignore
+.env

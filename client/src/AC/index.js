@@ -13,13 +13,9 @@ import {
   ADD_PARAM
 } from "constants";
 
-
-export const fetchData = pickDate => {
-  return {
-    type: FETCH_DATA,
-    pickDate
-  };
-};
+export const fetchData = pickDate => ({
+  type: FETCH_DATA, pickDate
+});
 
 export const addExercise = (pickDate, dateId) => ({
   type: ADD_EXERCISE,
@@ -100,4 +96,3 @@ export const addParam = param => ({
   type: ADD_PARAM,
   param
 });
-

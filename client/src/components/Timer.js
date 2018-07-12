@@ -12,7 +12,7 @@ class Timer extends Component {
 
   componentDidUpdate = () => {
     if (this.checkStat()) {
-      let workoutTime = this.checkStat().workoutTime;
+      const { workoutTime } = this.checkStat();
       if (!this.started && this.state.elapsed !== workoutTime) {
         this.setState({
           elapsed: workoutTime
@@ -29,12 +29,11 @@ class Timer extends Component {
     clearInterval(this.timer);
   };
 
-  //есть ли выбранный день в statistic
-  checkStat = () => {
-    return _.find(this.props.statistic, {
+  // есть ли выбранный день в statistic
+  checkStat = () =>
+    _.find(this.props.statistic, {
       date: this.props.pickDate._d.toDateString()
     });
-  };
 
   tick = () => {
     this.setState({
@@ -53,7 +52,6 @@ class Timer extends Component {
   };
   finishSport = () => {
     if (this.started) {
-      
       clearInterval(this.timer);
       this.props.workoutFinish(this.props.pickDate, Date.now());
       this.started = 0;
@@ -85,10 +83,6 @@ class Timer extends Component {
 }
 
 export default connect(
-  state => {
-    return {
-      statistic: state.statistic
-    };
-  },
+  ({ statistic }) => ({ statistic }),
   { workoutStart, showMessage, workoutFinish }
 )(Timer);

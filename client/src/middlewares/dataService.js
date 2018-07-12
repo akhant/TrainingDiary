@@ -1,28 +1,84 @@
-
 /* import fetch from 'isomorphic-fetch'; */
-import { ADD_EXERCISE, FETCH_DATA, DROP_DATABASE,DELETE_EXERCISE,CHANGE_NAME,DELETE_APPROACH,ADD_APPROACH, CHANGE_APPROACH,WORKOUT_START,WORKOUT_FINISH } from "constants";
-
+import {
+  ADD_EXERCISE,
+  FETCH_DATA,
+  DROP_DATABASE,
+  DELETE_EXERCISE,
+  CHANGE_NAME,
+  DELETE_APPROACH,
+  ADD_APPROACH,
+  CHANGE_APPROACH,
+  WORKOUT_START,
+  WORKOUT_FINISH
+} from "constants";
+import { USER_SIGNUP, USER_LOGGED_IN } from "../constants";
+import { userLoggedIn } from "../AC/auth";
 
 const baseUrl = "http://localhost:3000/api";
 
 const fetchData = store => next => action => {
-  const { type, pickDate,workoutFinish,workoutStart, approachValue, approachId, exerciseId, dateId, exerciseName, date,exerciseTime,restTime, weight, ...rest} = action;
-
- /*  console.log("pickDate middleware", pickDate) */
-  /* console.log("in middleware"); */
+  const {
+    user,
+    data,
+    type,
+    pickDate,
+    workoutFinish,
+    workoutStart,
+    approachValue,
+    approachId,
+    exerciseId,
+    dateId,
+    exerciseName,
+    date,
+    exerciseTime,
+    restTime,
+    weight,
+    ...rest
+  } = action;
   
+  /*  console.log("pickDate middleware", pickDate) */
+  /* console.log("in middleware"); */
 
   if (type === FETCH_DATA) {
-    
     return fetch(`${baseUrl}/data`)
-      .then(res => {
-        return res.json();
-      })
+      .then(res => res.json())
       .then(res => next({ res, type, ...rest }));
   }
 
+  if (type === USER_SIGNUP) {
+    fetch(`${baseUrl}/users`, {
+      method: "post",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        data
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(res => {
+        // check res and token
+        localStorage.bookwormJWT = res.user.token;
+        store.dispatch(userLoggedIn(res.user));
+        return next({ res: res.user, ...rest });
+      });
+  }
+ /*  if (type === USER_LOGGED_IN) {
+    console.log("userLoggedIn", user)
+    fetch(`${baseUrl}/auth`, {
+      method: "post",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        user
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(res => next({ res, ...rest }));
+  } */
+
   if (type === ADD_EXERCISE) {
-        
     fetch(`${baseUrl}/data`, {
       method: "post",
       mode: "cors",
@@ -33,13 +89,8 @@ const fetchData = store => next => action => {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        
-        return next({ pickDate, res, type, ...rest });
-      });
+      .then(res => res.json())
+      .then(res => next({ pickDate, res, type, ...rest }));
   }
 
   if (type === DROP_DATABASE) {
@@ -48,32 +99,27 @@ const fetchData = store => next => action => {
       mode: "cors",
       cache: "default",
       body: JSON.stringify({
-        
         date: pickDate._d.toDateString()
       }),
       headers: { "Content-Type": "application/json" }
-    }) 
+    })
       .then(res => res.json())
-      .then(res => {
-     return next({ pickDate, res, type, ...rest });
-      });
+      .then(res => next({ pickDate, res, type, ...rest }));
   }
 
   if (type === DELETE_EXERCISE) {
-    console.log("exerciseId", exerciseId)
     fetch(`${baseUrl}/deleteEx`, {
       method: "post",
       mode: "cors",
       cache: "default",
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         date: pickDate._d.toDateString(),
-        exerciseId: exerciseId }),
+        exerciseId
+      }),
       headers: { "Content-Type": "application/json" }
-    }) 
+    })
       .then(res => res.json())
-      .then(res => {
-        return next({ pickDate, res, type, ...rest });
-      });
+      .then(res => next({ pickDate, res, type, ...rest }));
   }
 
   if (type === CHANGE_NAME) {
@@ -87,13 +133,8 @@ const fetchData = store => next => action => {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        
-        return next({ res, type, ...rest });
-      });
+      .then(res => res.json())
+      .then(res => next({ res, type, ...rest }));
   }
   if (type === ADD_APPROACH) {
     fetch(`${baseUrl}/addApproach`, {
@@ -101,17 +142,16 @@ const fetchData = store => next => action => {
       mode: "cors",
       cache: "default",
       body: JSON.stringify({
-        date, dateId, exerciseId,exerciseName, approachId
+        date,
+        dateId,
+        exerciseId,
+        exerciseName,
+        approachId
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        
-        return next({ res, type, ...rest });
-      });
+      .then(res => res.json())
+      .then(res => next({ res, type, ...rest }));
   }
   if (type === DELETE_APPROACH) {
     fetch(`${baseUrl}/deleteApproach`, {
@@ -123,13 +163,8 @@ const fetchData = store => next => action => {
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        
-        return next({ res, type, ...rest });
-      });
+      .then(res => res.json())
+      .then(res => next({ res, type, ...rest }));
   }
   if (type === CHANGE_APPROACH) {
     fetch(`${baseUrl}/changeApproach`, {
@@ -137,17 +172,16 @@ const fetchData = store => next => action => {
       mode: "cors",
       cache: "default",
       body: JSON.stringify({
-        approachValue, approachId, exerciseTime,restTime, weight
+        approachValue,
+        approachId,
+        exerciseTime,
+        restTime,
+        weight
       }),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        
-        return next({ res, type, ...rest });
-      });
+      .then(res => res.json())
+      .then(res => next({ res, type, ...rest }));
   }
   if (type === WORKOUT_START) {
     fetch(`${baseUrl}/workoutStart`, {
@@ -155,16 +189,13 @@ const fetchData = store => next => action => {
       mode: "cors",
       cache: "default",
       body: JSON.stringify({
-        
         date: pickDate._d.toDateString(),
         workoutStart
       }),
       headers: { "Content-Type": "application/json" }
-    }) 
+    })
       .then(res => res.json())
-      .then(res => {
-     return next({workoutStart, pickDate, res, type, ...rest });
-      });
+      .then(res => next({ workoutStart, pickDate, res, type, ...rest }));
   }
 
   if (type === WORKOUT_FINISH) {
@@ -173,16 +204,13 @@ const fetchData = store => next => action => {
       mode: "cors",
       cache: "default",
       body: JSON.stringify({
-        
         date: pickDate._d.toDateString(),
         workoutFinish
       }),
       headers: { "Content-Type": "application/json" }
-    }) 
+    })
       .then(res => res.json())
-      .then(res => {
-     return next({workoutFinish, pickDate, res, type, ...rest });
-      });
+      .then(res => next({ workoutFinish, pickDate, res, type, ...rest }));
   }
 
   console.log("STORE STATE FROM MIDDLEWARE", store.getState());

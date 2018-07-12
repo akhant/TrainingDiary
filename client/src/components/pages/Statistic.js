@@ -4,12 +4,12 @@ import moment from "moment";
 import _ from "lodash";
 import { Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { fetchData } from "../AC";
-import elapsedTime from "../helpers";
-import PickerDate from "./PickerDate";
-import Message from "./Message";
-import Chart from "./Chart";
-import StatisticTable from "./StatisticTable";
+import { fetchData } from "../../AC";
+import elapsedTime from "../../helpers";
+import PickerDate from "../PickerDate";
+import Message from "../Message";
+import Chart from "../Chart";
+import StatisticTable from "../StatisticTable";
 
 export class Statistic extends Component {
   state = {
@@ -29,9 +29,9 @@ export class Statistic extends Component {
   };
 
   getWorkoutTime = () => {
-    let workoutTime = _.find(this.props.statistic, {
+    const { workoutTime } = _.find(this.props.statistic, {
       date: this.state.pickStatisticDate._d.toDateString()
-    }).workoutTime;
+    });
 
     return elapsedTime(workoutTime);
   };
@@ -49,13 +49,14 @@ export class Statistic extends Component {
   render() {
     const { approaches } = this.props;
 
-    let selectedApproaches = approaches.filter(approach => {
-      return approach.date === this.state.pickStatisticDate._d.toDateString();
-    });
+    const selectedApproaches = approaches.filter(
+      approach =>
+        approach.date === this.state.pickStatisticDate._d.toDateString()
+    );
 
-    let filteredApproaches = _.groupBy(selectedApproaches, "exerciseName");
-    //если в данный день нет подходов
-    if (!selectedApproaches.length)
+    const filteredApproaches = _.groupBy(selectedApproaches, "exerciseName");
+    // если в данный день нет подходов
+    if (!selectedApproaches.length) {
       return (
         <div className="no_exercises">
           <PickerDate
@@ -65,14 +66,15 @@ export class Statistic extends Component {
           />
           <h2 className="no_exercises_h2">В этот день нет упражнений</h2>
           <div className="link_to_main__wrapper">
-            <Link className="link_to_main btn" to="/">
+            <Link className="link_to_main btn" to="/dashboard">
               {" "}
               На главную{" "}
             </Link>
           </div>
         </div>
       );
-    //если есть подходы
+    }
+    // если есть подходы
     return (
       <Grid fluid>
         <Row>
@@ -112,7 +114,7 @@ export class Statistic extends Component {
         <Row>
           <Col>
             <div className="link_to_main__wrapper">
-              <Link className="link_to_main btn" to="/">
+              <Link className="link_to_main btn" to="/dashboard">
                 {" "}
                 На главную{" "}
               </Link>
@@ -126,9 +128,9 @@ export class Statistic extends Component {
 
 export default connect(
   ({ statistic, approaches, params }) => ({
-    statistic: statistic,
-    approaches: approaches,
-    params: params
+    statistic,
+    approaches,
+    params
   }),
   { fetchData }
 )(Statistic);

@@ -5,6 +5,7 @@ import approaches from "./approach";
 import statistic from "./statistic";
 import messages from "./messages";
 import params from "./params";
+import user from "./user";
 
 export default combineReducers({
   date,
@@ -12,5 +13,6 @@ export default combineReducers({
   approaches,
   statistic,
   messages,
-  params
+  params,
+  user
 });
