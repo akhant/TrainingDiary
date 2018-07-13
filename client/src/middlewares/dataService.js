@@ -9,15 +9,17 @@ import {
   ADD_APPROACH,
   CHANGE_APPROACH,
   WORKOUT_START,
-  WORKOUT_FINISH
+  WORKOUT_FINISH,
+  USER_SIGNUP, USER_LOGIN
 } from "constants";
-import { USER_SIGNUP, USER_LOGGED_IN } from "../constants";
+
 import { userLoggedIn } from "../AC/auth";
 
 const baseUrl = "http://localhost:3000/api";
 
 const fetchData = store => next => action => {
   const {
+    credentials,
     user,
     data,
     type,
@@ -35,7 +37,7 @@ const fetchData = store => next => action => {
     weight,
     ...rest
   } = action;
-  
+
   /*  console.log("pickDate middleware", pickDate) */
   /* console.log("in middleware"); */
 
@@ -63,20 +65,23 @@ const fetchData = store => next => action => {
         return next({ res: res.user, ...rest });
       });
   }
- /*  if (type === USER_LOGGED_IN) {
-    console.log("userLoggedIn", user)
+  if (type === USER_LOGIN) {
     fetch(`${baseUrl}/auth`, {
       method: "post",
       mode: "cors",
       cache: "default",
       body: JSON.stringify({
-        user
+        credentials
       }),
       headers: { "Content-Type": "application/json" }
     })
       .then(res => res.json())
-      .then(res => next({ res, ...rest }));
-  } */
+      .then(res => {
+        localStorage.bookwormJWT = res.user.token;
+        store.dispatch(userLoggedIn(res.user));
+        next({ res: res.user, ...rest });
+      });
+  }
 
   if (type === ADD_EXERCISE) {
     fetch(`${baseUrl}/data`, {

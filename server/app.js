@@ -45,7 +45,7 @@ app.post("/api/deleteEx", route.deleteExercise);
 app.post("/api/changeName", route.changeName);
 app.post("/api/addApproach", route.addApproach);
 app.post("/api/deleteApproach", route.deleteApproach);
-app.post("/api/changeApproach",route.changeApproach);
+app.post("/api/changeApproach", route.changeApproach);
 app.post("/api/workoutStart", route.workoutStart);
 app.post("/api/workoutFinish", route.workoutFinish);
 app.post("/api/users", route.userSignup);

@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT } from "../constants";
+import { USER_LOGGED_IN, USER_LOGGED_OUT, USER_LOGIN } from "../constants";
 /* import api from "../api"; */
 /* import setAuthorizationHeader from "../utils/setAuthorizationHeader"; */
 
@@ -7,22 +7,26 @@ export const userLoggedIn = user => ({
   user
 });
 
-/* export const userLoggedOut = () => ({
+export const userLoggedOut = () => ({
   type: USER_LOGGED_OUT
 });
 
-export const login = credentials => dispatch =>
-  api.user.login(credentials).then(user => {
-    localStorage.bookwormJWT = user.token;
-    setAuthorizationHeader(user.token);
-    dispatch(userLoggedIn(user));
-  });
+export const login = credentials => ({
+  type: USER_LOGIN,
+  credentials
+});
 
 export const logout = () => dispatch => {
   localStorage.removeItem("bookwormJWT");
-  setAuthorizationHeader();
+
   dispatch(userLoggedOut());
 };
+
+/* export const userLoggedOut = () => ({
+  type: USER_LOGGED_OUT
+}); 
+
+
 
 export const confirm = token => dispatch =>
   api.user.confirm(token).then(user => {

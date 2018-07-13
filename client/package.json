@@ -51,7 +51,7 @@
     "react-table": "^6.8.6",
     "react-transition-group": "^1.2.0",
     "redux": "^3.7.0",
-    "redux-thunk": "^2.2.0",
+    "redux-thunk": "^2.3.0",
     "sass-loader": "^6.0.6",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.0",

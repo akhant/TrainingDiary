@@ -11,7 +11,8 @@ import Header from "./Header";
 import UserRoute from "../routes/UserRoute";
 import GuestRoute from "../routes/GuestRoute";
 import SignupPage from "./pages/SignupPage";
-import ConfirmationPage from "./ConfirmationPage";
+import LoginPage from './pages/LoginPage';
+/* import ConfirmationPage from "./ConfirmationPage"; */
 import HomePage from "./HomePage";
 
 /* import setAuthorizationHeader from "../utils/setAuthorizationHeader"; */
@@ -44,7 +45,7 @@ const App = () => (
           {/* <Route path="/confirmation/:token" exact component={ConfirmationPage} /> */}
           <Route path="/" exact component={HomePage} />
           <GuestRoute path="/signup" exact component={SignupPage} />
-
+          <GuestRoute path="/login" exact component={LoginPage} />
           <UserRoute path="/dashboard" exact component={Main} />
           <UserRoute path="/statistic" exact component={Statistic} />
         </Switch>
