@@ -53,6 +53,7 @@
       "no-shadow": 0,
       "object-curly-newline": 0,
       "jsx-a11y/label-has-for": 0,
-      "array-callback-return": 0
+      "array-callback-return": 0,
+        "react/no-unescaped-entities": 0
     }
   }

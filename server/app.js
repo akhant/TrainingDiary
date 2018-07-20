@@ -50,6 +50,7 @@ app.post("/api/workoutStart", route.workoutStart);
 app.post("/api/workoutFinish", route.workoutFinish);
 app.post("/api/users", route.userSignup);
 app.post("/api/auth", route.userLogin);
+app.post("/api/confirmation", route.userConfirm)
 // server
 app.listen(app.get("port"), () =>
   console.log(`Express server listening on port ${app.get("port")}`)

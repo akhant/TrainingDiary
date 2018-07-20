@@ -10,7 +10,8 @@ import {
   CHANGE_APPROACH,
   WORKOUT_START,
   WORKOUT_FINISH,
-  USER_SIGNUP, USER_LOGIN
+  USER_SIGNUP, USER_LOGIN,
+  USER_CONFIRMATION
 } from "constants";
 
 import { userLoggedIn } from "../AC/auth";
@@ -19,6 +20,7 @@ const baseUrl = "http://localhost:3000/api";
 
 const fetchData = store => next => action => {
   const {
+    token,
     credentials,
     user,
     data,
@@ -65,6 +67,27 @@ const fetchData = store => next => action => {
         return next({ res: res.user, ...rest });
       });
   }
+
+  if (type === USER_CONFIRMATION) {
+    fetch(`${baseUrl}/confirmation`, {
+      method: "post",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        token
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(res => {
+        // check res and token
+        localStorage.bookwormJWT = res.user.token;
+        store.dispatch(userLoggedIn(res.user));
+        return next({ res: res.user, ...rest });
+      });
+  }
+
+
   if (type === USER_LOGIN) {
     fetch(`${baseUrl}/auth`, {
       method: "post",

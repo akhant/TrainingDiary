@@ -1,29 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Message, Icon } from "semantic-ui-react";
+/* import { Message, Icon } from "semantic-ui-react"; */
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { confirm } from "../AC/auth";
 
 class ConfirmationPage extends React.Component {
-  state = {
-    loading: true,
-    success: false
-  };
-
   componentDidMount() {
-    this.props
-      .confirm(this.props.match.params.token)
-      .then(() => this.setState({ loading: false, success: true }))
-      .catch(() => this.setState({ loading: false, success: false }));
+    this.props.confirm(this.props.match.params.token);
   }
 
   render() {
-    const { loading, success } = this.state;
-
     return (
-      <div>
-        {loading && (
+      <div className="confirm_restricted">
+        Your email was confirmed. Go to dashboard ->{" "}
+        <Link className="btn" to="/dashboard">
+          {" "}
+          Dashboard{" "}
+        </Link>
+        <br />
+        {/*  {loading && (
           <Message icon>
             <Icon name="circle notched" loading />
             <Message.Header>Validating your email</Message.Header>
@@ -51,7 +47,7 @@ class ConfirmationPage extends React.Component {
               <Message.Header>Ooops. Invalid token it seems.</Message.Header>
             </Message.Content>
           </Message>
-        )}
+        )} */}
       </div>
     );
   }
@@ -66,4 +62,7 @@ ConfirmationPage.propTypes = {
   }).isRequired
 };
 
-export default connect(null, { confirm })(ConfirmationPage);
+export default connect(
+  null,
+  { confirm }
+)(ConfirmationPage);

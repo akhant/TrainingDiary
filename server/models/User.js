@@ -29,11 +29,11 @@ schema.methods.setPassword = function setPassword(password) {
 };
 
 schema.methods.setConfirmationToken = function setConfirmationToken() {
-  this.confirmationToken = this.generateJWT();
+  this.confirmationToken = this.generateJWT().replace(/\./g, '');
 };
 
 schema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
-  return `${process.env.HOST}/confirmation/${this.confirmationToken}`;
+  return `${process.env.CLIENT_HOST}/${this.confirmationToken.replace(/\./g, '')}`;
 };
 
 schema.methods.generateResetPasswordLink = function generateResetPasswordLink() {

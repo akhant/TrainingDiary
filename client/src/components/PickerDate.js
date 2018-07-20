@@ -11,7 +11,7 @@ class PickerDate extends Component {
     date: moment()
   };
 
-//установить дату в Statistic
+// установить дату в Statistic
   componentDidMount = () => {
     if (this.props.pickDateFromMain) {
       this.setState({
@@ -34,7 +34,7 @@ class PickerDate extends Component {
   handleChange = date => {
     this.setState(
       {
-        date: date
+        date
       },
       () => {
         this.props.addParam({ pickDate: date });

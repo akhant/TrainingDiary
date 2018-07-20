@@ -27,7 +27,10 @@ const HomePage = ({ isAuthenticated, logout }) => (
           to start transformation to Halk
         </p>
         <p>
-          Or continue and <Link className="btn" to="/login">Login</Link>
+          Or continue and{" "}
+          <Link className="btn" to="/login">
+            Login
+          </Link>
         </p>
       </div>
     )}
