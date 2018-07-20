@@ -26,8 +26,6 @@ export const logout = () => dispatch => {
   type: USER_LOGGED_OUT
 }); 
 
-
-
 export const confirm = token => dispatch =>
   api.user.confirm(token).then(user => {
     localStorage.bookwormJWT = user.token;

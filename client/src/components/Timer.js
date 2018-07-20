@@ -27,6 +27,7 @@ class Timer extends Component {
 
   componentWillUnmount = () => {
     clearInterval(this.timer);
+    this.finishSport();
   };
 
   // есть ли выбранный день в statistic
@@ -42,21 +43,36 @@ class Timer extends Component {
   };
 
   startSport = () => {
-    this.setState({
-      start: Date.now()
-    });
-    this.timer = setInterval(this.tick, 1000);
-    this.props.workoutStart(this.props.pickDate, Date.now());
-    this.started = 1;
-    this.props.showMessage({ message: "", started: this.started });
+    if (this.started) return null;
+    const savedTime = this.checkStat()
+      ? this.checkStat().workoutTime * 1000
+      : 0;
+
+    this.setState(
+      {
+        start: Date.now() - savedTime
+      },
+      () => {
+        this.timer = setInterval(this.tick, 1000);
+        this.props.workoutStart(this.props.pickDate, Date.now());
+        this.started = 1;
+        this.props.showMessage({ message: "", started: this.started });
+      }
+    );
   };
+
   finishSport = () => {
-    if (this.started) {
-      clearInterval(this.timer);
-      this.props.workoutFinish(this.props.pickDate, Date.now());
-      this.started = 0;
-      this.props.showMessage({ message: "", started: this.started });
-    }
+    if (!this.started) return null;
+    const savedTime = this.checkStat()
+      ? this.checkStat().workoutTime * 1000
+      : 0;
+    clearInterval(this.timer);
+    this.props.workoutFinish(
+      this.props.pickDate,
+      Date.now() + savedTime
+    );
+    this.started = 0;
+    this.props.showMessage({ message: "", started: this.started });
   };
 
   render() {
@@ -70,12 +86,12 @@ class Timer extends Component {
         </div>
         <button className="timer_btn btn" onClick={this.startSport}>
           {" "}
-          Начать тренировку
-          {/* {this.timer ? "Продолжить тренировку" : "Начать тренировку"} */}
+          {/* Начать тренировку */}
+          {this.state.elapsed ? "Продолжить" : "начать "}
         </button>
         <button className="timer_btn btn" onClick={this.finishSport}>
           {" "}
-          Закончить тренировку{" "}
+          Закончить{" "}
         </button>
       </div>
     );

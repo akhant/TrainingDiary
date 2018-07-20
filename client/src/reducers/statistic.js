@@ -18,43 +18,36 @@ export default (state = [], action) => {
       for (let i = 0; i < res.statistic.length; i++) {
         if (stateObj.date === res.statistic[i].date) {
           return res.statistic[i];
-        } else {
-          return stateObj;
         }
+        return stateObj;
       }
     });
   }
 
   if (type === WORKOUT_START) {
     if (!res) return state;
-    //if new response doesn't match with existing state we add it to state, else update state through map
+    // if new response doesn't match with existing state we add it to state, else update state through map
     if (
       state.every(stateObj => {
         return stateObj.date !== res.date;
       })
     ) {
       return state.concat(res);
-    } else {
-      return state.map(stat => {
-        if (stat.date === res.date) {
-          return res;
-        } else {
-          return stat;
-        }
-      });
     }
+
+    return state.map(stat => {
+      if (stat.date === res.date) return res;
+      return stat;
+    });
   }
 
   if (type === WORKOUT_FINISH) {
-    //Update state if we have new stat
+    // Update state if we have new stat
     if (!res) return state;
 
     return state.map(stat => {
-      if (stat.date === res.date) {
-        return res;
-      } else {
-        return stat;
-      }
+      if (stat.date === res.date) return res;
+      return stat;
     });
   }
 

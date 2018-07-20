@@ -12,13 +12,23 @@ const Header = ({ isAuthenticated, logout }) => (
     </span>
 
     <h1 className="main_h1">Training diary</h1>
-    {isAuthenticated && (
+    {isAuthenticated ? (
       <div className="logout_wrapper">
-        <button className="btn" onClick={() => logout()}>Logout</button>
-        <Link to="/dashboard">Dashboard </Link>
-        <Link to="/statistic">Statistic </Link>
+        <button className="btn" onClick={() => logout()}>
+          Logout
+        </button>
+      </div>
+    ) : (
+      <div className="logout_wrapper">
+        <Link className="btn" to="/login">
+          Login
+        </Link>
+        <Link className="btn" to="/signup">
+          Sign Up
+        </Link>
       </div>
     )}
+
     <div className="hr" />
   </div>
 );
