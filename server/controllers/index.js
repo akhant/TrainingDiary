@@ -201,13 +201,17 @@ export function userLogin(req, res) {
   });
 }
 
+export function userConfirmServer(req, res) {
+  const { token } = req.params;
+  User.findOneAndUpdate({ confirmationToken: token }, { confirmed: true }).then(
+    res.redirect("http://localhost:8000/confirmation")
+  );
+}
+
 export function userConfirm(req, res) {
-  const { token } = req.body;
-  User.findOneAndUpdate(
-    { confirmationToken: token },
-    { confirmationToken: "", confirmed: true },
-    { new: true }
-  ).then(
+  const { email } = req.body;
+
+  User.findOne({ email }).then(
     user =>
       user
         ? res.json({ user: user.toAuthJSON() })

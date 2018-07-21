@@ -69,12 +69,13 @@ const fetchData = store => next => action => {
   }
 
   if (type === USER_CONFIRMATION) {
+    
     fetch(`${baseUrl}/confirmation`, {
       method: "post",
       mode: "cors",
       cache: "default",
       body: JSON.stringify({
-        token
+        email: store.getState().user.email
       }),
       headers: { "Content-Type": "application/json" }
     })

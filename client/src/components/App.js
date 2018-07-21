@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { Provider, connect } from "react-redux";
 import "semantic-ui-css/semantic.min.css";
 import decode from "jwt-decode";
@@ -12,6 +17,7 @@ import GuestRoute from "../routes/GuestRoute";
 import ConfirmedRoute from "../routes/ConfirmedRoute";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
+import NotFound from "./pages/NotFound";
 import ConfirmationPage from "./ConfirmationPage";
 import HomePage from "./HomePage";
 import { userLoggedIn } from "../AC/auth";
@@ -36,17 +42,16 @@ const App = () => (
     <Router>
       <div>
         <Header />
-
+        
         <Switch>
           <Route path="/" exact component={HomePage} />
+          <Route exact path="/confirmation" component={ConfirmationPage} />
           <GuestRoute path="/signup" exact component={SignupPage} />
           <GuestRoute path="/login" exact component={LoginPage} />
           <UserRoute path="/dashboard" exact component={Main} />
           <ConfirmedRoute path="/statistic" exact component={Statistic} />
 
-          
-          <Route path="/:token" component={ConfirmationPage} />
-          <Route component={HomePage} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </Router>

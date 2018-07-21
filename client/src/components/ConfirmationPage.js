@@ -7,7 +7,7 @@ import { confirm } from "../AC/auth";
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
-    this.props.confirm(this.props.match.params.token);
+    this.props.confirm()
   }
 
   render() {
@@ -18,6 +18,7 @@ class ConfirmationPage extends React.Component {
           {" "}
           Dashboard{" "}
         </Link>
+        
         <br />
         {/*  {loading && (
           <Message icon>

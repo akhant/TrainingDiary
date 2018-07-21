@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 const UserRoute = ({ isConfirmed, component: Component, ...rest }) => (
   <Route
@@ -10,7 +10,8 @@ const UserRoute = ({ isConfirmed, component: Component, ...rest }) => (
       isConfirmed ? (
         <Component {...props} />
       ) : (
-        <div className="confirm_restricted"> Please confirm your email to get access </div>
+        <div className="confirm_restricted"> Please confirm your email to get access <br/>
+        <Link to="/dashboard" className="btn">Dashboard</Link> </div>
       )
     }
   />

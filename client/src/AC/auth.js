@@ -22,9 +22,9 @@ export const logout = () => dispatch => {
   dispatch(userLoggedOut());
 };
 
-export const confirm = token => ({
-  type: USER_CONFIRMATION,
-  token
+export const confirm = () => ({
+  type: USER_CONFIRMATION
+  
 });
 
 /* export const userLoggedOut = () => ({
