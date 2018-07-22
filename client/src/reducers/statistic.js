@@ -26,12 +26,9 @@ export default (state = [], action) => {
 
   if (type === WORKOUT_START) {
     if (!res) return state;
-    // if new response doesn't match with existing state we add it to state, else update state through map
-    if (
-      state.every(stateObj => {
-        return stateObj.date !== res.date;
-      })
-    ) {
+    // if new response doesn't match with existing state we add it to state,
+    // else update state through map
+    if (state.every(stateObj => stateObj.date !== res.date)) {
       return state.concat(res);
     }
 
@@ -51,11 +48,5 @@ export default (state = [], action) => {
     });
   }
 
-  /* if (type === ADD_APPROACH) {
-    if (res && res.oldApproach) {
-      const oldApproach = res.oldApproach;
-      return state.concat({ oldApproach });
-    }
-  } */
   return state;
 };

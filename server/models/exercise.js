@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const ExerciseSchema = new Schema({
   approachId: { type: Schema.Types.ObjectId, ref: "Date" },

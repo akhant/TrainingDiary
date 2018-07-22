@@ -9,7 +9,6 @@ import configureStore from "../store";
 import Header from "./Header";
 import UserRoute from "../routes/UserRoute";
 import GuestRoute from "../routes/GuestRoute";
-import PasswordRoute from "../routes/PasswordRoute";
 import ConfirmedRoute from "../routes/ConfirmedRoute";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";

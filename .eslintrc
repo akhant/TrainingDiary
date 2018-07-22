@@ -53,6 +53,7 @@
     "jsx-a11y/label-has-for": 0,
     "array-callback-return": 0,
     "react/no-unescaped-entities": 0,
-    "no-plusplus": 0
+    "no-plusplus": 0,
+    "consistent-return": 0
   }
 }

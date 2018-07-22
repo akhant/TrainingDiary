@@ -1,14 +1,5 @@
 import { USER_SIGNUP } from "../constants";
 
-/* import api from "../api";
-import { userLoggedIn } from "./auth"; */
-
-/* export const signup = data => dispatch =>
-  api.user.signup(data).then(user => {
-    localStorage.bookwormJWT = user.token;
-    dispatch(userLoggedIn(user));
-  });
- */
 export const signup = data => ({
   type: USER_SIGNUP,
   data

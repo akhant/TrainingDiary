@@ -39,7 +39,7 @@ class Timer extends Component {
 
   tick = () => {
     this.setState({
-      elapsed: Math.ceil((Date.now() - this.state.start) / 1000)
+      elapsed: Math.round((Date.now() - this.state.start) / 1000)
     });
   };
 

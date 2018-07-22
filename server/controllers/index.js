@@ -67,9 +67,9 @@ export function deleteExercise(req, res) {
       Approach.find(
         { exerciseId: req.body.exerciseId },
         (err, removedApproaches) => {
-          Approach.remove({ exerciseId: req.body.exerciseId }, err => {
-            return res.json({ removedExercise, removedApproaches });
-          });
+          Approach.remove({ exerciseId: req.body.exerciseId }, err =>
+            res.json({ removedExercise, removedApproaches })
+          );
         }
       );
     }
@@ -169,7 +169,6 @@ export function workoutStart(req, res) {
 export function workoutFinish(req, res) {
   Statistic.findOne({ date: req.body.date }, (err, statistic) => {
     const { workoutFinish } = req.body;
-    
 
     const workoutTime = Math.ceil(
       (workoutFinish - statistic.workoutStart) / 1000

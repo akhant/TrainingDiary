@@ -5,9 +5,7 @@ export default (state = [], action) => {
   if (!res) return state;
 
   if (action.type === FETCH_DATA) {
-    state = res.date;
-    
-    return state;
+    return res.date;
   }
 
   if (action.type === ADD_EXERCISE) {
