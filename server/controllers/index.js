@@ -168,11 +168,16 @@ export function workoutStart(req, res) {
 
 export function workoutFinish(req, res) {
   Statistic.findOne({ date: req.body.date }, (err, statistic) => {
+    const { workoutFinish } = req.body;
+    
+
+    const workoutTime = Math.ceil(
+      (workoutFinish - statistic.workoutStart) / 1000
+    );
+
     statistic.set({
-      workoutFinish: req.body.workoutFinish,
-      workoutTime: Math.ceil(
-        (req.body.workoutFinish - statistic.workoutStart) / 1000
-      )
+      workoutFinish,
+      workoutTime
     });
     statistic.save((err, statistic) => res.json(statistic));
   });
@@ -258,7 +263,7 @@ export function resetPassword(req, res) {
   const { password, email } = req.body.data;
 
   User.findOne({ email }).then(user => {
-    if (user && (user.requestChangePassword === true)) {
+    if (user && user.requestChangePassword === true) {
       user.setPassword(password);
       user.changeRequestPasswordState(false);
       user.save().then(() => res.json({ status: "password changed" }));

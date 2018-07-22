@@ -4,7 +4,7 @@ import _ from "lodash";
 import { workoutStart, showMessage, workoutFinish } from "../AC";
 import elapsedTime from "../helpers";
 
-// TODO: fix timer 
+// TODO: fix timer
 class Timer extends Component {
   state = {
     start: "",
@@ -39,7 +39,7 @@ class Timer extends Component {
 
   tick = () => {
     this.setState({
-      elapsed: Math.round((Date.now() - this.state.start) / 1000)
+      elapsed: Math.ceil((Date.now() - this.state.start) / 1000)
     });
   };
 
@@ -64,14 +64,12 @@ class Timer extends Component {
 
   finishSport = () => {
     if (!this.started) return null;
-    const savedTime = this.checkStat()
+
+    const savedTime = this.checkStat().workoutTime
       ? this.checkStat().workoutTime * 1000
       : 0;
     clearInterval(this.timer);
-    this.props.workoutFinish(
-      this.props.pickDate,
-      Date.now() + savedTime
-    );
+    this.props.workoutFinish(this.props.pickDate, Date.now() + savedTime);
     this.started = 0;
     this.props.showMessage({ message: "", started: this.started });
   };
@@ -87,7 +85,6 @@ class Timer extends Component {
         </div>
         <button className="timer_btn btn" onClick={this.startSport}>
           {" "}
-          {/* Начать тренировку */}
           {this.state.elapsed ? "Продолжить" : "начать "}
         </button>
         <button className="timer_btn btn" onClick={this.finishSport}>
