@@ -13,9 +13,9 @@ export class Approach extends Component {
   };
 
   handleChangeApproachValue = e => {
-    //закончили упражнение
+    // закончили упражнение
 
-    //сколько длилось упражнение
+    // сколько длилось упражнение
     this.exerciseTime = Date.now() - this.props.startApproach;
 
     this.setState(
@@ -24,7 +24,7 @@ export class Approach extends Component {
         finishApproach: Date.now()
       },
       () => {
-        //сохранить изменения подхода
+        // сохранить изменения подхода
         this.props.onChangeApproachValue(
           this.state.approachValue,
           this.props.approach._id,
@@ -36,7 +36,7 @@ export class Approach extends Component {
     );
   };
 
-  //удаление подхода
+  // удаление подхода
   handleDeleteApproach = () => {
     this.props.onDeleteApproach(this.props.approach._id);
   };
@@ -63,7 +63,12 @@ export class Approach extends Component {
         >
           {this.optionsList()}
         </select>
-        <div role="button" tabIndex={0} className="deleteApproach_btn" onClick={this.handleDeleteApproach}>
+        <div
+          role="button"
+          tabIndex={0}
+          className="deleteApproach_btn"
+          onClick={this.handleDeleteApproach}
+        >
           -
         </div>
       </div>
@@ -71,8 +76,6 @@ export class Approach extends Component {
   }
 }
 
-export default connect(state => {
-  return {
-    statistic: state.statistic
-  };
-})(Approach);
+export default connect(({ statistic }) => ({
+  statistic
+}))(Approach);

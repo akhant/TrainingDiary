@@ -30,7 +30,7 @@ export function sendConfirmationEmail(user) {
 }
 
 export function sendResetPasswordEmail(user) {
-  const tranport = setup();
+  const transport = setup();
   const email = {
     from,
     to: user.email,
@@ -42,5 +42,5 @@ export function sendResetPasswordEmail(user) {
     `
   };
 
-  tranport.sendMail(email);
+  transport.sendMail(email);
 }

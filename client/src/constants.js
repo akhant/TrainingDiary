@@ -20,6 +20,8 @@ export const BOOK_CREATED = "BOOK_CREATED";
 export const USER_LOGIN = "USER_LOGIN";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_CONFIRMATION = "USER_CONFIRMATION";
+export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
+export const RESET_PASSWORD = "RESET_PASSWORD";
 // Расшифровка id: первая цифра -группа,
 // вторая - выполняется упражнение с двумя гантелями(2),
 // попеременно(1) или без гантелей(0), номер упражнения

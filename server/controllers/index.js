@@ -1,10 +1,12 @@
+import jwt from "jsonwebtoken";
 import Date from "../models/date";
 import Exercise from "../models/exercise";
 import Approach from "../models/approach";
 import Statistic from "../models/statistic";
 import User from "../models/User";
 import parseErrors from "../utils/parseErrors";
-import { sendConfirmationEmail } from "../mailer";
+
+import { sendConfirmationEmail, sendResetPasswordEmail } from "../mailer";
 
 export function getData(req, res) {
   Date.find({}).exec((err, date) => {
@@ -217,4 +219,51 @@ export function userConfirm(req, res) {
         ? res.json({ user: user.toAuthJSON() })
         : res.status(400).json({ user: null })
   );
+}
+
+export function resetPasswordRequest(req, res) {
+  User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
+      sendResetPasswordEmail(user);
+      user.save();
+      res.json({ sended: true });
+    } else {
+      res
+        .status(400)
+        .json({ errors: { global: "There is no user with such email" } });
+    }
+  });
+}
+
+export function resetPasswordRequestServer(req, res) {
+  const { token } = req.params;
+  jwt.verify(token, process.env.JWT_SECRET, err => {
+    if (err) {
+      res.status(401).json({});
+    } else {
+      User.findOne({ resetToken: token }).then(user => {
+        if (user) {
+          user.changeRequestPasswordState(true);
+          user.save();
+          res.redirect("http://localhost:8000/reset_password");
+        } else {
+          res.json({ status: "not found" });
+        }
+      });
+    }
+  });
+}
+
+export function resetPassword(req, res) {
+  const { password, email } = req.body.data;
+
+  User.findOne({ email }).then(user => {
+    if (user && (user.requestChangePassword === true)) {
+      user.setPassword(password);
+      user.changeRequestPasswordState(false);
+      user.save().then(() => res.json({ status: "password changed" }));
+    } else {
+      res.status(404).json({ errors: { global: "Invalid token" } });
+    }
+  });
 }

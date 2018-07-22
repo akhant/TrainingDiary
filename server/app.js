@@ -52,7 +52,9 @@ app.post("/api/users", route.userSignup);
 app.post("/api/auth", route.userLogin);
 app.get("/confirmation/:token", route.userConfirmServer);
 app.post("/api/confirmation", route.userConfirm);
-
+app.post("/api/reset_password_request", route.resetPasswordRequest);
+app.get("/reset_password_request/:token", route.resetPasswordRequestServer);
+app.post("/api/reset_password", route.resetPassword);
 // server
 app.listen(app.get("port"), () =>
   console.log(`Express server listening on port ${app.get("port")}`)

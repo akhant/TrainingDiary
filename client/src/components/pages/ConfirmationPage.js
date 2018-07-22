@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 /* import { Message, Icon } from "semantic-ui-react"; */
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { confirm } from "../AC/auth";
+import { confirm } from "../../AC/auth";
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
-    this.props.confirm()
+    this.props.confirm();
   }
 
   render() {
@@ -18,7 +18,6 @@ class ConfirmationPage extends React.Component {
           {" "}
           Dashboard{" "}
         </Link>
-        
         <br />
         {/*  {loading && (
           <Message icon>
@@ -54,14 +53,14 @@ class ConfirmationPage extends React.Component {
   }
 }
 
-ConfirmationPage.propTypes = {
+/* ConfirmationPage.propTypes = {
   confirm: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       token: PropTypes.string.isRequired
     }).isRequired
   }).isRequired
-};
+}; */
 
 export default connect(
   null,

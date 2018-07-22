@@ -10,8 +10,11 @@ import {
   CHANGE_APPROACH,
   WORKOUT_START,
   WORKOUT_FINISH,
-  USER_SIGNUP, USER_LOGIN,
-  USER_CONFIRMATION
+  USER_SIGNUP,
+  USER_LOGIN,
+  USER_CONFIRMATION,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD
 } from "constants";
 
 import { userLoggedIn } from "../AC/auth";
@@ -20,6 +23,7 @@ const baseUrl = "http://localhost:3000/api";
 
 const fetchData = store => next => action => {
   const {
+    email,
     token,
     credentials,
     user,
@@ -69,7 +73,6 @@ const fetchData = store => next => action => {
   }
 
   if (type === USER_CONFIRMATION) {
-    
     fetch(`${baseUrl}/confirmation`, {
       method: "post",
       mode: "cors",
@@ -87,6 +90,32 @@ const fetchData = store => next => action => {
         return next({ res: res.user, ...rest });
       });
   }
+
+  if (type === RESET_PASSWORD_REQUEST) {
+    fetch(`${baseUrl}/reset_password_request`, {
+      method: "post",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        email
+      }),
+      headers: { "Content-Type": "application/json" }
+    }).then(() => next());
+  }
+
+
+  if (type === RESET_PASSWORD) {
+    fetch(`${baseUrl}/reset_password`, {
+      method: "post",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        data
+      }),
+      headers: { "Content-Type": "application/json" }
+    }).then(() => next());
+  }
+
 
 
   if (type === USER_LOGIN) {

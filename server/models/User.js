@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import uniqueValidator from "mongoose-unique-validator";
 
-
 const schema = new mongoose.Schema(
   {
     email: {
@@ -15,7 +14,9 @@ const schema = new mongoose.Schema(
     },
     passwordHash: { type: String, required: true },
     confirmed: { type: Boolean, default: false },
-    confirmationToken: { type: String, default: "" }
+    confirmationToken: { type: String, default: "" },
+    resetToken: { type: String, default: "" },
+    requestChangePassword: { type: Boolean, default: false }
   },
   { timestamps: true }
 );
@@ -37,9 +38,8 @@ schema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
 };
 
 schema.methods.generateResetPasswordLink = function generateResetPasswordLink() {
-  return `${
-    process.env.HOST
-  }/reset_password/${this.generateResetPasswordToken()}`;
+  this.resetToken = this.generateResetPasswordToken();
+  return `${process.env.HOST}/reset_password_request/${this.resetToken}`;
 };
 
 schema.methods.generateJWT = function generateJWT() {
@@ -51,11 +51,16 @@ schema.methods.generateJWT = function generateJWT() {
     process.env.JWT_SECRET
   );
 };
+schema.methods.changeRequestPasswordState = function changeRequestPasswordState(
+  e
+) {
+  this.requestChangePassword = e;
+};
 
 schema.methods.generateResetPasswordToken = function generateResetPasswordToken() {
   return jwt.sign(
     {
-      _id: this._id
+      email: this.email
     },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }

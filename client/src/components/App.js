@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
-import { Provider, connect } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
 import "semantic-ui-css/semantic.min.css";
 import decode from "jwt-decode";
 import Main from "./Main";
@@ -14,11 +9,14 @@ import configureStore from "../store";
 import Header from "./Header";
 import UserRoute from "../routes/UserRoute";
 import GuestRoute from "../routes/GuestRoute";
+import PasswordRoute from "../routes/PasswordRoute";
 import ConfirmedRoute from "../routes/ConfirmedRoute";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
-import ConfirmationPage from "./ConfirmationPage";
+import ConfirmationPage from "./pages/ConfirmationPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePage from "./HomePage";
 import { userLoggedIn } from "../AC/auth";
 import "../assets/js";
@@ -42,15 +40,24 @@ const App = () => (
     <Router>
       <div>
         <Header />
-        
+
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route exact path="/confirmation" component={ConfirmationPage} />
           <GuestRoute path="/signup" exact component={SignupPage} />
           <GuestRoute path="/login" exact component={LoginPage} />
+          <GuestRoute
+            path="/forgot_password"
+            exact
+            component={ForgotPasswordPage}
+          />
           <UserRoute path="/dashboard" exact component={Main} />
           <ConfirmedRoute path="/statistic" exact component={Statistic} />
-
+          <Route
+            path="/reset_password"
+            exact
+            component={ResetPasswordPage}
+          />
           <Route component={NotFound} />
         </Switch>
       </div>

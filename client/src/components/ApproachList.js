@@ -12,7 +12,6 @@ import Weight from "./Weight";
 
 export class ApproachList extends Component {
   state = {
-    
     startApproach: 0,
     finishApproach: 0,
     weight: 40
@@ -26,7 +25,7 @@ export class ApproachList extends Component {
     finishApproach
   ) => {
     this.setState({
-      finishApproach: finishApproach
+      finishApproach
     });
     this.props.changeApproach(
       approachValue,
@@ -40,17 +39,15 @@ export class ApproachList extends Component {
     });
   };
 
-  
-
   onClickAddApproach = () => {
     if (!this.checkMessage()) return;
 
-    //время начала подхода
+    // время начала подхода
     this.setState({
       startApproach: Date.now()
     });
 
-    //send add approach
+    // send add approach
     if (this.props.approaches.length) {
       this.props.addApproach(
         this.props.exercise.date,
@@ -68,32 +65,28 @@ export class ApproachList extends Component {
       );
     }
 
-    //первый подход али нет
+    // первый подход али нет
     const firstTime = () => {
       const date = new Date();
       const today = date.toDateString();
-      //находим время начала для данного дня
+      // находим время начала для данного дня
       this.props.statistic.map(stat => {
         if (stat.date === today) {
           this.workoutStart = stat.workoutStart;
         }
       });
-      //есть ли подходы
-      return this.props.approaches.some(approach => {
-        return approach.date === today;
-      });
+      // есть ли подходы
+      return this.props.approaches.some(approach => approach.date === today);
     };
 
-    //если первый подход, то время отдыха = сейчас - время нажатия на "начать тренировку"
-    //иначе сейчас - время окончания предыдущего подхода
+    // если первый подход, то время отдыха = сейчас - время нажатия на "начать тренировку"
+    // иначе сейчас - время окончания предыдущего подхода
     if (!firstTime()) {
       this.restTime = Math.round((Date.now() - this.workoutStart) / 1000);
-    } else {
-      if (this.state.finishApproach) {
-        this.restTime = Math.ceil(
-          (Date.now() - this.state.finishApproach) / 1000
-        );
-      }
+    } else if (this.state.finishApproach) {
+      this.restTime = Math.ceil(
+        (Date.now() - this.state.finishApproach) / 1000
+      );
     }
   };
 
@@ -107,7 +100,7 @@ export class ApproachList extends Component {
   };
 
   checkMessage = () => {
-    //очистим сообщение с экрана
+    // очистим сообщение с экрана
     this.props.showMessage({
       message: ""
     });
@@ -118,7 +111,7 @@ export class ApproachList extends Component {
       return false;
     }
 
-    //проверка заполненности всех полей
+    // проверка заполненности всех полей
     if (this.props.statistic.length) {
       let flag = 0;
       this.props.approaches.map(approach => {
@@ -126,7 +119,7 @@ export class ApproachList extends Component {
           flag = 1;
         }
       });
-      //если не заполнил предыдущее поле
+      // если не заполнил предыдущее поле
       if (flag === 1) {
         this.props.showMessage({ message: "Заполните предыдущий подход" });
         return false;
@@ -143,7 +136,12 @@ export class ApproachList extends Component {
         <Weight onChangeWeight={this.onChangeWeight} />
         <br />
         <p className="approach_header">Подходы: </p>
-        <div role="button" tabIndex={0}  className="addApproach_btn" onClick={this.onClickAddApproach}>
+        <div
+          role="button"
+          tabIndex={0}
+          className="addApproach_btn"
+          onClick={this.onClickAddApproach}
+        >
           +
         </div>
         {/* отфильтровать из всех подходов только те, у которых exerciseId совпадает с exercise._id */}
@@ -171,9 +169,9 @@ export class ApproachList extends Component {
 
 export default connect(
   ({ approaches, statistic, messages }) => ({
-    approaches: approaches,
-    statistic: statistic,
-    messages: messages
+    approaches,
+    statistic,
+    messages
   }),
   { addApproach, deleteApproach, changeApproach, showMessage }
 )(ApproachList);

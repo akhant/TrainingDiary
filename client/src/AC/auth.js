@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT, USER_LOGIN,USER_CONFIRMATION } from "../constants";
+import { USER_LOGGED_IN, USER_LOGGED_OUT, RESET_PASSWORD, RESET_PASSWORD_REQUEST, USER_LOGIN,USER_CONFIRMATION } from "../constants";
 /* import api from "../api"; */
 /* import setAuthorizationHeader from "../utils/setAuthorizationHeader"; */
 
@@ -27,14 +27,24 @@ export const confirm = () => ({
   
 });
 
+export const resetPasswordRequest = ({ email })  =>
+  ({
+    type: RESET_PASSWORD_REQUEST,
+    email
+  })
+
+  export const resetPassword = data => ({
+    type: RESET_PASSWORD,
+    data
+  })
+
 /* export const userLoggedOut = () => ({
   type: USER_LOGGED_OUT
 }); 
 
 
 
-export const resetPasswordRequest = ({ email }) => () =>
-  api.user.resetPasswordRequest(email);
+
 
 export const validateToken = token => () => api.user.validateToken(token);
 

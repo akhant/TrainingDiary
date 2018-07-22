@@ -10,8 +10,13 @@ const UserRoute = ({ isConfirmed, component: Component, ...rest }) => (
       isConfirmed ? (
         <Component {...props} />
       ) : (
-        <div className="confirm_restricted"> Please confirm your email to get access <br/>
-        <Link to="/dashboard" className="btn">Dashboard</Link> </div>
+        <div className="confirm_restricted">
+          {" "}
+          Please confirm your email to get access <br />
+          <Link to="/dashboard" className="btn">
+            Dashboard
+          </Link>{" "}
+        </div>
       )
     }
   />
