@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const Message = (props) => {
-  const messages = props.messages;
+const Message = props => {
+  const { messages } = props;
 
   return (
     <div className="Message">
@@ -15,8 +15,6 @@ const Message = (props) => {
   );
 };
 
-export default connect(state => {
-  return {
-    messages: state.messages
-  };
-})(Message);
+export default connect(({ messages }) => ({
+  messages
+}))(Message);

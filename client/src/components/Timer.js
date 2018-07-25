@@ -85,11 +85,11 @@ class Timer extends Component {
         </div>
         <button className="timer_btn btn" onClick={this.startSport}>
           {" "}
-          {this.state.elapsed ? "Продолжить" : "начать "}
+          {this.state.elapsed ? "Continue" : "Start "}
         </button>
         <button className="timer_btn btn" onClick={this.finishSport}>
           {" "}
-          Закончить{" "}
+          Finish{" "}
         </button>
       </div>
     );

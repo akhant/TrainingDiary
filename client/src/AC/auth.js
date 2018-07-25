@@ -1,6 +1,12 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT, RESET_PASSWORD, RESET_PASSWORD_REQUEST, USER_LOGIN,USER_CONFIRMATION } from "../constants";
-/* import api from "../api"; */
-/* import setAuthorizationHeader from "../utils/setAuthorizationHeader"; */
+import {
+  USER_LOGGED_IN,
+  USER_SIGNUP,
+  USER_LOGGED_OUT,
+  RESET_PASSWORD,
+  RESET_PASSWORD_REQUEST,
+  USER_LOGIN,
+  USER_CONFIRMATION
+} from "../constants";
 
 export const userLoggedIn = user => ({
   type: USER_LOGGED_IN,
@@ -9,6 +15,11 @@ export const userLoggedIn = user => ({
 
 export const userLoggedOut = () => ({
   type: USER_LOGGED_OUT
+});
+
+export const signup = data => ({
+  type: USER_SIGNUP,
+  data
 });
 
 export const login = credentials => ({
@@ -24,29 +35,15 @@ export const logout = () => dispatch => {
 
 export const confirm = () => ({
   type: USER_CONFIRMATION
-  
 });
 
-export const resetPasswordRequest = ({ email })  =>
-  ({
-    type: RESET_PASSWORD_REQUEST,
-    email
-  })
+export const resetPasswordRequest = ({ email }) => ({
+  type: RESET_PASSWORD_REQUEST,
+  email
+});
 
-  export const resetPassword = data => ({
-    type: RESET_PASSWORD,
-    data
-  })
+export const resetPassword = data => ({
+  type: RESET_PASSWORD,
+  data
+});
 
-/* export const userLoggedOut = () => ({
-  type: USER_LOGGED_OUT
-}); 
-
-
-
-
-
-export const validateToken = token => () => api.user.validateToken(token);
-
-export const resetPassword = data => () => api.user.resetPassword(data);
- */

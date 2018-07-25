@@ -202,7 +202,7 @@ export function userLogin(req, res) {
     if (user && user.isValidPassword(credentials.password)) {
       res.json({ user: user.toAuthJSON() });
     } else {
-      res.status(400).json({ errors: { global: "Invalid credentials" } });
+      res.status(400).json({ user: { error: "invalid credentials" } });
     }
   });
 }
@@ -265,7 +265,7 @@ export function resetPassword(req, res) {
     if (user && user.requestChangePassword === true) {
       user.setPassword(password);
       user.changeRequestPasswordState(false);
-      user.save().then(() => res.json({ status: "password changed" }));
+      user.save().then(() => res.json({ passwordChanged: true }));
     } else {
       res.status(404).json({ errors: { global: "Invalid token" } });
     }

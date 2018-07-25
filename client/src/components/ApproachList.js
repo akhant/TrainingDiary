@@ -42,7 +42,7 @@ export class ApproachList extends Component {
   onClickAddApproach = () => {
     if (!this.checkMessage()) return;
 
-    // время начала подхода
+    // approach start time
     this.setState({
       startApproach: Date.now()
     });
@@ -65,22 +65,21 @@ export class ApproachList extends Component {
       );
     }
 
-    // первый подход али нет
+    // check is this approach first
     const firstTime = () => {
       const date = new Date();
       const today = date.toDateString();
-      // находим время начала для данного дня
+      // start time for this day
       this.props.statistic.map(stat => {
         if (stat.date === today) {
           this.workoutStart = stat.workoutStart;
         }
       });
-      // есть ли подходы
+      // Are there approaches?
       return this.props.approaches.some(approach => approach.date === today);
     };
 
-    // если первый подход, то время отдыха = сейчас - время нажатия на "начать тренировку"
-    // иначе сейчас - время окончания предыдущего подхода
+    // rest time for first approach and next
     if (!firstTime()) {
       this.restTime = Math.round((Date.now() - this.workoutStart) / 1000);
     } else if (this.state.finishApproach) {
@@ -100,18 +99,18 @@ export class ApproachList extends Component {
   };
 
   checkMessage = () => {
-    // очистим сообщение с экрана
+    // clear from screen
     this.props.showMessage({
       message: ""
     });
     if (!this.props.messages.started) {
       this.props.showMessage({
-        message: 'Сначала нажмите "начать тренировку"'
+        message: 'First click "start training"'
       });
       return false;
     }
 
-    // проверка заполненности всех полей
+    // check not empty value
     if (this.props.statistic.length) {
       let flag = 0;
       this.props.approaches.map(approach => {
@@ -119,9 +118,9 @@ export class ApproachList extends Component {
           flag = 1;
         }
       });
-      // если не заполнил предыдущее поле
+      // if not fill preveus value
       if (flag === 1) {
-        this.props.showMessage({ message: "Заполните предыдущий подход" });
+        this.props.showMessage({ message: "Fill previous approach" });
         return false;
       }
     }
@@ -135,7 +134,7 @@ export class ApproachList extends Component {
       <div className="ApproachList">
         <Weight onChangeWeight={this.onChangeWeight} />
         <br />
-        <p className="approach_header">Подходы: </p>
+        <p className="approach_header">Approaches: </p>
         <div
           role="button"
           tabIndex={0}
@@ -144,7 +143,7 @@ export class ApproachList extends Component {
         >
           +
         </div>
-        {/* отфильтровать из всех подходов только те, у которых exerciseId совпадает с exercise._id */}
+        {/* filter exercise with necessary exercise id */}
         <div className="approachList_items">
           {approaches.map(approach => {
             if (approach.exerciseId === exercise._id) {

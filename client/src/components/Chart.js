@@ -55,7 +55,7 @@ const Chart = createReactClass({
       }
     });
 
-    // отсортировать по дате
+    // sort by date
     value = _.map(value, v => {
       let arr = [];
       let arrayDate = v.date.split(" ");
@@ -66,7 +66,7 @@ const Chart = createReactClass({
 
       return v;
     });
-    //сгруппировать по дате
+    // group by date
     let grAp = _.groupBy(value, "date");
     let _values = [];
     for (let key in grAp) {
@@ -81,9 +81,9 @@ const Chart = createReactClass({
       bounce = (Math.log10(val) * weight) / (10 * len);
       _values.push({ x: key, y: bounce });
     }
-    // отсортировать по дате
+    // sort by date
     _values = _.sortBy(_values, "x");
-    //перевести в нужный формат даты
+    // transform to necessary format
     data.values = _.map(_values, v => {
       let d = new Date();
       d.setTime(v.x);

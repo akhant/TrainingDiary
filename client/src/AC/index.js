@@ -14,7 +14,8 @@ import {
 } from "constants";
 
 export const fetchData = pickDate => ({
-  type: FETCH_DATA, pickDate
+  type: FETCH_DATA,
+  pickDate
 });
 
 export const addExercise = (pickDate, dateId) => ({

@@ -64,11 +64,11 @@ export class Statistic extends Component {
             className="PickerDate statistic_pikerDate"
             handleChange={this.handleChange}
           />
-          <h2 className="no_exercises_h2">В этот день нет упражнений</h2>
+          <h2 className="no_exercises_h2">No exercises this day</h2>
           <div className="link_to_main__wrapper">
             <Link className="link_to_main btn" to="/dashboard">
               {" "}
-              На главную{" "}
+              To main{" "}
             </Link>
           </div>
         </div>
@@ -89,7 +89,7 @@ export class Statistic extends Component {
         <Row>
           <Col sm={5}>
             <div className="training_time">
-              <span>Время тренировки: {this.getWorkoutTime()}</span>
+              <span>Training time: {this.getWorkoutTime()}</span>
             </div>
 
             <StatisticTable
@@ -116,7 +116,7 @@ export class Statistic extends Component {
             <div className="link_to_main__wrapper">
               <Link className="link_to_main btn" to="/dashboard">
                 {" "}
-                На главную{" "}
+                To main{" "}
               </Link>
             </div>
           </Col>

@@ -70,7 +70,7 @@ export class Main extends Component {
   };
 
   handleStatisticClick = () => {
-    // отправим pickDate в редакс
+    // send pickDate to redux
     this.props.addParam({ pickDate: this.state.pickDate });
   };
 
@@ -95,10 +95,10 @@ export class Main extends Component {
           <Col sm={12}>
             <div className="exerciseList_with_buttons">
               <button className="btn" onClick={this.onClickAddExercise}>
-                Добавить упражнение
+                Add exercise
               </button>
               <button className="btn" onClick={this.dropDatabase}>
-                Очистить
+                Clear
               </button>
               <div className="link_to_statistic__wrapper">
                 <Link
@@ -106,7 +106,7 @@ export class Main extends Component {
                   className="link_to_statistic btn"
                   to="/statistic"
                 >
-                  статистика{" "}
+                  statistic{" "}
                 </Link>
               </div>
 
@@ -128,7 +128,7 @@ export default connect(
   ({ date, exercises, messages, params }) => ({
     date,
     exercises,
-   messages,
+    messages,
     params
   }),
   { addExercise, fetchData, dropDatabase, showMessage, addParam }

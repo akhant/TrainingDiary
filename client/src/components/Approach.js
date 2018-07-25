@@ -13,9 +13,9 @@ export class Approach extends Component {
   };
 
   handleChangeApproachValue = e => {
-    // закончили упражнение
+    // exercise finished
 
-    // сколько длилось упражнение
+    // exercise Time
     this.exerciseTime = Date.now() - this.props.startApproach;
 
     this.setState(
@@ -24,7 +24,7 @@ export class Approach extends Component {
         finishApproach: Date.now()
       },
       () => {
-        // сохранить изменения подхода
+        // save changes
         this.props.onChangeApproachValue(
           this.state.approachValue,
           this.props.approach._id,
@@ -36,7 +36,6 @@ export class Approach extends Component {
     );
   };
 
-  // удаление подхода
   handleDeleteApproach = () => {
     this.props.onDeleteApproach(this.props.approach._id);
   };

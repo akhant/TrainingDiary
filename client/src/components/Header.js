@@ -7,11 +7,14 @@ import logo from "../assets/images/logo_middle.png";
 
 const Header = ({ isAuthenticated, logout }) => (
   <div className="header">
-    <span className="image_span">
-      <Image src={logo} alt="logo" />
-    </span>
+    <Link to="/">
+      <span className="image_span">
+        <Image src={logo} alt="logo" />
+      </span>
 
-    <h1 className="main_h1">Training diary</h1>
+      <h1 className="main_h1">Training diary</h1>
+    </Link>
+
     {isAuthenticated ? (
       <div className="logout_wrapper">
         <button className="btn" onClick={() => logout()}>
@@ -21,7 +24,7 @@ const Header = ({ isAuthenticated, logout }) => (
     ) : (
       <div className="logout_wrapper">
         <Link className="btn" to="/login">
-          Login
+          Log in
         </Link>
         <Link className="btn" to="/signup">
           Sign Up

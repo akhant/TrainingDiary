@@ -1,4 +1,3 @@
-/* import fetch from 'isomorphic-fetch'; */
 import {
   ADD_EXERCISE,
   FETCH_DATA,
@@ -44,9 +43,6 @@ const fetchData = store => next => action => {
     ...rest
   } = action;
 
-  /*  console.log("pickDate middleware", pickDate) */
-  /* console.log("in middleware"); */
-
   if (type === FETCH_DATA) {
     return fetch(`${baseUrl}/data`)
       .then(res => res.json())
@@ -68,7 +64,7 @@ const fetchData = store => next => action => {
         // check res and token
         localStorage.bookwormJWT = res.user.token;
         store.dispatch(userLoggedIn(res.user));
-        return next({ res: res.user, ...rest });
+        return next({ ...rest });
       });
   }
 
@@ -100,9 +96,10 @@ const fetchData = store => next => action => {
         email
       }),
       headers: { "Content-Type": "application/json" }
-    }).then(() => next());
+    })
+      .then(res => res.json())
+      .then(res => next({ ...res, ...action }));
   }
-
 
   if (type === RESET_PASSWORD) {
     fetch(`${baseUrl}/reset_password`, {
@@ -113,10 +110,10 @@ const fetchData = store => next => action => {
         data
       }),
       headers: { "Content-Type": "application/json" }
-    }).then(() => next());
+    })
+      .then(res => res.json())
+      .then(res => next({ ...res, ...action }));
   }
-
-
 
   if (type === USER_LOGIN) {
     fetch(`${baseUrl}/auth`, {
@@ -130,7 +127,10 @@ const fetchData = store => next => action => {
     })
       .then(res => res.json())
       .then(res => {
-        localStorage.bookwormJWT = res.user.token;
+        if (!res.user.error) {
+          localStorage.bookwormJWT = res.user.token;
+        }
+
         store.dispatch(userLoggedIn(res.user));
         next({ res: res.user, ...rest });
       });

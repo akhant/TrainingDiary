@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Form, Button } from "semantic-ui-react";
 import isEmail from "validator/lib/isEmail";
+import { connect } from "react-redux";
+import isAlphanumeric from "validator/lib/isAlphanumeric";
 import InlineError from "../messages/InlineError";
 
 class SignupForm extends React.Component {
@@ -14,9 +16,15 @@ class SignupForm extends React.Component {
     errors: {}
   };
 
+  componentDidUpdate = prevProps => {
+    if (prevProps.user !== this.props.user && this.props.user) {
+      return this.setState({ loading: false });
+    }
+  };
+
   onChange = e =>
     this.setState({
-        data: { ...this.state.data, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value }
     });
 
   onSubmit = e => {
@@ -25,9 +33,7 @@ class SignupForm extends React.Component {
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
       this.setState({ loading: true });
-      this.props
-        .submit(this.state.data);
-
+      this.props.submit(this.state.data);
     }
   };
 
@@ -35,8 +41,11 @@ class SignupForm extends React.Component {
     const errors = {};
 
     if (!isEmail(data.email)) errors.email = "Invalid email";
+    if (!isAlphanumeric(data.password)) {
+      errors.password =
+        "Invlid password, use only decimals and english letters  ";
+    }
     if (!data.password) errors.password = "Can't be blank";
-
     return errors;
   };
 
@@ -44,7 +53,7 @@ class SignupForm extends React.Component {
     const { data, errors, loading } = this.state;
 
     return (
-      <Form onSubmit={this.onSubmit} /* loading={loading} */>
+      <Form onSubmit={this.onSubmit} loading={loading}>
         <Form.Field error={!!errors.email}>
           <label htmlFor="email">Email</label>
           <input
@@ -80,4 +89,4 @@ SignupForm.propTypes = {
   submit: PropTypes.func.isRequired
 };
 
-export default SignupForm;
+export default connect(({ user }) => ({ user }))(SignupForm);

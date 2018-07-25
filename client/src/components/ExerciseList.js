@@ -12,7 +12,7 @@ const ExerciseList = props => {
   if (!ex.length) {
     return (
       <div className="no_exercises">
-        <h2 className="no_exercises_h2">В этот день нет упражнений</h2>
+        <h2 className="no_exercises_h2">No exercises</h2>
       </div>
     );
   }

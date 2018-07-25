@@ -11,7 +11,7 @@ class PickerDate extends Component {
     date: moment()
   };
 
-// установить дату в Statistic
+// date for Statistic component
   componentDidMount = () => {
     if (this.props.pickDateFromMain) {
       this.setState({

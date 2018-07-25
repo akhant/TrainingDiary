@@ -41,7 +41,7 @@ export default class Weight extends Component {
 
 Weight.defaultProps = {
   onChangeWeight: null
-}
+};
 
 Weight.propTypes = {
   onChangeWeight: PropTypes.func

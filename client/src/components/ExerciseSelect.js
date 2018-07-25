@@ -16,12 +16,11 @@ export class ExerciseSelect extends Component {
     this.setState({
       selectedExercise: e.target.value
     });
-    console.log(e.target.value);
     this.props.changeSelect(e.target.value);
   };
 
   optionsList = () => {
-    let list = [];
+    const list = [];
     for (let i = 0; i < exerciseList.length; i++) {
       list.push(
         <option key={i} value={exerciseList[i].exerciseName}>
