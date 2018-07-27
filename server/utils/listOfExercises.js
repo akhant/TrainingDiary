@@ -1,37 +1,4 @@
-export const PICK_DATE = "PICK_DATE";
-export const FETCH_DATA = "FETCH_DATA";
-export const ADD_EXERCISE = "ADD_EXERCISE";
-export const DROP_DATABASE = "DROP_DATABASE";
-export const DELETE_EXERCISE = "DELETE_EXERCISE";
-export const CHANGE_NAME = "CHANGE_NAME";
-export const ADD_APPROACH = "ADD_APPROACH";
-export const DELETE_APPROACH = "DELETE_APPROACH";
-export const CHANGE_APPROACH = "CHANGE_APPROACH";
-export const EXERCISE_START = "EXERCISE_START";
-export const WORKOUT_START = "WORKOUT_START";
-export const SHOW_MESSAGE = "SHOW_MESSAGE";
-export const WORKOUT_FINISH = "WORKOUT_FINISH";
-export const ADD_PARAM = "ADD_PARAM";
-export const USER_SIGNUP = "USER_SIGNUP";
-export const USER_LOGGED_IN = "USER_LOGGED_IN";
-export const USER_LOGGED_OUT = "USER_LOGGED_OUT";
-export const BOOKS_FETCHED = "BOOKS_FETCHED";
-export const BOOK_CREATED = "BOOK_CREATED";
-export const USER_LOGIN = "USER_LOGIN";
-export const USER_LOGOUT = "USER_LOGOUT";
-export const USER_CONFIRMATION = "USER_CONFIRMATION";
-export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
-export const RESET_PASSWORD = "RESET_PASSWORD";
-export const GET_LIST = "GET_LIST";
-export const ADD_TO_LIST = "ADD_TO_LIST";
-export const CHANGE_LIST = "CHANGE_LIST";
-export const REMOVE_FROM_LIST = "REMOVE_FROM_LIST";
-// Расшифровка id: первая цифра -группа,
-// вторая - выполняется упражнение с двумя гантелями(2),
-// попеременно(1) или без гантелей(0), номер упражнения
-// Группы: 1- Спина, 2-Грудь, 3-Дельты, 4-Руки, 5-Ноги, 6-Пресс
-
-export const exerciseList = [
+const listOfExercises = [
   {
     exId: 1101,
     exGroup: "Спина",
@@ -129,3 +96,5 @@ export const exerciseList = [
     exerciseName: "Подъем ног лежа"
   }
 ];
+
+export default listOfExercises;

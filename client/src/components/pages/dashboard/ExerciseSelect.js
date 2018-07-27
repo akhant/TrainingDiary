@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { exerciseList } from "constants";
+import { connect } from "react-redux";
+
 
 export class ExerciseSelect extends Component {
   state = {
@@ -20,15 +21,18 @@ export class ExerciseSelect extends Component {
   };
 
   optionsList = () => {
-    const list = [];
-    for (let i = 0; i < exerciseList.length; i++) {
-      list.push(
-        <option key={i} value={exerciseList[i].exerciseName}>
-          {exerciseList[i].exerciseName}
-        </option>
-      );
+    const { listOfExercises } = this.props;
+    if (listOfExercises) {
+      const list = [];
+      for (let i = 0; i < listOfExercises.length; i++) {
+        list.push(
+          <option key={i} value={listOfExercises[i].exerciseName}>
+            {listOfExercises[i].exerciseName}
+          </option>
+        );
+      }
+      return list;
     }
-    return list;
   };
 
   render() {
@@ -46,4 +50,6 @@ export class ExerciseSelect extends Component {
   }
 }
 
-export default ExerciseSelect;
+export default connect(({ listOfExercises }) => ({ listOfExercises }))(
+  ExerciseSelect
+);

@@ -9,11 +9,12 @@ import {
   dropDatabase,
   showMessage,
   addParam
-} from "../AC";
+} from "../../../AC";
 import ExerciseList from "./ExerciseList";
-import PickerDate from "./PickerDate";
+import PickerDate from "../../PickerDate";
 import Timer from "./Timer";
-import Message from "./Message";
+import Message from "../../messages/Message";
+import { getListOfExercises } from "../../../AC/list";
 
 export class Main extends Component {
   state = {
@@ -33,12 +34,13 @@ export class Main extends Component {
     } else {
       this.props.fetchData(this.state.pickDate);
     }
+    this.props.getListOfExercises();
   };
 
   onClickAddExercise = () => {
     if (!this.props.messages.started) {
       this.props.showMessage({
-        message: 'Сначала нажмите "начать тренировку"'
+        message: 'First click  "start training"'
       });
       return;
     }
@@ -100,7 +102,7 @@ export class Main extends Component {
               <button className="btn" onClick={this.dropDatabase}>
                 Clear
               </button>
-              <div className="link_to_statistic__wrapper">
+              <div className="link-to-statistic__wrapper">
                 <Link
                   onClick={this.handleStatisticClick}
                   className="link_to_statistic btn"
@@ -108,6 +110,9 @@ export class Main extends Component {
                 >
                   statistic{" "}
                 </Link>
+              </div>
+              <div className="link-to-exercises__wrapper">
+                <Link className="btn" to="/exercises">Exercises</Link>
               </div>
 
               <ExerciseList
@@ -131,5 +136,12 @@ export default connect(
     messages,
     params
   }),
-  { addExercise, fetchData, dropDatabase, showMessage, addParam }
+  {
+    addExercise,
+    fetchData,
+    dropDatabase,
+    showMessage,
+    addParam,
+    getListOfExercises
+  }
 )(Main);

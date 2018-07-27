@@ -7,7 +7,7 @@ import {
   deleteApproach,
   changeApproach,
   showMessage
-} from "../AC";
+} from "../../../AC";
 import Weight from "./Weight";
 
 export class ApproachList extends Component {

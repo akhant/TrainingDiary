@@ -7,7 +7,6 @@ import path from "path";
 import dotenv from "dotenv";
 import * as route from "./controllers";
 
-
 dotenv.config();
 // express
 const app = express();
@@ -55,6 +54,10 @@ app.post("/api/confirmation", route.userConfirm);
 app.post("/api/reset_password_request", route.resetPasswordRequest);
 app.get("/reset_password_request/:token", route.resetPasswordRequestServer);
 app.post("/api/reset_password", route.resetPassword);
+app.post("/api/list/get", route.getList);
+app.put("/api/list/add", route.addToList);
+app.post("/api/list/update", route.changeList);
+app.delete("/api/list/remove", route.removeFromList);
 // server
 app.listen(app.get("port"), () =>
   console.log(`Express server listening on port ${app.get("port")}`)

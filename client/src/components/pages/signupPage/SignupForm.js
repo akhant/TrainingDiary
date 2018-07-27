@@ -4,7 +4,7 @@ import { Form, Button } from "semantic-ui-react";
 import isEmail from "validator/lib/isEmail";
 import { connect } from "react-redux";
 import isAlphanumeric from "validator/lib/isAlphanumeric";
-import InlineError from "../messages/InlineError";
+import InlineError from "../../messages/InlineError";
 
 class SignupForm extends React.Component {
   state = {

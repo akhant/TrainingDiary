@@ -5,7 +5,7 @@ import isEmail from "validator/lib/isEmail";
 import { connect } from "react-redux";
 import Delay from "react-delay";
 import { Redirect } from "react-router-dom";
-import InlineError from "../messages/InlineError";
+import InlineError from "../../messages/InlineError";
 
 class ForgotPasswordForm extends React.Component {
   state = {

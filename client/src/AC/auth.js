@@ -5,7 +5,8 @@ import {
   RESET_PASSWORD,
   RESET_PASSWORD_REQUEST,
   USER_LOGIN,
-  USER_CONFIRMATION
+  USER_CONFIRMATION,
+
 } from "../constants";
 
 export const userLoggedIn = user => ({
@@ -46,4 +47,5 @@ export const resetPassword = data => ({
   type: RESET_PASSWORD,
   data
 });
+
 

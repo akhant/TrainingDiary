@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Form, Button, Message } from "semantic-ui-react";
 import Delay from "react-delay";
 import { Redirect } from "react-router-dom";
-import InlineError from "../messages/InlineError";
+import InlineError from "../../messages/InlineError";
 
 class ResetPasswordForm extends React.Component {
   state = {

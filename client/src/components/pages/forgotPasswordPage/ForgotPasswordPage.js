@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ForgotPasswordForm from "../forms/ForgotPasswordForm";
-import { resetPasswordRequest } from "../../AC/auth";
+import ForgotPasswordForm from "./ForgotPasswordForm";
+import { resetPasswordRequest } from "../../../AC/auth";
 
 class ForgotPasswordPage extends React.Component {
   submit = data => this.props.resetPasswordRequest(data);

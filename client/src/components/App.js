@@ -3,19 +3,20 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import "semantic-ui-css/semantic.min.css";
 import decode from "jwt-decode";
-import Main from "./Main";
-import Statistic from "./pages/Statistic";
+import Main from "./pages/dashboard/Main";
+import Statistic from "./pages/statistic/Statistic";
 import configureStore from "../store";
 import Header from "./Header";
 import UserRoute from "../routes/UserRoute";
 import GuestRoute from "../routes/GuestRoute";
 import ConfirmedRoute from "../routes/ConfirmedRoute";
-import SignupPage from "./pages/SignupPage";
-import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/signupPage/SignupPage";
+import LoginPage from "./pages/loginPage/LoginPage";
 import NotFound from "./pages/NotFound";
 import ConfirmationPage from "./pages/ConfirmationPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ForgotPasswordPage from "./pages/forgotPasswordPage/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/resetPasswordPage/ResetPasswordPage";
+import ExercisesPage from "./pages/exercisesPage/ExercisesPage";
 import HomePage from "./HomePage";
 import { userLoggedIn } from "../AC/auth";
 import "../assets/js";
@@ -52,11 +53,8 @@ const App = () => (
           />
           <UserRoute path="/dashboard" exact component={Main} />
           <ConfirmedRoute path="/statistic" exact component={Statistic} />
-          <Route
-            path="/reset_password"
-            exact
-            component={ResetPasswordPage}
-          />
+          <Route path="/reset_password" exact component={ResetPasswordPage} />
+          <ConfirmedRoute path="/exercises" exact component={ExercisesPage} />
           <Route component={NotFound} />
         </Switch>
       </div>

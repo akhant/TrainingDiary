@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Form, Button, Message } from "semantic-ui-react";
 import Validator from "validator";
 import { connect } from "react-redux";
-import InlineError from "../messages/InlineError";
+import InlineError from "../../messages/InlineError";
 
 class LoginForm extends React.Component {
   state = {

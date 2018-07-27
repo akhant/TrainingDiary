@@ -4,12 +4,12 @@ import moment from "moment";
 import _ from "lodash";
 import { Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { fetchData } from "../../AC";
-import elapsedTime from "../../helpers";
-import PickerDate from "../PickerDate";
-import Message from "../Message";
-import Chart from "../Chart";
-import StatisticTable from "../StatisticTable";
+import { fetchData } from "../../../AC";
+import elapsedTime from "../../../helpers";
+import PickerDate from "../../PickerDate";
+import Message from "../../messages/Message";
+import Chart from "./Chart";
+import StatisticTable from "./StatisticTable";
 
 export class Statistic extends Component {
   state = {

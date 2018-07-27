@@ -4,6 +4,7 @@ import Exercise from "../models/exercise";
 import Approach from "../models/approach";
 import Statistic from "../models/statistic";
 import User from "../models/User";
+import ListOfExercises from "../models/listOfExercises";
 import parseErrors from "../utils/parseErrors";
 
 import { sendConfirmationEmail, sendResetPasswordEmail } from "../mailer";
@@ -270,4 +271,26 @@ export function resetPassword(req, res) {
       res.status(404).json({ errors: { global: "Invalid token" } });
     }
   });
+}
+
+export function getList(req, res) {
+  ListOfExercises.find({}).then(exercises => res.json(exercises));
+}
+
+export function addToList(req, res) {
+  const exercise = new ListOfExercises(req.body.data);
+  exercise.save().then(exercise => res.json(exercise));
+}
+
+export function changeList(req, res) {
+  ListOfExercises.findOne({ _id: req.body.id }, (err, ex) => {
+    ex.set({ ...req.body.newExerciseData });
+    ex.save(() => res.json({ changed: true }));
+  });
+}
+
+export function removeFromList(req, res) {
+  ListOfExercises.findOneAndRemove({ _id: req.body.id }).then(() =>
+    res.json({ removed: true })
+  );
 }

@@ -34,6 +34,25 @@ body
 text  
   font-size: 12px
 
+.inline 
+  display: inline-block
+
+.ChangeExerciseForm
+  .form
+    width: 100%
+    margin: 0
+    .fields
+      display: flex
+      width: 100%
+      align-items: flex-end
+      .field:nth-child(1)
+        width: 50%
+      .field:nth-child(2)
+        width: 25%
+      .field:nth-child(3)
+        width: 25%
+  
+
 .header
   background-color: transparent
   text-align: center
@@ -92,6 +111,12 @@ a
     outline: none
     border: none
 
+.btn_remove
+  background: linear-gradient(to bottom, #DD4F43, darken(#DD4F43, 30%))
+  &:focus, &:visited, &:hover, &:active
+    background: linear-gradient(to bottom, lighten(#DD4F43, 10%), darken(#DD4F43, 30%))
+
+
 .forgot_password__link
   display: block
   margin: auto
@@ -122,6 +147,9 @@ a
   
 .approachList_items 
   display: flex
+
+.ElementOfList
+  position: relative
   
 .deleteExercise_btn
   display: inline-block
@@ -309,10 +337,9 @@ a
   text-align: left
   display: block
 
-.link_to_statistic__wrapper
+.link-to-statistic__wrapper, .link-to-exercises__wrapper
   display: inline-block
-  position: relative
-  top: 0px
+  
 
 .link_to_main__wrapper
   text-align: center

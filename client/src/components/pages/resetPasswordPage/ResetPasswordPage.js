@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 /* import { Message } from "semantic-ui-react"; */
-import ResetPasswordForm from "../forms/ResetPasswordForm";
-import { resetPassword } from "../../AC/auth";
+import ResetPasswordForm from "./ResetPasswordForm";
+import { resetPassword } from "../../../AC/auth";
 
 class ResetPasswordPage extends React.Component {
   submit = data => this.props.resetPassword(data);

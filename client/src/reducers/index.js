@@ -6,6 +6,7 @@ import statistic from "./statistic";
 import messages from "./messages";
 import params from "./params";
 import user from "./user";
+import listOfExercises from "./listOfExercises";
 
 export default combineReducers({
   date,
@@ -14,5 +15,6 @@ export default combineReducers({
   statistic,
   messages,
   params,
-  user
+  user,
+  listOfExercises
 });

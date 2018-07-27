@@ -13,7 +13,11 @@ import {
   USER_LOGIN,
   USER_CONFIRMATION,
   RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD
+  RESET_PASSWORD,
+  GET_LIST,
+  ADD_TO_LIST,
+  CHANGE_LIST,
+  REMOVE_FROM_LIST
 } from "constants";
 
 import { userLoggedIn } from "../AC/auth";
@@ -22,6 +26,8 @@ const baseUrl = "http://localhost:3000/api";
 
 const fetchData = store => next => action => {
   const {
+    newExerciseData,
+    id,
     email,
     token,
     credentials,
@@ -269,6 +275,55 @@ const fetchData = store => next => action => {
     })
       .then(res => res.json())
       .then(res => next({ workoutFinish, pickDate, res, type, ...rest }));
+  }
+
+  if (type === GET_LIST) {
+    fetch(`${baseUrl}/list/get`, {
+      method: "post",
+      mode: "cors",
+      cache: "default",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(list => next({ list, ...action }));
+  }
+  if (type === ADD_TO_LIST) {
+    fetch(`${baseUrl}/list/add`, {
+      method: "put",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        data
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(res => next({ exercise: res, ...action }));
+  }
+  if (type === CHANGE_LIST) {
+    fetch(`${baseUrl}/list/update`, {
+      method: "post",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        id,
+        newExerciseData
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(list => next({ list }));
+  }
+  if (type === REMOVE_FROM_LIST) {
+    fetch(`${baseUrl}/list/remove`, {
+      method: "delete",
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify({
+        id
+      }),
+      headers: { "Content-Type": "application/json" }
+    }).then(() => next());
   }
 
   console.log("STORE STATE FROM MIDDLEWARE", store.getState());

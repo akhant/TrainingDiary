@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ApproachList from "./ApproachList";
 import ExerciseSelect from "./ExerciseSelect";
-import { deleteExercise, changeExerciseNameValue } from "../AC";
+import { deleteExercise, changeExerciseNameValue } from "../../../AC";
 
 export class Exercise extends Component {
   state = {
@@ -29,7 +29,12 @@ export class Exercise extends Component {
         <div>
           <ApproachList exercise={exercise} />
         </div>
-        <div role="button" tabIndex={0} onClick={this.handleDeleteExercise} className="deleteExercise_btn">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={this.handleDeleteExercise}
+          className="deleteExercise_btn"
+        >
           {" "}
         </div>
       </div>

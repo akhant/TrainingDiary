@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { workoutStart, showMessage, workoutFinish } from "../AC";
-import elapsedTime from "../helpers";
+import { workoutStart, showMessage, workoutFinish } from "../../../AC";
+import elapsedTime from "../../../helpers";
 
 // TODO: fix timer
 class Timer extends Component {
