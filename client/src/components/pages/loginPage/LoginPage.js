@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import LoginForm from "./LoginForm";
-import { login } from "../../../AC/auth";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import LoginForm from './LoginForm';
+import { login } from '../../../AC/auth';
 
 class LoginPage extends Component {
   submit = data => this.props.login(data);
@@ -24,7 +24,7 @@ class LoginPage extends Component {
 }
 
 LoginPage.propTypes = {
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
 };
 
 export default connect(

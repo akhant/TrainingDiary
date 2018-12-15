@@ -1,19 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Form, Button } from "semantic-ui-react";
-import isEmail from "validator/lib/isEmail";
-import { connect } from "react-redux";
-import isAlphanumeric from "validator/lib/isAlphanumeric";
-import InlineError from "../../messages/InlineError";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Form, Button } from 'semantic-ui-react';
+import isEmail from 'validator/lib/isEmail';
+import { connect } from 'react-redux';
+import isAlphanumeric from 'validator/lib/isAlphanumeric';
+import InlineError from '../../messages/InlineError';
 
 class SignupForm extends React.Component {
   state = {
     data: {
-      email: "",
-      password: ""
+      email: '',
+      password: '',
     },
     loading: false,
-    errors: {}
+    errors: {},
   };
 
   componentDidUpdate = prevProps => {
@@ -24,7 +24,7 @@ class SignupForm extends React.Component {
 
   onChange = e =>
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value },
     });
 
   onSubmit = e => {
@@ -40,10 +40,10 @@ class SignupForm extends React.Component {
   validate = data => {
     const errors = {};
 
-    if (!isEmail(data.email)) errors.email = "Invalid email";
+    if (!isEmail(data.email)) errors.email = 'Invalid email';
     if (!isAlphanumeric(data.password)) {
       errors.password =
-        "Invlid password, use only decimals and english letters  ";
+        'Invlid password, use only decimals and english letters  ';
     }
     if (!data.password) errors.password = "Can't be blank";
     return errors;
@@ -86,7 +86,7 @@ class SignupForm extends React.Component {
 }
 
 SignupForm.propTypes = {
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
 };
 
 export default connect(({ user }) => ({ user }))(SignupForm);

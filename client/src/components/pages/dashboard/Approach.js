@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 export class Approach extends Component {
   state = {
-    approachValue: "",
-    finishApproach: 0
+    approachValue: '',
+    finishApproach: 0,
   };
   componentDidMount = () => {
     this.setState({
-      approachValue: this.props.approach.value
+      approachValue: this.props.approach.value,
     });
   };
 
@@ -21,7 +21,7 @@ export class Approach extends Component {
     this.setState(
       {
         approachValue: e.target.value,
-        finishApproach: Date.now()
+        finishApproach: Date.now(),
       },
       () => {
         // save changes
@@ -76,5 +76,5 @@ export class Approach extends Component {
 }
 
 export default connect(({ statistic }) => ({
-  statistic
+  statistic,
 }))(Approach);

@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
 const ListOfExercises = new Schema({
   exerciseName: String,
-  weight: Object
+  weight: Object,
 });
 
-export default mongoose.model("ListOfExercises", ListOfExercises);
+export default mongoose.model('ListOfExercises', ListOfExercises);

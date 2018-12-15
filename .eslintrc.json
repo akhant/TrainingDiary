@@ -1,0 +1,14 @@
+{
+    "extends": "airbnb",
+    "rules": {
+        "comma-dangle": ["warn", "always-multiline"],
+        "linebreak-style": "off",
+        "array-callback-return": "warn",
+        "no-shadow": "warn",
+        "no-unused-vars": "warn",
+        "max-len": "off",
+        "react/jsx-filename-extension": "off",
+        "no-undef": "warn",
+        "import/no-named-as-default-member": "off"
+    }
+}

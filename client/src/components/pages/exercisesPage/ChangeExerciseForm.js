@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { Form } from "semantic-ui-react";
-import { connect } from "react-redux";
-import { changeList, removeFromList } from "../../../AC/list";
+import React, { Component } from 'react';
+import { Form } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { changeList, removeFromList } from '../../../AC/list';
 
 class ChangeExerciseForm extends Component {
   state = {
-    exerciseName: "",
+    exerciseName: '',
     weight: {
-      from: "",
-      to: ""
+      from: '',
+      to: '',
     },
-    errors: []
+    errors: [],
   };
 
   componentDidMount = () => {
@@ -36,19 +36,19 @@ class ChangeExerciseForm extends Component {
     const re = /[^$A-Za-z0-9\s]/g;
     const errors = [];
     for (let key in weight) {
-      if (typeof +weight[key] !== "number" || !Number.isInteger(+weight[key])) {
+      if (typeof +weight[key] !== 'number' || !Number.isInteger(+weight[key])) {
         errors.push(`Field "${key}" have to be an integer number`);
       } else if (
-        typeof +weight[key] == "number" &&
+        typeof +weight[key] == 'number' &&
         (+weight[key] < 0 || +weight[key] > 300)
       ) {
         errors.push(`Value of field "${key}" have to be from 0 to 300`);
       }
     }
     if (re.test(exerciseName))
-      errors.push("You can use only alphabet symbols and numbers");
+      errors.push('You can use only alphabet symbols and numbers');
     if (exerciseName.length > 100)
-      errors.push("Exercise name length have to be less than 20");
+      errors.push('Exercise name length have to be less than 20');
     if (!errors.length) {
       this.setState({ errors: [] });
     } else {
@@ -62,7 +62,9 @@ class ChangeExerciseForm extends Component {
       <div className="ChangeExerciseForm">
         <Form onSubmit={this.onSubmit}>
           <ul>
-            {this.state.errors.map(error => <li key={error}>{error}</li>)}
+            {this.state.errors.map(error => (
+              <li key={error}>{error}</li>
+            ))}
           </ul>
           <Form.Group>
             <Form.Field
@@ -87,8 +89,8 @@ class ChangeExerciseForm extends Component {
             />
           </Form.Group>
           <button className="btn inline" type="submit">
-            {" "}
-            Change exercise{" "}
+            {' '}
+            Change exercise{' '}
           </button>
           <button
             className=" btn inline btn_remove"

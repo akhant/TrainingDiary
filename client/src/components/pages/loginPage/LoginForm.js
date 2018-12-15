@@ -1,23 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Form, Button, Message } from "semantic-ui-react";
-import Validator from "validator";
-import { connect } from "react-redux";
-import InlineError from "../../messages/InlineError";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Form, Button, Message } from 'semantic-ui-react';
+import Validator from 'validator';
+import { connect } from 'react-redux';
+import InlineError from '../../messages/InlineError';
 
 class LoginForm extends React.Component {
   state = {
     data: {
-      email: "",
-      password: ""
+      email: '',
+      password: '',
     },
     loading: false,
-    errors: {}
+    errors: {},
   };
 
   onChange = e =>
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value },
     });
 
   onSubmit = () => {
@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
 
   validate = data => {
     const errors = {};
-    if (!Validator.isEmail(data.email)) errors.email = "Invalid email";
+    if (!Validator.isEmail(data.email)) errors.email = 'Invalid email';
     if (!data.password) errors.password = "Can't be blank";
     return errors;
   };
@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
       <div>
         {this.props.user.error && (
           <div>
-            <Message style={{ fontSize: "30px", textAlign: "center" }} negative>
+            <Message style={{ fontSize: '30px', textAlign: 'center' }} negative>
               {this.props.user.error}
             </Message>
             {setTimeout(() => {
@@ -84,7 +84,7 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
 };
 
 export default connect(({ user }) => ({ user }))(LoginForm);

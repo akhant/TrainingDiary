@@ -1,7 +1,7 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-const Message = props => {
+const Message = (props) => {
   const { messages } = props;
 
   return (
@@ -16,5 +16,5 @@ const Message = props => {
 };
 
 export default connect(({ messages }) => ({
-  messages
+  messages,
 }))(Message);

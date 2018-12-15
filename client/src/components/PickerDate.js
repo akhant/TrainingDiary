@@ -1,21 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import DatePicker from "react-datepicker";
-import moment from "moment";
-import "react-datepicker/dist/react-datepicker.css";
-import { addParam } from "../AC";
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
+import { addParam } from '../AC';
 
 class PickerDate extends Component {
   state = {
-    date: moment()
+    date: moment(),
   };
 
-// date for Statistic component
+  // date for Statistic component
   componentDidMount = () => {
     if (this.props.pickDateFromMain) {
       this.setState({
-        date: this.props.pickDateFromMain
+        date: this.props.pickDateFromMain,
       });
     }
   };
@@ -26,7 +25,7 @@ class PickerDate extends Component {
       this.state.date !== this.props.pickDateFromMain
     ) {
       this.setState({
-        date: this.props.pickDateFromMain
+        date: this.props.pickDateFromMain,
       });
     }
   };
@@ -34,7 +33,7 @@ class PickerDate extends Component {
   handleChange = date => {
     this.setState(
       {
-        date
+        date,
       },
       () => {
         this.props.addParam({ pickDate: date });

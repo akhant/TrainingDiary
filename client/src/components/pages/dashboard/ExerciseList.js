@@ -1,9 +1,9 @@
-import React from "react";
-import Exercise from "./Exercise";
+import React from 'react';
+import Exercise from './Exercise';
 
-const ExerciseList = props => {
+const ExerciseList = (props) => {
   const ex = [];
-  props.exercises.map(exercise => {
+  props.exercises.map((exercise) => {
     if (exercise.date === props.pickDate._d.toDateString()) {
       ex.push(exercise);
     }

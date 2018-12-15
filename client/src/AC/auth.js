@@ -6,46 +6,44 @@ import {
   RESET_PASSWORD_REQUEST,
   USER_LOGIN,
   USER_CONFIRMATION,
-
-} from "../constants";
+} from '../constants';
 
 export const userLoggedIn = user => ({
   type: USER_LOGGED_IN,
-  user
+  user,
 });
 
 export const userLoggedOut = () => ({
-  type: USER_LOGGED_OUT
+  type: USER_LOGGED_OUT,
 });
 
 export const signup = data => ({
   type: USER_SIGNUP,
-  data
+  data,
 });
 
 export const login = credentials => ({
   type: USER_LOGIN,
-  credentials
+  credentials,
 });
 
+/* eslint-disable */
 export const logout = () => dispatch => {
-  localStorage.removeItem("bookwormJWT");
-
+  localStorage.removeItem('bookwormJWT');
   dispatch(userLoggedOut());
 };
 
+/* eslint-enable */
 export const confirm = () => ({
-  type: USER_CONFIRMATION
+  type: USER_CONFIRMATION,
 });
 
 export const resetPasswordRequest = ({ email }) => ({
   type: RESET_PASSWORD_REQUEST,
-  email
+  email,
 });
 
 export const resetPassword = data => ({
   type: RESET_PASSWORD,
-  data
+  data,
 });
-
-

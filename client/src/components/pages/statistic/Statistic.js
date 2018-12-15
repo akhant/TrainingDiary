@@ -1,36 +1,36 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import moment from "moment";
-import _ from "lodash";
-import { Grid, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { fetchData } from "../../../AC";
-import elapsedTime from "../../../helpers";
-import PickerDate from "../../PickerDate";
-import Message from "../../messages/Message";
-import Chart from "./Chart";
-import StatisticTable from "./StatisticTable";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import _ from 'lodash';
+import { Grid, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { fetchData } from '../../../AC';
+import elapsedTime from '../../../helpers';
+import PickerDate from '../../PickerDate';
+import Message from '../../messages/Message';
+import Chart from './Chart';
+import StatisticTable from './StatisticTable';
 
 export class Statistic extends Component {
   state = {
     pickStatisticDate: moment(),
-    showExerciseStatistic: ""
+    showExerciseStatistic: '',
   };
 
   componentDidMount = () => {
     this.setState({
-      pickStatisticDate: this.props.params.pickDate
+      pickStatisticDate: this.props.params.pickDate,
     });
   };
   onClickMore = exerciseName => {
     this.setState({
-      showExerciseStatistic: exerciseName
+      showExerciseStatistic: exerciseName,
     });
   };
 
   getWorkoutTime = () => {
     const { workoutTime } = _.find(this.props.statistic, {
-      date: this.state.pickStatisticDate._d.toDateString()
+      date: this.state.pickStatisticDate._d.toDateString(),
     });
 
     return elapsedTime(workoutTime);
@@ -38,7 +38,7 @@ export class Statistic extends Component {
   handleChange = choosenDate => {
     this.setState(
       {
-        pickStatisticDate: choosenDate
+        pickStatisticDate: choosenDate,
       },
       () => {
         this.props.fetchData(this.state.pickStatisticDate);
@@ -54,7 +54,7 @@ export class Statistic extends Component {
         approach.date === this.state.pickStatisticDate._d.toDateString()
     );
 
-    const filteredApproaches = _.groupBy(selectedApproaches, "exerciseName");
+    const filteredApproaches = _.groupBy(selectedApproaches, 'exerciseName');
     // если в данный день нет подходов
     if (!selectedApproaches.length) {
       return (
@@ -67,8 +67,8 @@ export class Statistic extends Component {
           <h2 className="no_exercises_h2">No exercises this day</h2>
           <div className="link_to_main__wrapper">
             <Link className="link_to_main btn" to="/dashboard">
-              {" "}
-              To main{" "}
+              {' '}
+              To main{' '}
             </Link>
           </div>
         </div>
@@ -115,8 +115,8 @@ export class Statistic extends Component {
           <Col>
             <div className="link_to_main__wrapper">
               <Link className="link_to_main btn" to="/dashboard">
-                {" "}
-                To main{" "}
+                {' '}
+                To main{' '}
               </Link>
             </div>
           </Col>
@@ -130,7 +130,7 @@ export default connect(
   ({ statistic, approaches, params }) => ({
     statistic,
     approaches,
-    params
+    params,
   }),
   { fetchData }
 )(Statistic);

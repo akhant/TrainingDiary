@@ -1,9 +1,9 @@
-import React from "react";
-import { Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { logout } from "../AC/auth";
-import logo from "../assets/images/logo_middle.png";
+import React from 'react';
+import { Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../AC/auth';
+import logo from '../assets/images/logo_middle.png';
 
 const Header = ({ isAuthenticated, logout }) => (
   <div className="header">
@@ -18,15 +18,18 @@ const Header = ({ isAuthenticated, logout }) => (
     {isAuthenticated ? (
       <div className="logout_wrapper">
         <button className="btn" onClick={() => logout()}>
+
           Logout
         </button>
       </div>
     ) : (
       <div className="logout_wrapper">
         <Link className="btn" to="/login">
+
           Log in
         </Link>
         <Link className="btn" to="/signup">
+
           Sign Up
         </Link>
       </div>
@@ -38,7 +41,7 @@ const Header = ({ isAuthenticated, logout }) => (
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: !!state.user.token
+    isAuthenticated: !!state.user.token,
   };
 }
 

@@ -1,21 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Form, Button, Message } from "semantic-ui-react";
-import isEmail from "validator/lib/isEmail";
-import { connect } from "react-redux";
-import Delay from "react-delay";
-import { Redirect } from "react-router-dom";
-import InlineError from "../../messages/InlineError";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Form, Button, Message } from 'semantic-ui-react';
+import isEmail from 'validator/lib/isEmail';
+import { connect } from 'react-redux';
+import Delay from 'react-delay';
+import { Redirect } from 'react-router-dom';
+import InlineError from '../../messages/InlineError';
 
 class ForgotPasswordForm extends React.Component {
   state = {
     data: {
-      email: ""
+      email: '',
     },
     loading: false,
     errors: {},
-    message: "",
-    time: 5
+    message: '',
+    time: 5,
   };
 
   componentDidUpdate = prevProps => {
@@ -23,7 +23,7 @@ class ForgotPasswordForm extends React.Component {
       return this.setState(
         {
           loading: false,
-          message: "Email has been sent. Please, check your email-box"
+          message: 'Email has been sent. Please, check your email-box',
         },
         () => {
           this.timeCounter();
@@ -34,7 +34,7 @@ class ForgotPasswordForm extends React.Component {
 
   onChange = e => {
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value },
     });
   };
 
@@ -50,7 +50,7 @@ class ForgotPasswordForm extends React.Component {
 
   validate = data => {
     const errors = {};
-    if (!isEmail(data.email)) errors.email = "Invalid email";
+    if (!isEmail(data.email)) errors.email = 'Invalid email';
     return errors;
   };
 
@@ -69,7 +69,7 @@ class ForgotPasswordForm extends React.Component {
     if (this.state.message) {
       return (
         <div className="center">
-          <Message style={{ fontSize: "30px" }} positive>
+          <Message style={{ fontSize: '30px' }} positive>
             {this.state.message}
           </Message>
 
@@ -105,7 +105,7 @@ class ForgotPasswordForm extends React.Component {
 }
 
 ForgotPasswordForm.propTypes = {
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
 };
 
 export default connect(({ user }) => ({ user }))(ForgotPasswordForm);

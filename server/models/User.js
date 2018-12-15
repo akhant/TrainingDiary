@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import uniqueValidator from "mongoose-unique-validator";
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import uniqueValidator from 'mongoose-unique-validator';
 
 const schema = new mongoose.Schema(
   {
@@ -10,13 +10,13 @@ const schema = new mongoose.Schema(
       required: true,
       lowercase: true,
       index: true,
-      unique: true
+      unique: true,
     },
     passwordHash: { type: String, required: true },
     confirmed: { type: Boolean, default: false },
-    confirmationToken: { type: String, default: "" },
-    resetToken: { type: String, default: "" },
-    requestChangePassword: { type: Boolean, default: false }
+    confirmationToken: { type: String, default: '' },
+    resetToken: { type: String, default: '' },
+    requestChangePassword: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
@@ -46,7 +46,7 @@ schema.methods.generateJWT = function generateJWT() {
   return jwt.sign(
     {
       email: this.email,
-      confirmed: this.confirmed
+      confirmed: this.confirmed,
     },
     process.env.JWT_SECRET
   );
@@ -60,10 +60,10 @@ schema.methods.changeRequestPasswordState = function changeRequestPasswordState(
 schema.methods.generateResetPasswordToken = function generateResetPasswordToken() {
   return jwt.sign(
     {
-      email: this.email
+      email: this.email,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: '1h' }
   );
 };
 
@@ -71,10 +71,10 @@ schema.methods.toAuthJSON = function toAuthJSON() {
   return {
     email: this.email,
     confirmed: this.confirmed,
-    token: this.generateJWT()
+    token: this.generateJWT(),
   };
 };
 
-schema.plugin(uniqueValidator, { message: "This email is already taken" });
+schema.plugin(uniqueValidator, { message: 'This email is already taken' });
 
-export default mongoose.model("User", schema);
+export default mongoose.model('User', schema);

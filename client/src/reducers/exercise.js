@@ -4,7 +4,7 @@ import {
   DROP_DATABASE,
   DELETE_EXERCISE,
   CHANGE_NAME
-} from "constants";
+} from "../constants";
 
 export default (state = [], action) => {
   const { res } = action;

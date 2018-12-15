@@ -10,90 +10,78 @@ import {
   WORKOUT_START,
   SHOW_MESSAGE,
   WORKOUT_FINISH,
-  ADD_PARAM
-} from "constants";
+  ADD_PARAM,
+} from '../constants';
 
 export const fetchData = pickDate => ({
   type: FETCH_DATA,
-  pickDate
+  pickDate,
 });
 
 export const addExercise = (pickDate, dateId) => ({
   type: ADD_EXERCISE,
   pickDate,
-  dateId
+  dateId,
 });
 
 export const dropDatabase = pickDate => ({
   type: DROP_DATABASE,
-  pickDate
+  pickDate,
 });
 
 export const deleteExercise = (pickDate, exerciseId) => ({
   type: DELETE_EXERCISE,
   pickDate,
-  exerciseId
+  exerciseId,
 });
 
 export const changeExerciseNameValue = (exerciseName, exerciseId) => ({
   type: CHANGE_NAME,
   exerciseName,
-  exerciseId
+  exerciseId,
 });
 
-export const addApproach = (
-  date,
-  dateId,
-  exerciseId,
-  exerciseName,
-  approachId
-) => ({
+export const addApproach = (date, dateId, exerciseId, exerciseName, approachId) => ({
   type: ADD_APPROACH,
   date,
   dateId,
   exerciseId,
   exerciseName,
-  approachId
+  approachId,
 });
 
 export const deleteApproach = approachId => ({
   type: DELETE_APPROACH,
-  approachId
+  approachId,
 });
 
-export const changeApproach = (
-  approachValue,
-  approachId,
-  exerciseTime,
-  restTime,
-  weight
-) => ({
+export const changeApproach = (approachValue, approachId, exerciseTime, restTime, weight) => ({
   type: CHANGE_APPROACH,
   approachValue,
   approachId,
   exerciseTime,
   restTime,
-  weight
+  weight,
 });
 
 export const showMessage = message => ({
   type: SHOW_MESSAGE,
-  message
+  message,
 });
 
 export const workoutStart = (pickDate, workoutStart) => ({
   type: WORKOUT_START,
   pickDate,
-  workoutStart
+  workoutStart,
 });
 
 export const workoutFinish = (pickDate, workoutFinish) => ({
   type: WORKOUT_FINISH,
   pickDate,
-  workoutFinish
+  workoutFinish,
 });
 
 export const addParam = param => ({
   type: ADD_PARAM,
-  param
+  param,
 });

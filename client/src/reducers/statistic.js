@@ -2,8 +2,8 @@ import {
   WORKOUT_START,
   /* ADD_APPROACH, */
   FETCH_DATA,
-  WORKOUT_FINISH
-} from "../constants";
+  WORKOUT_FINISH,
+} from '../constants';
 
 export default (state = [], action) => {
   const { type, res } = action;
@@ -14,7 +14,7 @@ export default (state = [], action) => {
       return state.concat(res.statistic);
     }
 
-    return state.map(stateObj => {
+    return state.map((stateObj) => {
       for (let i = 0; i < res.statistic.length; i++) {
         if (stateObj.date === res.statistic[i].date) {
           return res.statistic[i];
@@ -32,7 +32,7 @@ export default (state = [], action) => {
       return state.concat(res);
     }
 
-    return state.map(stat => {
+    return state.map((stat) => {
       if (stat.date === res.date) return res;
       return stat;
     });
@@ -42,7 +42,7 @@ export default (state = [], action) => {
     // Update state if we have new stat
     if (!res) return state;
 
-    return state.map(stat => {
+    return state.map((stat) => {
       if (stat.date === res.date) return res;
       return stat;
     });

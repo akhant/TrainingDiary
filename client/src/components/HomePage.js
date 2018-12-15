@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { logout } from "../AC/auth";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../AC/auth';
 
 const HomePage = ({ isAuthenticated, logout }) => (
   <div className="HomePage">
@@ -11,27 +11,32 @@ const HomePage = ({ isAuthenticated, logout }) => (
 
     {isAuthenticated ? (
       <div>
-        <button className="btn" onClick={() => logout()}>
+        <button type="button" className="btn" onClick={() => logout()}>
           Logout
         </button>
         <Link className="btn" to="/dashboard">
-          Dashboard{" "}
+          Dashboard
+          {' '}
         </Link>
         <Link className="btn" to="/statistic">
-          Statistic{" "}
+          Statistic
+          {' '}
         </Link>
       </div>
     ) : (
       <div>
         <p>
-          If you've never been here before click{" "}
+          If you've never been here before click
+          {' '}
           <Link className="btn" to="/signup">
             Sign Up
-          </Link>{" "}
+          </Link>
+          {' '}
           to start transformation to Halk
         </p>
         <p>
-          Or continue and{" "}
+          Or continue and
+          {' '}
           <Link className="btn" to="/login">
             Login
           </Link>
@@ -43,12 +48,12 @@ const HomePage = ({ isAuthenticated, logout }) => (
 
 HomePage.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: !!state.user.token
+    isAuthenticated: !!state.user.token,
   };
 }
 

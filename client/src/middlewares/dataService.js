@@ -17,14 +17,14 @@ import {
   GET_LIST,
   ADD_TO_LIST,
   CHANGE_LIST,
-  REMOVE_FROM_LIST
-} from "constants";
+  REMOVE_FROM_LIST,
+} from '../constants';
 
-import { userLoggedIn } from "../AC/auth";
+import { userLoggedIn } from '../AC/auth';
 
-const baseUrl = "http://localhost:3000/api";
+const baseUrl = 'http://localhost:3000/api';
 
-const fetchData = store => next => action => {
+const fetchData = store => next => (action) => {
   const {
     newExerciseData,
     id,
@@ -57,16 +57,16 @@ const fetchData = store => next => action => {
 
   if (type === USER_SIGNUP) {
     fetch(`${baseUrl}/users`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        data
+        data,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => {
+      .then((res) => {
         // check res and token
         localStorage.bookwormJWT = res.user.token;
         store.dispatch(userLoggedIn(res.user));
@@ -76,16 +76,16 @@ const fetchData = store => next => action => {
 
   if (type === USER_CONFIRMATION) {
     fetch(`${baseUrl}/confirmation`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        email: store.getState().user.email
+        email: store.getState().user.email,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => {
+      .then((res) => {
         // check res and token
         localStorage.bookwormJWT = res.user.token;
         store.dispatch(userLoggedIn(res.user));
@@ -95,13 +95,13 @@ const fetchData = store => next => action => {
 
   if (type === RESET_PASSWORD_REQUEST) {
     fetch(`${baseUrl}/reset_password_request`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        email
+        email,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(res => next({ ...res, ...action }));
@@ -109,13 +109,13 @@ const fetchData = store => next => action => {
 
   if (type === RESET_PASSWORD) {
     fetch(`${baseUrl}/reset_password`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        data
+        data,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(res => next({ ...res, ...action }));
@@ -123,16 +123,16 @@ const fetchData = store => next => action => {
 
   if (type === USER_LOGIN) {
     fetch(`${baseUrl}/auth`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        credentials
+        credentials,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => {
+      .then((res) => {
         if (!res.user.error) {
           localStorage.bookwormJWT = res.user.token;
         }
@@ -144,189 +144,199 @@ const fetchData = store => next => action => {
 
   if (type === ADD_EXERCISE) {
     fetch(`${baseUrl}/data`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         dateId,
-        date: pickDate._d.toDateString()
+        date: pickDate._d.toDateString(),
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => next({ pickDate, res, type, ...rest }));
+      .then(res => next({
+        pickDate, res, type, ...rest,
+      }));
   }
 
   if (type === DROP_DATABASE) {
     fetch(`${baseUrl}/drop`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        date: pickDate._d.toDateString()
+        date: pickDate._d.toDateString(),
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => next({ pickDate, res, type, ...rest }));
+      .then(res => next({
+        pickDate, res, type, ...rest,
+      }));
   }
 
   if (type === DELETE_EXERCISE) {
     fetch(`${baseUrl}/deleteEx`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         date: pickDate._d.toDateString(),
-        exerciseId
+        exerciseId,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => next({ pickDate, res, type, ...rest }));
+      .then(res => next({
+        pickDate, res, type, ...rest,
+      }));
   }
 
   if (type === CHANGE_NAME) {
     fetch(`${baseUrl}/changeName`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         exerciseName,
-        exerciseId
+        exerciseId,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(res => next({ res, type, ...rest }));
   }
   if (type === ADD_APPROACH) {
     fetch(`${baseUrl}/addApproach`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         date,
         dateId,
         exerciseId,
         exerciseName,
-        approachId
+        approachId,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(res => next({ res, type, ...rest }));
   }
   if (type === DELETE_APPROACH) {
     fetch(`${baseUrl}/deleteApproach`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        approachId
+        approachId,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(res => next({ res, type, ...rest }));
   }
   if (type === CHANGE_APPROACH) {
     fetch(`${baseUrl}/changeApproach`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         approachValue,
         approachId,
         exerciseTime,
         restTime,
-        weight
+        weight,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(res => next({ res, type, ...rest }));
   }
   if (type === WORKOUT_START) {
     fetch(`${baseUrl}/workoutStart`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         date: pickDate._d.toDateString(),
-        workoutStart
+        workoutStart,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => next({ workoutStart, pickDate, res, type, ...rest }));
+      .then(res => next({
+        workoutStart, pickDate, res, type, ...rest,
+      }));
   }
 
   if (type === WORKOUT_FINISH) {
     fetch(`${baseUrl}/workoutFinish`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         date: pickDate._d.toDateString(),
-        workoutFinish
+        workoutFinish,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(res => next({ workoutFinish, pickDate, res, type, ...rest }));
+      .then(res => next({
+        workoutFinish, pickDate, res, type, ...rest,
+      }));
   }
 
   if (type === GET_LIST) {
     fetch(`${baseUrl}/list/get`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
-      headers: { "Content-Type": "application/json" }
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(list => next({ list, ...action }));
   }
   if (type === ADD_TO_LIST) {
     fetch(`${baseUrl}/list/add`, {
-      method: "put",
-      mode: "cors",
-      cache: "default",
+      method: 'put',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        data
+        data,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(res => next({ exercise: res, ...action }));
   }
   if (type === CHANGE_LIST) {
     fetch(`${baseUrl}/list/update`, {
-      method: "post",
-      mode: "cors",
-      cache: "default",
+      method: 'post',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
         id,
-        newExerciseData
+        newExerciseData,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
       .then(list => next({ list }));
   }
   if (type === REMOVE_FROM_LIST) {
     fetch(`${baseUrl}/list/remove`, {
-      method: "delete",
-      mode: "cors",
-      cache: "default",
+      method: 'delete',
+      mode: 'cors',
+      cache: 'default',
       body: JSON.stringify({
-        id
+        id,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
     }).then(() => next());
   }
 
-  console.log("STORE STATE FROM MIDDLEWARE", store.getState());
+  console.log('STORE STATE FROM MIDDLEWARE', store.getState());
   return next(action);
 };
 

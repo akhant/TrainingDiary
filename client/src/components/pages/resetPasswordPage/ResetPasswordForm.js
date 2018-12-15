@@ -1,21 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Form, Button, Message } from "semantic-ui-react";
-import Delay from "react-delay";
-import { Redirect } from "react-router-dom";
-import InlineError from "../../messages/InlineError";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Form, Button, Message } from 'semantic-ui-react';
+import Delay from 'react-delay';
+import { Redirect } from 'react-router-dom';
+import InlineError from '../../messages/InlineError';
 
 class ResetPasswordForm extends React.Component {
   state = {
     data: {
-      email: "",
-      password: "",
-      passwordConfirmation: ""
+      email: '',
+      password: '',
+      passwordConfirmation: '',
     },
     loading: false,
     errors: {},
-    time: 5
+    time: 5,
   };
 
   componentDidUpdate = prevProps => {
@@ -31,7 +31,7 @@ class ResetPasswordForm extends React.Component {
 
   onChange = e =>
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value },
     });
 
   onSubmit = e => {
@@ -57,7 +57,7 @@ class ResetPasswordForm extends React.Component {
     const errors = {};
     if (!data.password) errors.password = "Can't be blank";
     if (data.password !== data.passwordConfirmation) {
-      errors.password = "Passwords must match";
+      errors.password = 'Passwords must match';
     }
 
     return errors;
@@ -65,11 +65,11 @@ class ResetPasswordForm extends React.Component {
 
   render() {
     const { errors, data, loading } = this.state;
-// success message and redirect to login page
+    // success message and redirect to login page
     if (this.props.user.passwordChanged) {
       return (
         <div className="center">
-          <Message style={{ fontSize: "30px" }} positive>
+          <Message style={{ fontSize: '30px' }} positive>
             Your password has been change
           </Message>
 
@@ -87,7 +87,7 @@ class ResetPasswordForm extends React.Component {
         {/* if error return message and reload page in 10 sec */}
         {loading && (
           <div>
-            <Message className="center" style={{ fontSize: "30px" }} negative>
+            <Message className="center" style={{ fontSize: '30px' }} negative>
               Oops, something goes wrong! Check your data again or confirm
               changing in email.
             </Message>
@@ -150,7 +150,7 @@ class ResetPasswordForm extends React.Component {
 }
 
 ResetPasswordForm.propTypes = {
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
 };
 
 export default connect(({ user }) => ({ user }))(ResetPasswordForm);

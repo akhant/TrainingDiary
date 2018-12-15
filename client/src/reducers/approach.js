@@ -4,9 +4,9 @@ import {
   DELETE_APPROACH,
   DELETE_EXERCISE,
   DROP_DATABASE,
-  CHANGE_APPROACH
-} from "constants";
-import { CHANGE_NAME } from "../constants";
+  CHANGE_APPROACH,
+  CHANGE_NAME,
+} from '../constants';
 
 export default (state = [], action) => {
   const { res, type } = action;
@@ -23,7 +23,7 @@ export default (state = [], action) => {
     return state.concat([res]);
   }
   if (type === CHANGE_APPROACH) {
-    return state.map(approach => {
+    return state.map((approach) => {
       if (approach._id === res._id) return res;
 
       return approach;
@@ -46,7 +46,7 @@ export default (state = [], action) => {
 
   if (type === DELETE_EXERCISE) {
     if (res.removedExercises) {
-      return state.filter(approach => {
+      return state.filter((approach) => {
         for (let i = 0; i < res.removedApproaches.length; i++) {
           return approach.exerciseId !== res.removedApproaches[i].exerciseId;
         }
@@ -55,7 +55,7 @@ export default (state = [], action) => {
   }
 
   if (type === DROP_DATABASE) {
-    return state.filter(approach => {
+    return state.filter((approach) => {
       for (let i = 0; i < res.removedApproaches.length; i++) {
         return approach.date !== res.removedApproaches[i].date;
       }

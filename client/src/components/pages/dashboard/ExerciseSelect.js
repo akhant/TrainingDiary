@@ -1,21 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 export class ExerciseSelect extends Component {
   state = {
-    selectedExercise: " "
+    selectedExercise: ' ',
   };
 
   componentDidMount = () => {
     this.setState({
-      selectedExercise: this.props.exerciseName
+      selectedExercise: this.props.exerciseName,
     });
   };
 
   selectOnChange = e => {
     this.setState({
-      selectedExercise: e.target.value
+      selectedExercise: e.target.value,
     });
     this.props.changeSelect(e.target.value);
   };

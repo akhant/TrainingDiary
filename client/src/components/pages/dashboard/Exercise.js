@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ApproachList from "./ApproachList";
-import ExerciseSelect from "./ExerciseSelect";
-import { deleteExercise, changeExerciseNameValue } from "../../../AC";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ApproachList from './ApproachList';
+import ExerciseSelect from './ExerciseSelect';
+import { deleteExercise, changeExerciseNameValue } from '../../../AC';
 
 export class Exercise extends Component {
   state = {
-    id: this.props.exercise._id
+    id: this.props.exercise._id,
   };
 
   handleDeleteExercise = () => {
@@ -35,7 +35,7 @@ export class Exercise extends Component {
           onClick={this.handleDeleteExercise}
           className="deleteExercise_btn"
         >
-          {" "}
+          {' '}
         </div>
       </div>
     );

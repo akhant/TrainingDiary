@@ -1,31 +1,31 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Grid, Row, Col } from "react-bootstrap";
-import moment from "moment";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Grid, Row, Col } from 'react-bootstrap';
+import moment from 'moment';
 import {
   fetchData,
   addExercise,
   dropDatabase,
   showMessage,
-  addParam
-} from "../../../AC";
-import ExerciseList from "./ExerciseList";
-import PickerDate from "../../PickerDate";
-import Timer from "./Timer";
-import Message from "../../messages/Message";
-import { getListOfExercises } from "../../../AC/list";
+  addParam,
+} from '../../../AC';
+import ExerciseList from './ExerciseList';
+import PickerDate from '../../PickerDate';
+import Timer from './Timer';
+import Message from '../../messages/Message';
+import { getListOfExercises } from '../../../AC/list';
 
 export class Main extends Component {
   state = {
-    pickDate: moment()
+    pickDate: moment(),
   };
 
   componentDidMount = () => {
     if (this.props.params.pickDate) {
       this.setState(
         {
-          pickDate: this.props.params.pickDate
+          pickDate: this.props.params.pickDate,
         },
         () => {
           this.props.fetchData(this.state.pickDate);
@@ -40,7 +40,7 @@ export class Main extends Component {
   onClickAddExercise = () => {
     if (!this.props.messages.started) {
       this.props.showMessage({
-        message: 'First click  "start training"'
+        message: 'First click  "start training"',
       });
       return;
     }
@@ -61,7 +61,7 @@ export class Main extends Component {
 
   handleChange = date => {
     this.setState({
-      pickDate: date
+      pickDate: date,
     });
 
     this.props.fetchData(this.state.pickDate);
@@ -108,11 +108,13 @@ export class Main extends Component {
                   className="link_to_statistic btn"
                   to="/statistic"
                 >
-                  statistic{" "}
+                  statistic{' '}
                 </Link>
               </div>
               <div className="link-to-exercises__wrapper">
-                <Link className="btn" to="/exercises">Exercises</Link>
+                <Link className="btn" to="/exercises">
+                  Exercises
+                </Link>
               </div>
 
               <ExerciseList
@@ -134,7 +136,7 @@ export default connect(
     date,
     exercises,
     messages,
-    params
+    params,
   }),
   {
     addExercise,
@@ -142,6 +144,6 @@ export default connect(
     dropDatabase,
     showMessage,
     addParam,
-    getListOfExercises
+    getListOfExercises,
   }
 )(Main);

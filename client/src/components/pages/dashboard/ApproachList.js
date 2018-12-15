@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Approach from "./Approach";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Approach from './Approach';
 
 import {
   addApproach,
   deleteApproach,
   changeApproach,
-  showMessage
-} from "../../../AC";
-import Weight from "./Weight";
+  showMessage,
+} from '../../../AC';
+import Weight from './Weight';
 
 export class ApproachList extends Component {
   state = {
     startApproach: 0,
     finishApproach: 0,
-    weight: 40
+    weight: 40,
   };
 
   onChangeApproachValue = (
@@ -25,7 +25,7 @@ export class ApproachList extends Component {
     finishApproach
   ) => {
     this.setState({
-      finishApproach
+      finishApproach,
     });
     this.props.changeApproach(
       approachValue,
@@ -35,7 +35,7 @@ export class ApproachList extends Component {
       this.state.weight
     );
     this.props.showMessage({
-      message: ""
+      message: '',
     });
   };
 
@@ -44,7 +44,7 @@ export class ApproachList extends Component {
 
     // approach start time
     this.setState({
-      startApproach: Date.now()
+      startApproach: Date.now(),
     });
 
     // send add approach
@@ -94,18 +94,18 @@ export class ApproachList extends Component {
   };
   onChangeWeight = weightValue => {
     this.setState({
-      weight: weightValue
+      weight: weightValue,
     });
   };
 
   checkMessage = () => {
     // clear from screen
     this.props.showMessage({
-      message: ""
+      message: '',
     });
     if (!this.props.messages.started) {
       this.props.showMessage({
-        message: 'First click "start training"'
+        message: 'First click "start training"',
       });
       return false;
     }
@@ -120,7 +120,7 @@ export class ApproachList extends Component {
       });
       // if not fill preveus value
       if (flag === 1) {
-        this.props.showMessage({ message: "Fill previous approach" });
+        this.props.showMessage({ message: 'Fill previous approach' });
         return false;
       }
     }
@@ -170,7 +170,7 @@ export default connect(
   ({ approaches, statistic, messages }) => ({
     approaches,
     statistic,
-    messages
+    messages,
   }),
   { addApproach, deleteApproach, changeApproach, showMessage }
 )(ApproachList);

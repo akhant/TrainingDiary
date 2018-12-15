@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import _ from "lodash";
-import { workoutStart, showMessage, workoutFinish } from "../../../AC";
-import elapsedTime from "../../../helpers";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import { workoutStart, showMessage, workoutFinish } from '../../../AC';
+import elapsedTime from '../../../helpers';
 
 // TODO: fix timer
 class Timer extends Component {
   state = {
-    start: "",
-    elapsed: 0
+    start: '',
+    elapsed: 0,
   };
 
   componentDidUpdate = () => {
@@ -16,12 +16,12 @@ class Timer extends Component {
       const { workoutTime } = this.checkStat();
       if (!this.started && this.state.elapsed !== workoutTime) {
         this.setState({
-          elapsed: workoutTime
+          elapsed: workoutTime,
         });
       }
     } else if (this.state.elapsed) {
       this.setState({
-        elapsed: 0
+        elapsed: 0,
       });
     }
   };
@@ -34,12 +34,12 @@ class Timer extends Component {
   // есть ли выбранный день в statistic
   checkStat = () =>
     _.find(this.props.statistic, {
-      date: this.props.pickDate._d.toDateString()
+      date: this.props.pickDate._d.toDateString(),
     });
 
   tick = () => {
     this.setState({
-      elapsed: Math.round((Date.now() - this.state.start) / 1000)
+      elapsed: Math.round((Date.now() - this.state.start) / 1000),
     });
   };
 
@@ -51,13 +51,13 @@ class Timer extends Component {
 
     this.setState(
       {
-        start: Date.now() - savedTime
+        start: Date.now() - savedTime,
       },
       () => {
         this.timer = setInterval(this.tick, 1000);
         this.props.workoutStart(this.props.pickDate, Date.now());
         this.started = 1;
-        this.props.showMessage({ message: "", started: this.started });
+        this.props.showMessage({ message: '', started: this.started });
       }
     );
   };
@@ -71,7 +71,7 @@ class Timer extends Component {
     clearInterval(this.timer);
     this.props.workoutFinish(this.props.pickDate, Date.now() + savedTime);
     this.started = 0;
-    this.props.showMessage({ message: "", started: this.started });
+    this.props.showMessage({ message: '', started: this.started });
   };
 
   render() {
@@ -79,17 +79,17 @@ class Timer extends Component {
       <div className="timer">
         <div className="timer_time">
           <div className="center timer_time_numerals">
-            {" "}
+            {' '}
             {elapsedTime(this.state.elapsed)}
           </div>
         </div>
         <button className="timer_btn btn" onClick={this.startSport}>
-          {" "}
-          {this.state.elapsed ? "Continue" : "Start "}
+          {' '}
+          {this.state.elapsed ? 'Continue' : 'Start '}
         </button>
         <button className="timer_btn btn" onClick={this.finishSport}>
-          {" "}
-          Finish{" "}
+          {' '}
+          Finish{' '}
         </button>
       </div>
     );

@@ -2,11 +2,13 @@ import {
   USER_LOGGED_IN,
   USER_LOGGED_OUT,
   RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD
-} from "../constants";
+  RESET_PASSWORD,
+} from '../constants';
 
 export default (state = [], action) => {
-  const { passwordChanged, sended, type, user } = action;
+  const {
+    passwordChanged, sended, type, user,
+  } = action;
 
   if (type === USER_LOGGED_IN) {
     return user;

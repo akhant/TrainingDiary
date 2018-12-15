@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Weight extends Component {
   state = {
-    weight: 40
+    weight: 40,
   };
   handleChangeWeightValue = e => {
     this.setState({
-      weight: e.target.value
+      weight: e.target.value,
     });
     this.props.onChangeWeight(e.target.value);
   };
@@ -40,9 +40,9 @@ export default class Weight extends Component {
 }
 
 Weight.defaultProps = {
-  onChangeWeight: null
+  onChangeWeight: null,
 };
 
 Weight.propTypes = {
-  onChangeWeight: PropTypes.func
+  onChangeWeight: PropTypes.func,
 };

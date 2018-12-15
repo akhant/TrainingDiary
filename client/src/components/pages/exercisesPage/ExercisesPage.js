@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Grid, Row, Col } from "react-bootstrap";
-import { Accordion, Icon } from "semantic-ui-react";
-import ElementOfList from "./ElementOfList";
-import { getListOfExercises, removeFromList } from "../../../AC/list";
-import AddExerciseForm from "./AddExerciseForm";
-import ChangeExerciseForm from "./ChangeExerciseForm";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Grid, Row, Col } from 'react-bootstrap';
+import { Accordion, Icon } from 'semantic-ui-react';
+import ElementOfList from './ElementOfList';
+import { getListOfExercises, removeFromList } from '../../../AC/list';
+import AddExerciseForm from './AddExerciseForm';
+import ChangeExerciseForm from './ChangeExerciseForm';
 
 class ExercisesPage extends Component {
-  state = { activeIndex: "" };
+  state = { activeIndex: '' };
 
   componentDidMount = () => {
     this.props.getListOfExercises();

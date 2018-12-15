@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 /* import { Message, Icon } from "semantic-ui-react"; */
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { confirm } from "../../AC/auth";
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { confirm } from '../../AC/auth';
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -13,10 +13,12 @@ class ConfirmationPage extends React.Component {
   render() {
     return (
       <div className="confirm_restricted">
-        Your email was confirmed. Go to dashboard ->{" "}
+        Your email was confirmed. Go to dashboard ->
+        {' '}
         <Link className="btn" to="/dashboard">
-          {" "}
-          Dashboard{" "}
+          {' '}
+          Dashboard
+          {' '}
         </Link>
         <br />
       </div>
@@ -25,7 +27,7 @@ class ConfirmationPage extends React.Component {
 }
 
 ConfirmationPage.propTypes = {
-  confirm: PropTypes.func.isRequired
+  confirm: PropTypes.func.isRequired,
 };
 
 export default connect(

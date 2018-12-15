@@ -1,4 +1,4 @@
-import { FETCH_DATA, DROP_DATABASE, ADD_EXERCISE } from "constants";
+import { FETCH_DATA, DROP_DATABASE, ADD_EXERCISE } from '../constants';
 
 export default (state = [], action) => {
   const { res } = action;
