@@ -75,9 +75,9 @@ const Root = () => (
             exact
             component={ForgotPasswordPage}
           />
-          <Route path="/dashboard" exact component={Main} />
+          <UserRoute path="/dashboard" exact component={Main} />
           <ConfirmedRoute path="/statistic" exact component={Statistic} />
-          <Route path="/reset_password" exact component={ResetPasswordPage} />
+          <GuestRoute path="/reset_password" exact component={ResetPasswordPage} />
           <ConfirmedRoute path="/exercises" exact component={ExercisesPage} />
           <Route component={NotFound} />
         </Switch>

@@ -1,31 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import React, { useContext } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { AuthContext } from '../components/context';
 
-const GuestRoute = ({ isAuthenticated, component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      !isAuthenticated ? <Component {...props} /> : <Redirect to="/dashboard" />
-    }
-  />
-);
-
-GuestRoute.propTypes = {
-  component: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+const GuestRoute = ({ component: Component, ...rest }) => {
+  const { data } = useContext(AuthContext);
+  return (
+    <Route
+      {...rest}
+      render={props => (data && !data.getCurrentUser ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/dashboard" />
+      ))
+      }
+    />
+  );
 };
 
-function mapStateToProps(state) {
-  return {
-    isAuthenticated: !!state.user.token
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  null,
-  null,
-  { pure: false }
-)(GuestRoute);
+export default GuestRoute;
