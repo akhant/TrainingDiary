@@ -44,7 +44,7 @@ const client = new ApolloClient({
   },
   onError: ({ networkError }) => {
     if (networkError) {
-      localStorage.removeItem('TrainingDiaryToken');
+      // localStorage.removeItem('TrainingDiaryToken');
     }
   },
 });
@@ -59,6 +59,7 @@ const client = new ApolloClient({
   store.dispatch(userLoggedIn(user));
 } */
 
+// TODO: return ConfirmedRoute for statistic and exercises pages
 const Root = () => (
   <Provider store={store}>
     <Router>
@@ -76,9 +77,9 @@ const Root = () => (
             component={ForgotPasswordPage}
           />
           <UserRoute path="/dashboard" exact component={Main} />
-          <ConfirmedRoute path="/statistic" exact component={Statistic} />
+          <Route path="/statistic" exact component={Statistic} />
           <GuestRoute path="/reset_password" exact component={ResetPasswordPage} />
-          <ConfirmedRoute path="/exercises" exact component={ExercisesPage} />
+          <Route path="/exercises" exact component={ExercisesPage} />
           <Route component={NotFound} />
         </Switch>
       </Fragment>

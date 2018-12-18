@@ -7,7 +7,7 @@ const GuestRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => (data && !data.getCurrentUser ? (
+      render={props => (!(data && data.getCurrentUser) ? (
         <Component {...props} />
       ) : (
         <Redirect to="/dashboard" />

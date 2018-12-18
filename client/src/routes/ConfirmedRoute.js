@@ -7,7 +7,7 @@ const ConfirmedRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => (data && data.getCurrentUser.confirmed ? (
+      render={props => (data && data.getCurrentUser && data.getCurrentUser.confirmed ? (
         <Component {...props} />
       ) : (
         <div className="confirm_restricted">

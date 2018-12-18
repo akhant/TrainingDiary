@@ -14,7 +14,7 @@ import Date from './models/date';
 import Exercise from './models/exercise';
 import Approach from './models/approach';
 import Statistic from './models/statistic';
-import List from './models/listOfExercises';
+import List from './models/list';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;

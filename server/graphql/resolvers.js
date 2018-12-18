@@ -18,7 +18,7 @@ const resolvers = {
       });
       newUser.setPassword(password);
       newUser.setConfirmationToken();
-      newUser.userId = newUser._id;
+      newUser.userId = newUser._id.toString();
       await newUser.save();
       return { token: newUser.confirmationToken };
     },
@@ -32,6 +32,24 @@ const resolvers = {
       }
       user.setConfirmationToken();
       return { token: user.confirmationToken };
+    },
+    async addToList(
+      root,
+      {
+        userId, exerciseName, weightFrom, weightTo,
+      },
+      { List }
+    ) {
+      const exercise = new List({
+        exerciseName,
+        userId,
+        weightFrom,
+        weightTo,
+      });
+      
+      exercise.exerciseDescriptionId = exercise._id.toString();
+      await exercise.save();
+      return exercise;
     },
   },
 };
