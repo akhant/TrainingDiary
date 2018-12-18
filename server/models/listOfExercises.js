@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const ListOfExercises = new Schema({
+const ListOfExercisesSchema = new Schema({
   exerciseName: String,
   weight: Object,
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
-export default mongoose.model('ListOfExercises', ListOfExercises);
+export default mongoose.model('List', ListOfExercisesSchema);

@@ -9,13 +9,11 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "babel-core": "^6.13.2",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.11.1"
-  },
+  "devDependencies": {},
   "dependencies": {
+    "apollo-boost": "^0.1.22",
     "create-react-class": "^15.6.3",
+    "graphql": "^14.0.2",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
@@ -23,6 +21,7 @@
     "node-sass": "^4.9.0",
     "prop-types": "^15.6.2",
     "react": "^16.7.0-alpha.2",
+    "react-apollo": "^2.3.3",
     "react-bootstrap": "^0.32.1",
     "react-d3-components": "^0.9.1",
     "react-datepicker": "^1.2.1",

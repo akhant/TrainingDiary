@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const ApproachSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
   exerciseId: { type: Schema.Types.ObjectId, ref: 'Exercise' },
   dateId: { type: Schema.Types.ObjectId, ref: 'Date' },
   value: String,

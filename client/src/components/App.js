@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import 'semantic-ui-css/semantic.min.css';
 
-import decode from 'jwt-decode'
+import decode from 'jwt-decode';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
 import configureStore from '../store';
 import Header from './Header';
 import UserRoute from '../routes/UserRoute';
@@ -20,47 +22,83 @@ import HomePage from './HomePage';
 import Main from './pages/dashboard/Main';
 import Statistic from './pages/statistic/Statistic';
 import { userLoggedIn } from '../AC/auth';
+import withSession from './withSession';
 import '../assets/js';
 import '../assets/styles/bootstrap.css';
 import '../assets/styles/styles.sass';
 
 const store = configureStore();
 
-if (localStorage.bookwormJWT) {
-  const payload = decode(localStorage.bookwormJWT);
+const client = new ApolloClient({
+  uri: 'http://localhost:3000/graphql',
+  fetchOptions: {
+    credentials: 'include',
+  },
+  request: (operation) => {
+    const token = localStorage.getItem('TrainingDiaryToken');
+    operation.setContext({
+      headers: {
+        authorization: token,
+      },
+    });
+  },
+  onError: ({ networkError }) => {
+    // if (networkError) {
+    //   localStorage.setItem("token", "");
+    // }
+  },
+});
+
+/* if (localStorage.TrainingDiaryToken) {
+  const payload = decode(localStorage.TrainingDiaryToken);
   const user = {
-    token: localStorage.bookwormJWT,
+    token: localStorage.TrainingDiaryToken,
     email: payload.email,
     confirmed: payload.confirmed,
   };
   store.dispatch(userLoggedIn(user));
-}
+} */
 
-const App = () => (
+const Root = ({ refetch }) => (
   <Provider store={store}>
     <Router>
-      <div>
+      <Fragment>
         <Header />
 
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route exact path="/confirmation" component={ConfirmationPage} />
-          <GuestRoute path="/signup" exact component={SignupPage} />
-          <GuestRoute path="/login" exact component={LoginPage} />
-          <GuestRoute
+          <Route
+            path="/signup"
+            exact
+            render={() => <SignupPage refetch={refetch} />}
+          />
+          <Route
+            path="/login"
+            exact
+            render={() => <LoginPage refetch={refetch} />}
+          />
+          <Route
             path="/forgot_password"
             exact
             component={ForgotPasswordPage}
           />
-          <UserRoute path="/dashboard" exact component={Main} />
+          <Route path="/dashboard" exact component={Main} />
           <ConfirmedRoute path="/statistic" exact component={Statistic} />
           <Route path="/reset_password" exact component={ResetPasswordPage} />
           <ConfirmedRoute path="/exercises" exact component={ExercisesPage} />
           <Route component={NotFound} />
         </Switch>
-      </div>
+      </Fragment>
     </Router>
   </Provider>
+);
+
+const RootWithSession = withSession(Root);
+const App = () => (
+  <ApolloProvider client={client}>
+    <RootWithSession />
+  </ApolloProvider>
 );
 
 export default App;

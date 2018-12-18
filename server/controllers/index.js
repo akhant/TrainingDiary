@@ -3,7 +3,7 @@ import Date from '../models/date';
 import Exercise from '../models/exercise';
 import Approach from '../models/approach';
 import Statistic from '../models/statistic';
-import User from '../models/User';
+import User from '../models/user';
 import ListOfExercises from '../models/listOfExercises';
 import parseErrors from '../utils/parseErrors';
 

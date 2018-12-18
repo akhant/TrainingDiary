@@ -1,4 +1,4 @@
-import { ADD_PARAM } from "../constants";
+import { ADD_PARAM } from '../constants';
 
 export default (state = {}, action) => {
   const { param } = action;

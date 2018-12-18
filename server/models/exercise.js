@@ -3,9 +3,9 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const ExerciseSchema = new Schema({
-  approachId: { type: Schema.Types.ObjectId, ref: 'Date' },
+  dateId: { type: Schema.Types.ObjectId, ref: 'Date' },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
   exerciseName: String,
-  date: String,
 });
 
 export default mongoose.model('Exercise', ExerciseSchema);
