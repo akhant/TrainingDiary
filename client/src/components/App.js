@@ -7,7 +7,7 @@ import decode from 'jwt-decode';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import configureStore from '../store';
-import Header from './Header';
+import Header from './Header/Header';
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
 import ConfirmedRoute from '../routes/ConfirmedRoute';

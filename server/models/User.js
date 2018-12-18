@@ -19,6 +19,7 @@ const schema = new mongoose.Schema(
       index: true,
       unique: true,
     },
+    userId: String,
     passwordHash: { type: String, required: true },
     confirmed: { type: Boolean, default: false },
     confirmationToken: { type: String, default: '' },

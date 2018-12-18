@@ -3,7 +3,6 @@ const resolvers = {
     async getCurrentUser(root, args, { currentUser, User }) {
       if (!currentUser) return null;
       const user = await User.findOne({ email: currentUser.email });
-
       return user;
     },
   },
@@ -19,7 +18,8 @@ const resolvers = {
       });
       newUser.setPassword(password);
       newUser.setConfirmationToken();
-      newUser.save();
+      newUser.userId = newUser._id;
+      await newUser.save();
       return { token: newUser.confirmationToken };
     },
     async signinUser(root, { email, password }, { User }) {

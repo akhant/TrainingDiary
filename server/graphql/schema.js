@@ -2,9 +2,8 @@ const typeDefs = `
 
 type User {
     username: String!
-    email: String! 
     confirmed: String!
-    id: ID
+    userId: ID
 }
 
 type Token {
