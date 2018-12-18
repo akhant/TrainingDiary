@@ -1,43 +1,48 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../AC/auth';
 import logo from '../assets/images/logo_middle.png';
+import { AuthContext } from './context';
 
-const Header = ({ isAuthenticated, logout }) => (
-  <div className="header">
-    <Link to="/">
-      <span className="image_span">
-        <Image src={logo} alt="logo" />
-      </span>
+const Header = () => {
+  const { data } = useContext(AuthContext);
 
-      <h1 className="main_h1">Training diary</h1>
-    </Link>
+  return (
+    <div className="header">
+      <Link to="/">
+        <span className="image_span">
+          <Image src={logo} alt="logo" />
+        </span>
 
-    {isAuthenticated ? (
-      <div className="logout_wrapper">
-        <button className="btn" onClick={() => logout()}>
+        <h1 className="main_h1">Training diary</h1>
+      </Link>
 
-          Logout
-        </button>
-      </div>
-    ) : (
-      <div className="logout_wrapper">
-        <Link className="btn" to="/login">
+      {data.getCurrentUser ? (
+        <div className="logout_wrapper">
+          <button className="btn" onClick={() => logout()}>
 
-          Log in
-        </Link>
-        <Link className="btn" to="/signup">
+            Logout
+          </button>
+        </div>
+      ) : (
+        <div className="logout_wrapper">
+          <Link className="btn" to="/login">
 
-          Sign Up
-        </Link>
-      </div>
-    )}
+            Log in
+          </Link>
+          <Link className="btn" to="/signup">
 
-    <div className="hr" />
-  </div>
-);
+            Sign Up
+          </Link>
+        </div>
+      )}
+
+      <div className="hr" />
+    </div>
+  );
+};
 
 function mapStateToProps(state) {
   return {

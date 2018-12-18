@@ -1,8 +1,7 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import { GET_CURRENT_USER } from '../queries';
-import { RefetchContext } from './context'
-
+import { AuthContext } from './context';
 
 const withSession = Component => props => (
   <Query query={GET_CURRENT_USER}>
@@ -10,9 +9,9 @@ const withSession = Component => props => (
       console.log('data', data);
       if (loading) return null;
       return (
-        <RefetchContext.Provider value={refetch}>
+        <AuthContext.Provider value={{ data, refetch }}>
           <Component {...props} />
-        </RefetchContext.Provider>
+        </AuthContext.Provider>
       );
     }}
   </Query>

@@ -7,8 +7,8 @@ import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import InlineError from '../../messages/InlineError';
 import { SIGNUP_USER } from '../../../queries';
 import { Mutation } from 'react-apollo';
-import { RefetchContext } from '../../context';
-import {withRouter} from 'react-router-dom'
+import { AuthContext } from '../../context';
+import { withRouter } from 'react-router-dom';
 
 class SignupForm extends React.Component {
   state = {
@@ -34,7 +34,7 @@ class SignupForm extends React.Component {
 
   onSubmit = (e, signupUser, refetch) => {
     e.preventDefault();
-    
+
     const errors = this.validate(this.state.data);
 
     this.setState({ errors });
@@ -42,7 +42,7 @@ class SignupForm extends React.Component {
       signupUser().then(async ({ data }) => {
         localStorage.setItem('TrainingDiaryToken', data.signupUser.token);
         await refetch();
-        
+
         this.props.history.push('/dashboard');
       });
     }
@@ -74,8 +74,8 @@ class SignupForm extends React.Component {
     return (
       <Mutation mutation={SIGNUP_USER} variables={{ ...data }}>
         {(signupUser, { error }) => (
-          <RefetchContext.Consumer>
-            {refetch => (
+          <AuthContext.Consumer>
+            {({ refetch }) => (
               <Form
                 onSubmit={e => this.onSubmit(e, signupUser, refetch)}
                 loading={loading}
@@ -122,7 +122,7 @@ class SignupForm extends React.Component {
                 {error && <InlineError text={error.message} />}
               </Form>
             )}
-          </RefetchContext.Consumer>
+          </AuthContext.Consumer>
         )}
       </Mutation>
     );

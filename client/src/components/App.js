@@ -43,9 +43,9 @@ const client = new ApolloClient({
     });
   },
   onError: ({ networkError }) => {
-    // if (networkError) {
-    //   localStorage.setItem("token", "");
-    // }
+    if (networkError) {
+      localStorage.removeItem('TrainingDiaryToken');
+    }
   },
 });
 
@@ -59,7 +59,7 @@ const client = new ApolloClient({
   store.dispatch(userLoggedIn(user));
 } */
 
-const Root = ({ refetch }) => (
+const Root = () => (
   <Provider store={store}>
     <Router>
       <Fragment>
@@ -68,17 +68,9 @@ const Root = ({ refetch }) => (
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route exact path="/confirmation" component={ConfirmationPage} />
-          <Route
-            path="/signup"
-            exact
-            render={() => <SignupPage refetch={refetch} />}
-          />
-          <Route
-            path="/login"
-            exact
-            render={() => <LoginPage refetch={refetch} />}
-          />
-          <Route
+          <GuestRoute path="/signup" exact component={SignupPage} />
+          <GuestRoute path="/login" exact component={LoginPage} />
+          <GuestRoute
             path="/forgot_password"
             exact
             component={ForgotPasswordPage}
