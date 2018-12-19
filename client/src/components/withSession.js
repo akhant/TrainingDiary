@@ -6,7 +6,6 @@ import { AuthContext } from './context';
 const withSession = Component => props => (
   <Query query={GET_CURRENT_USER}>
     {({ data, loading, refetch }) => {
-      console.log('data', data);
       if (loading) return null;
       return (
         <AuthContext.Provider value={{ data, refetch }}>

@@ -2,102 +2,137 @@ import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { changeList, removeFromList } from '../../../AC/list';
+import isAlphanumeric from 'validator/lib/isAlphanumeric';
+import InlineError from '../../messages/InlineError';
+import { Mutation } from 'react-apollo';
+import { REMOVE_FROM_LIST } from '../../../queries';
 
 class ChangeExerciseForm extends Component {
   state = {
-    exerciseName: '',
-    weight: {
-      from: '',
-      to: '',
+    data: {
+      exerciseName: '',
+      weightFrom: 0,
+      weightTo: 0,
     },
-    errors: [],
+    loading: false,
+    errors: {},
   };
 
   componentDidMount = () => {
-    this.setState({ ...this.props.exercise });
+    this.setState({ data: this.props.exercise });
   };
 
-  onRemoveExercise = () => {
-    this.props.removeFromList(this.props.id);
+  onChangeInput = e => {
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value },
+    });
   };
 
-  onChangeExerciseName = e => this.setState({ exerciseName: e.target.value });
-  onChangeWeightFrom = e =>
-    this.setState({ weight: { ...this.state.weight, from: e.target.value } });
-  onChangeWeightTo = e =>
-    this.setState({ weight: { ...this.state.weight, to: e.target.value } });
-
-  onSubmit = () => {
-    if (this.validate(this.state).length !== 0) return null;
-    this.props.changeList(this.props.id, this.state);
+  onRemoveExercise = async removeFromList => {
+    await removeFromList();
+    await this.props.refetchGetList();
+    this.props.changeActiveIndex(null);
   };
-  validate = state => {
-    const { weight, exerciseName } = state;
-    const re = /[^$A-Za-z0-9\s]/g;
-    const errors = [];
-    for (let key in weight) {
-      if (typeof +weight[key] !== 'number' || !Number.isInteger(+weight[key])) {
-        errors.push(`Field "${key}" have to be an integer number`);
-      } else if (
-        typeof +weight[key] == 'number' &&
-        (+weight[key] < 0 || +weight[key] > 300)
-      ) {
-        errors.push(`Value of field "${key}" have to be from 0 to 300`);
-      }
+
+  onSubmit = (e, serverData, addToList) => {
+    e.preventDefault();
+    const { data } = this.state;
+
+    const errors = this.validate(data);
+    this.setState({ errors });
+    if (Object.keys(errors).length === 0) {
+      addToList({
+        variables: {
+          userId: serverData.getCurrentUser.userId,
+          exerciseName: data.exerciseName,
+          weightFrom: Number(data.weightFrom),
+          weightTo: Number(data.weightTo),
+        },
+      });
+      this.props.refetchGetList();
     }
-    if (re.test(exerciseName))
-      errors.push('You can use only alphabet symbols and numbers');
-    if (exerciseName.length > 100)
-      errors.push('Exercise name length have to be less than 20');
-    if (!errors.length) {
-      this.setState({ errors: [] });
-    } else {
-      this.setState({ errors });
+  };
+
+  validate = data => {
+    const errors = {};
+
+    if (!isAlphanumeric(data.exerciseName)) {
+      errors.exerciseName =
+        'Invlid exerciseName, use only decimals and english letters  ';
+    }
+
+    if (isNaN(+data.weightFrom)) {
+      errors.weightFrom = 'Invalid value';
+    }
+
+    if (isNaN(+data.weightTo)) {
+      errors.weightTo = 'Invalid value';
     }
 
     return errors;
   };
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="ChangeExerciseForm">
         <Form onSubmit={this.onSubmit}>
-          <ul>
-            {this.state.errors.map(error => (
+          {/*<ul>
+             {this.state.errors.map(error => (
               <li key={error}>{error}</li>
-            ))}
-          </ul>
+            ))} 
+          </ul>*/}
+
+          <Form.Field
+            required
+            label="Name of exercise"
+            placeholder="Enter name of new exercise"
+            control="input"
+            name="exerciseName"
+            onChange={this.onChangeInput}
+            value={this.state.data.exerciseName}
+          />
+          {errors.exerciseName && <InlineError text={errors.exerciseName} />}
           <Form.Group>
             <Form.Field
-              label="Change name of exercise"
-              placeholder="Enter name of new exercise"
-              control="input"
-              value={this.state.exerciseName}
-              onChange={this.onChangeExerciseName}
-            />
-
-            <Form.Field
+              required
               label="Weight from"
               control="input"
-              value={this.state.weight.from}
-              onChange={this.onChangeWeightFrom}
+              name="weightFrom"
+              onChange={this.onChangeInput}
+              value={this.state.data.weightFrom}
             />
+            {errors.weightFrom && <InlineError text={errors.weightFrom} />}
             <Form.Field
+              required
               label="Weight to"
               control="input"
-              value={this.state.weight.to}
-              onChange={this.onChangeWeightTo}
+              name="weightTo"
+              onChange={this.onChangeInput}
+              value={this.state.data.weightTo}
             />
+            {errors.weightTo && <InlineError text={errors.weightTo} />}
           </Form.Group>
           <button className="btn inline" type="submit">
             {' '}
             Change exercise{' '}
           </button>
-          <button
-            className=" btn inline btn_remove"
-            onClick={this.onRemoveExercise}
+          <Mutation
+            mutation={REMOVE_FROM_LIST}
+            variables={{
+              exerciseDescriptionId: this.props.exercise.exerciseDescriptionId,
+            }}
           >
-            Remove exercise
-          </button>
+            {(removeFromList, { data }) => (
+              <button
+                type="button"
+                className=" btn inline btn_remove"
+                onClick={() => this.onRemoveExercise(removeFromList)}
+              >
+                Remove exercise
+              </button>
+            )}
+          </Mutation>
         </Form>
       </div>
     );

@@ -5,6 +5,11 @@ const resolvers = {
       const user = await User.findOne({ email: currentUser.email });
       return user;
     },
+    async getList(root, args, { currentUser, List }) {
+      const list = await List.find({ userId: currentUser.userId });
+
+      return { list };
+    },
   },
   Mutation: {
     async signupUser(root, { username, email, password }, { User }) {
@@ -36,20 +41,32 @@ const resolvers = {
     async addToList(
       root,
       {
-        userId, exerciseName, weightFrom, weightTo,
+        exerciseName, weightFrom, weightTo,
       },
-      { List }
+      { currentUser, List }
     ) {
       const exercise = new List({
         exerciseName,
-        userId,
+        userId: currentUser.userId,
         weightFrom,
         weightTo,
       });
-      
+
       exercise.exerciseDescriptionId = exercise._id.toString();
       await exercise.save();
       return exercise;
+    },
+    async removeFromList(
+      root,
+      { exerciseDescriptionId },
+      { currentUser, List }
+    ) {
+      const removed = await List.findOneAndRemove({
+        userId: currentUser.userId,
+        exerciseDescriptionId,
+      });
+
+      return removed;
     },
   },
 };

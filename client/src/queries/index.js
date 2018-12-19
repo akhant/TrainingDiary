@@ -13,7 +13,12 @@ export const GET_CURRENT_USER = gql`
 export const GET_LIST = gql`
   query {
     getList {
-      list
+      list {
+        exerciseName
+        weightFrom
+        weightTo
+        exerciseDescriptionId
+      }
     }
   }
 `;
@@ -35,16 +40,24 @@ export const SIGNUP_USER = gql`
 `;
 
 export const ADD_TO_LIST = gql`
-  mutation($userId: String!, $exerciseName: String! $weightFrom: Int, $weightTo: Int) {
-    addToList(userId: $userId, exerciseName: $exerciseName, weightFrom: $weightFrom, weightTo: $weightTo) {
+  mutation($exerciseName: String! $weightFrom: Int, $weightTo: Int) {
+    addToList(exerciseName: $exerciseName, weightFrom: $weightFrom, weightTo: $weightTo) {
+      exerciseDescriptionId
+    }
+  }
+`;
+
+export const CHANGE_LIST = gql`
+  mutation($exerciseDescriptionId: ID!, $exerciseName: String! $weightFrom: Int, $weightTo: Int) {
+    changeList(exerciseDescriptionId: $exerciseDescriptionId, exerciseName: $exerciseName, weightFrom: $weightFrom, weightTo: $weightTo) {
       exerciseDescriptionId
     }
   }
 `;
 
 export const REMOVE_FROM_LIST = gql`
-mutation($userId: String!, $exerciseId: String! ) {
-  removeFromList(username: $username, exerciseId: $exerciseId) {
+mutation($exerciseDescriptionId: ID! ) {
+  removeFromList(exerciseDescriptionId: $exerciseDescriptionId) {
     exerciseDescriptionId
   }
 }

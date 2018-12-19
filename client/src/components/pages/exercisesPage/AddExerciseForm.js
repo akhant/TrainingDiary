@@ -3,7 +3,6 @@ import { Form } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import { ADD_TO_LIST } from '../../../queries';
-import { AuthContext } from '../../context';
 import InlineError from '../../messages/InlineError'
 
 export default class AddExerciseForm extends Component {
@@ -17,14 +16,14 @@ export default class AddExerciseForm extends Component {
     errors: {},
   };
 
-  onChangeInput = e =>{    
+  onChangeInput = e => {    
     this.setState({
       data: { ...this.state.data, [e.target.name]: e.target.value },
     });
   }
     
 
-  onSubmit = (e, serverData, addToList) => {
+  onSubmit = (e, addToList) => {
     e.preventDefault();
     const { data } = this.state;
 
@@ -33,8 +32,9 @@ export default class AddExerciseForm extends Component {
     if (Object.keys(errors).length === 0) {
       
       addToList({
-        variables: { userId: serverData.getCurrentUser.userId, exerciseName: data.exerciseName, weightFrom: Number(data.weightFrom), weightTo: Number(data.weightTo)},
+        variables: { exerciseName: data.exerciseName, weightFrom: Number(data.weightFrom), weightTo: Number(data.weightTo)},
       }); 
+      this.props.refetchGetList()
     }
   };
 
@@ -63,9 +63,8 @@ export default class AddExerciseForm extends Component {
     return (
       <Mutation mutation={ADD_TO_LIST}>
         {(addToList) => (
-          <AuthContext.Consumer>
-            {({ data }) => (
-              <Form onSubmit={e => this.onSubmit(e, data, addToList)}>
+          
+              <Form onSubmit={e => this.onSubmit(e, addToList)}>
                 <Form.Field
                   required
                   label="Name of exercise"
@@ -101,8 +100,7 @@ export default class AddExerciseForm extends Component {
                   Add new exercise{' '}
                 </button>
               </Form>
-            )}
-          </AuthContext.Consumer>
+          
         )}
       </Mutation>
     );

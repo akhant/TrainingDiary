@@ -55,6 +55,7 @@ schema.methods.generateJWT = function generateJWT() {
     {
       email: this.email,
       confirmed: this.confirmed,
+      userId: this.userId,
     },
     process.env.JWT_SECRET
   );

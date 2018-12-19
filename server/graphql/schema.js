@@ -32,8 +32,9 @@ type Query {
 type Mutation {
     signinUser(email: String! password: String!): Token
     signupUser(username: String!, email: String!, password: String!): Token
-    addToList(userId: String!, exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
-    removeFromList(userId: String!, exerciseDescriptionId: ID!): ExerciseDescription
+    addToList(exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
+    removeFromList(exerciseDescriptionId: ID!): ExerciseDescription
+    changeList(exerciseDescriptionId: ID!, exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
 }
 `;
 

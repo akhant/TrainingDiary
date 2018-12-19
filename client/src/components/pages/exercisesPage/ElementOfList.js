@@ -9,20 +9,24 @@ class ElementOfList extends Component {
   };
 
   render() {
-    const { exercise, activeIndex } = this.props;
+    const { exercise, index, activeIndex, refetchGetList } = this.props;
     return (
       <div className="ElementOfList">
         <Accordion.Title
-          active={activeIndex === 0}
-          index={0}
-          onClick={this.handleClick}
+          active={activeIndex === index}
+          index={index}
+          onClick={() => this.props.handleClick(index)}
         >
           <Icon name="dropdown" />
           {exercise.exerciseName}
         </Accordion.Title>
-        <Accordion.Content active={activeIndex === 0}>
-          <button className="btn">Remove exercise</button>
-          <ChangeExerciseForm />
+        <Accordion.Content active={activeIndex === index}>
+         
+          <ChangeExerciseForm
+            refetchGetList={refetchGetList}
+            exercise={exercise}
+            changeActiveIndex={this.props.handleClick}
+          />
         </Accordion.Content>
       </div>
     );

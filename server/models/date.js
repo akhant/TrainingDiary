@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const DateSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User' },
+  userId: String,
   date: String,
 });
 

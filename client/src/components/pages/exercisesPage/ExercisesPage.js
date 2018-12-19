@@ -8,41 +8,51 @@ import ElementOfList from './ElementOfList';
 import { getListOfExercises, removeFromList } from '../../../AC/list';
 import AddExerciseForm from './AddExerciseForm';
 import ChangeExerciseForm from './ChangeExerciseForm';
+import { Query } from 'react-apollo';
+import { GET_LIST } from '../../../queries';
 
 class ExercisesPage extends Component {
-  state = { activeIndex: '' };
+  state = { activeIndex: null };
 
-  componentDidMount = () => {
-    this.props.getListOfExercises();
-  };
-
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps;
+  handleClick = (index) => {
+    console.log(index)
     const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+    const newIndex = activeIndex === index ? null : index;
 
     this.setState({ activeIndex: newIndex });
-  };
-
-  removeExercise = id => {
-    this.props.removeFromList(id);
   };
 
   render() {
     const { activeIndex } = this.state;
     return (
       <div>
-        <Grid>
-          <Row>
-            <Col sx={12} />
-            <h1 className="center">ExercisesPage</h1>
-          </Row>
-          <Row>
-            <Col sm={6}>
-              <h3>List of exercises</h3>
-              <Accordion styled>
-                {this.props.listOfExercises.map((exercise, index) => (
-                  <div key={exercise._id}>
+        <Query query={GET_LIST}>
+          {({ data, refetch }) => (
+            <Grid>
+              <Row>
+                <Col sx={12} />
+                <h1 className="center">ExercisesPage</h1>
+              </Row>
+              <Row>
+                <Col sm={6}>
+                  <h3>List of exercises</h3>
+                  <Accordion styled>
+                    {data.getList ? (
+                      data.getList.list.map((exercise, index) => (
+                        <ElementOfList
+                          index={index}
+                          activeIndex={activeIndex}
+                          handleClick={this.handleClick}
+                          refetchGetList={refetch}
+                          key={exercise.exerciseDescriptionId}
+                          exercise={exercise}
+                        />
+                      ))
+                    ) : (
+                      <div>Add exercises to your list => </div>
+                    )}
+
+                    {/* <div key={exercise._id}>
                     <Accordion.Title
                       active={activeIndex === index}
                       index={index}
@@ -58,18 +68,19 @@ class ExercisesPage extends Component {
                         removeExercise={this.removeExercise}
                       />
                     </Accordion.Content>
-                  </div>
-                ))}
-              </Accordion>
-            </Col>
-            <Col sm={6}>
-              <AddExerciseForm />
-            </Col>
-          </Row>
-          <Link className="btn" to="/dashboard">
-            Main page
-          </Link>
-        </Grid>
+                  </div> */}
+                  </Accordion>
+                </Col>
+                <Col sm={6}>
+                  <AddExerciseForm refetchGetList={refetch} />
+                </Col>
+              </Row>
+              <Link className="btn" to="/dashboard">
+                Main page
+              </Link>
+            </Grid>
+          )}
+        </Query>
       </div>
     );
   }
