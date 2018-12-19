@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
-import { connect } from 'react-redux';
-import { changeList, removeFromList } from '../../../AC/list';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import InlineError from '../../messages/InlineError';
 import { Mutation } from 'react-apollo';
-import { REMOVE_FROM_LIST } from '../../../queries';
+import { REMOVE_FROM_LIST, CHANGE_LIST } from '../../../queries';
 
 class ChangeExerciseForm extends Component {
   state = {
@@ -34,56 +32,53 @@ class ChangeExerciseForm extends Component {
     this.props.changeActiveIndex(null);
   };
 
-  onSubmit = (e, serverData, addToList) => {
+  onSubmit = async (e, changeList) => {
     e.preventDefault();
     const { data } = this.state;
 
     const errors = this.validate(data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
-      addToList({
-        variables: {
-          userId: serverData.getCurrentUser.userId,
-          exerciseName: data.exerciseName,
-          weightFrom: Number(data.weightFrom),
-          weightTo: Number(data.weightTo),
-        },
-      });
+      await changeList()
       this.props.refetchGetList();
     }
   };
 
   validate = data => {
     const errors = {};
+    const from = +data.weightFrom
+    const to = +data.weightTo
 
     if (!isAlphanumeric(data.exerciseName)) {
       errors.exerciseName =
         'Invlid exerciseName, use only decimals and english letters  ';
     }
 
-    if (isNaN(+data.weightFrom)) {
+    if (isNaN(from)) {
       errors.weightFrom = 'Invalid value';
     }
 
-    if (isNaN(+data.weightTo)) {
+    if (isNaN(to)) {
       errors.weightTo = 'Invalid value';
+    }
+
+    if (to < from) {
+      errors.weightTo = 'value of weight "to" has to be bigger than "from" or equal';
     }
 
     return errors;
   };
   render() {
-    const { errors } = this.state;
+    const { errors, data } = this.state;
+    const { exercise } = this.props
 
     return (
       <div className="ChangeExerciseForm">
-        <Form onSubmit={this.onSubmit}>
-          {/*<ul>
-             {this.state.errors.map(error => (
-              <li key={error}>{error}</li>
-            ))} 
-          </ul>*/}
-
+      <Mutation mutation={CHANGE_LIST} variables={{ exerciseDescriptionId: exercise.exerciseDescriptionId, exerciseName: data.exerciseName, weightFrom: Number(data.weightFrom), weightTo: Number(data.weightTo)}} >
+       {(changeList) => (
+        <Form onSubmit={(e) => this.onSubmit(e,changeList)}>
           <Form.Field
+          error={!!errors.exerciseName}
             required
             label="Name of exercise"
             placeholder="Enter name of new exercise"
@@ -95,6 +90,7 @@ class ChangeExerciseForm extends Component {
           {errors.exerciseName && <InlineError text={errors.exerciseName} />}
           <Form.Group>
             <Form.Field
+            error={!!errors.weightFrom}
               required
               label="Weight from"
               control="input"
@@ -104,6 +100,7 @@ class ChangeExerciseForm extends Component {
             />
             {errors.weightFrom && <InlineError text={errors.weightFrom} />}
             <Form.Field
+            error={!!errors.weightTo}
               required
               label="Weight to"
               control="input"
@@ -134,12 +131,12 @@ class ChangeExerciseForm extends Component {
             )}
           </Mutation>
         </Form>
-      </div>
+      
+       )}
+      </Mutation>
+        </div>
     );
   }
 }
 
-export default connect(
-  null,
-  { changeList, removeFromList }
-)(ChangeExerciseForm);
+export default ChangeExerciseForm;

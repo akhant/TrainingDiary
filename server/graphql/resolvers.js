@@ -40,9 +40,7 @@ const resolvers = {
     },
     async addToList(
       root,
-      {
-        exerciseName, weightFrom, weightTo,
-      },
+      { exerciseName, weightFrom, weightTo },
       { currentUser, List }
     ) {
       const exercise = new List({
@@ -67,6 +65,23 @@ const resolvers = {
       });
 
       return removed;
+    },
+    async changeList(
+      root,
+      {
+        exerciseDescriptionId, exerciseName, weightFrom, weightTo,
+      },
+      { currentUser, List }
+    ) {
+      const updated = await List.findOneAndUpdate(
+        {
+          userId: currentUser.userId,
+          exerciseDescriptionId,
+        },
+        { exerciseName, weightFrom, weightTo }
+      );
+
+      return updated;
     },
   },
 };
