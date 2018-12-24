@@ -7,4 +7,4 @@ const DateSchema = new Schema({
   date: String,
 });
 
-export default mongoose.model('Date', DateSchema);
+export default mongoose.model('TrainingDate', DateSchema);

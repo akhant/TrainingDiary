@@ -11,12 +11,10 @@ const Logout = ({ history }) => {
   return (
     <ApolloConsumer>
       {client => (
-        <div className="logout_wrapper">
-          <button className="btn" onClick={() => onLogout(client)}>
+        <button className="header__nav_link" onClick={() => onLogout(client)}>
 
-            Logout
-          </button>
-        </div>
+          Logout
+        </button>
       )}
     </ApolloConsumer>
   );

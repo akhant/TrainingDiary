@@ -3,9 +3,10 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const ExerciseSchema = new Schema({
-  dateId: String,
+  exerciseId: String,
   userId: String,
   exerciseName: String,
+  date: String,
 });
 
 export default mongoose.model('Exercise', ExerciseSchema);

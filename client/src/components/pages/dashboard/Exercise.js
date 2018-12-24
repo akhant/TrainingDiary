@@ -27,7 +27,7 @@ export class Exercise extends Component {
           exerciseName={exercise.exerciseName}
         />
         <div>
-          <ApproachList exercise={exercise} />
+          <ApproachList exercise={exercise} approaches={this.props.approaches} />
         </div>
         <div
           role="button"

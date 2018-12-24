@@ -14,7 +14,6 @@ import ExerciseList from './ExerciseList';
 import PickerDate from '../../PickerDate';
 import Timer from './Timer';
 import Message from '../../messages/Message';
-import { getListOfExercises } from '../../../AC/list';
 
 export class Main extends Component {
   state = {
@@ -22,39 +21,41 @@ export class Main extends Component {
   };
 
   componentDidMount = () => {
+    const { pickDate } = this.state
     if (this.props.params.pickDate) {
       this.setState(
         {
           pickDate: this.props.params.pickDate,
         },
         () => {
-          this.props.fetchData(this.state.pickDate);
+          this.props.fetchData(pickDate);
         }
       );
     } else {
-      this.props.fetchData(this.state.pickDate);
+      this.props.fetchData(pickDate);
     }
-    this.props.getListOfExercises();
   };
 
   onClickAddExercise = () => {
+    const { pickDate } = this.state
     if (!this.props.messages.started) {
       this.props.showMessage({
-        message: 'First click  "start training"',
+        message: 'First, click to "start training"',
       });
       return;
     }
     const todayDate = this.props.date.filter(d => {
-      if (this.state.pickDate) {
-        return d.date === this.state.pickDate._d.toDateString();
+      
+      if (pickDate) {
+        return d.date === pickDate._d.toDateString();
       }
     })[0];
 
-    if (this.state.pickDate) {
+    if (pickDate) {
       if (todayDate) {
-        this.props.addExercise(this.state.pickDate, todayDate._id);
+        this.props.addExercise(pickDate, todayDate._id);
       } else {
-        this.props.addExercise(this.state.pickDate);
+        this.props.addExercise(pickDate);
       }
     }
   };
@@ -78,56 +79,57 @@ export class Main extends Component {
 
   render() {
     const { exercises } = this.props;
-
-    return (
-      <Grid fluid>
-        <Row>
-          <Col sm={6}>
-            <PickerDate
-              pickDateFromMain={this.state.pickDate}
-              className="PickerDate"
-              handleChange={this.handleChange}
-            />
-          </Col>
-          <Col sm={6}>
-            <Timer pickDate={this.state.pickDate} />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={12}>
-            <div className="exerciseList_with_buttons">
-              <button className="btn" onClick={this.onClickAddExercise}>
-                Add exercise
-              </button>
-              <button className="btn" onClick={this.dropDatabase}>
-                Clear
-              </button>
-              <div className="link-to-statistic__wrapper">
-                <Link
-                  onClick={this.handleStatisticClick}
-                  className="link_to_statistic btn"
-                  to="/statistic"
-                >
-                  statistic{' '}
-                </Link>
-              </div>
-              <div className="link-to-exercises__wrapper">
-                <Link className="btn" to="/exercises">
-                  Exercises
-                </Link>
-              </div>
-
-              <ExerciseList
-                pickDate={this.state.pickDate}
-                exercises={exercises}
-              />
+    const { pickDate } = this.state
+return (
+  <Grid fluid>
+      <Row>
+        <Col sm={6}>
+          <PickerDate
+            pickDateFromMain={pickDate}
+            className="PickerDate"
+            handleChange={this.handleChange}
+          />
+        </Col>
+        <Col sm={6}>
+          <Timer pickDate={pickDate} />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={12}>
+          <div className="exerciseList_with_buttons">
+            <button className="btn" onClick={this.onClickAddExercise}>
+              Add exercise
+            </button>
+            <button className="btn" onClick={this.dropDatabase}>
+              Clear
+            </button>
+            <div className="link-to-statistic__wrapper">
+              <Link
+                onClick={this.handleStatisticClick}
+                className="link_to_statistic btn"
+                to="/statistic"
+              >
+                statistic{' '}
+              </Link>
             </div>
-          </Col>
-        </Row>
+            <div className="link-to-exercises__wrapper">
+              <Link className="btn" to="/exercises">
+                Exercises
+              </Link>
+            </div>
 
-        <Message />
-      </Grid>
-    );
+            <ExerciseList
+              pickDate={pickDate}
+              exercises={exercises}
+            />
+          </div>
+        </Col>
+      </Row>
+
+      <Message />
+    </Grid>
+)
+    
   }
 }
 
@@ -144,6 +146,5 @@ export default connect(
     dropDatabase,
     showMessage,
     addParam,
-    getListOfExercises,
   }
 )(Main);

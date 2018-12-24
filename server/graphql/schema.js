@@ -7,6 +7,35 @@ type User {
     userId: ID!
 }
 
+type Exercise {
+    dateId: String!
+    userId: String!
+    exerciseId: String
+    exerciseName: String!
+    date: String
+}
+
+type Approach {
+    userId: String!
+    exerciseId: String!
+    dateId: String!
+    value: String!
+    approachNumber: Int
+    exerciseName: String
+    date: String!
+    exerciseTime: Int
+    restTime: Int
+    timeFromStart: Int
+    weight: Int!
+}
+
+type Data {
+    dateId: String!
+    date: String!
+    exercises: [Exercise]!
+    approaches: [Approach]!
+}
+
 type Token {
     token: String!
 }
@@ -27,6 +56,9 @@ type List {
 type Query {
     getCurrentUser: User
     getList: List
+    getExercises: Data
+    getAllStatisticData: Data
+    getDayData(date: String!): Data
 }
 
 type Mutation {
@@ -34,7 +66,7 @@ type Mutation {
     signupUser(username: String!, email: String!, password: String!): Token
     addToList(exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
     removeFromList(exerciseDescriptionId: ID!): ExerciseDescription
-    changeList(exerciseDescriptionId: ID!, exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
+    changeList(exerciseDescriptionId: ID!,exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
 }
 `;
 

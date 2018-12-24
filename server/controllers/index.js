@@ -1,16 +1,15 @@
 import jwt from 'jsonwebtoken';
-import Date from '../models/date';
+import TrainingDate from '../models/date';
 import Exercise from '../models/exercise';
 import Approach from '../models/approach';
 import Statistic from '../models/statistic';
 import User from '../models/user';
-import ListOfExercises from '../models/listOfExercises';
 import parseErrors from '../utils/parseErrors';
 
 import { sendConfirmationEmail, sendResetPasswordEmail } from '../mailer';
 
 export function getData(req, res) {
-  Date.find({}).exec((err, date) => {
+  TrainingDate.find({}).exec((err, date) => {
     Exercise.find({}, (err, exercises) => {
       Approach.find({}, (err, approaches) => {
         Statistic.find({}, (err, statistic) => {
@@ -29,9 +28,10 @@ export function getData(req, res) {
 export function addExercise(req, res) {
   // если уже есть документ, с датой из req.body.date, то создать exercise и вернуть его в ответе
   // если документа нет, то создать его и  exercise, вернуть оба документа в ответе
-  Date.count({ date: req.body.date }).then((count) => {
+  TrainingDate.count({ date: req.body.date }).then((count) => {
     if (count === 0) {
-      const date = new Date({ date: req.body.date });
+      const date = new TrainingDate({ date: req.body.date });
+
       const exercise = new Exercise({
         dateId: date._id,
         exerciseName: 'Подъем гантели в наклоне',
@@ -39,7 +39,7 @@ export function addExercise(req, res) {
       });
 
       date.save((err, newDate) => {
-        exercise.save((err, newExercise) => res.json({ newDate, newExercise }));
+        exercise.save((newExercise) => res.json({ newDate, newExercise }));
       });
     } else {
       const exercise = new Exercise({
@@ -53,7 +53,7 @@ export function addExercise(req, res) {
 }
 
 export function dropDatabase(req, res) {
-  Date.findOneAndRemove({ date: req.body.date }, (err, removedDate) => {
+  TrainingDate.findOneAndRemove({ date: req.body.date }, (err, removedDate) => {
     Exercise.find({ date: req.body.date }, (err, removedExercises) => {
       Exercise.remove({ date: req.body.date }, (err) => {
         Approach.find({ date: req.body.date }, (err, removedApproaches) => {
@@ -267,24 +267,4 @@ export function resetPassword(req, res) {
       res.status(404).json({ errors: { global: 'Invalid token' } });
     }
   });
-}
-
-export function getList(req, res) {
-  ListOfExercises.find({}).then(exercises => res.json(exercises));
-}
-
-export function addToList(req, res) {
-  const exercise = new ListOfExercises(req.body.data);
-  exercise.save().then(exercise => res.json(exercise));
-}
-
-export function changeList(req, res) {
-  ListOfExercises.findOne({ _id: req.body.id }, (err, ex) => {
-    ex.set({ ...req.body.newExerciseData });
-    ex.save(() => res.json({ changed: true }));
-  });
-}
-
-export function removeFromList(req, res) {
-  ListOfExercises.findOneAndRemove({ _id: req.body.id }).then(() => res.json({ removed: true }));
 }

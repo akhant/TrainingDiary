@@ -9,6 +9,7 @@
         "max-len": "off",
         "react/jsx-filename-extension": "off",
         "no-undef": "warn",
-        "import/no-named-as-default-member": "off"
+        "import/no-named-as-default-member": "off",
+        "import/prefer-default-export": "warn"
     }
 }

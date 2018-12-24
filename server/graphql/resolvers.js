@@ -10,6 +10,15 @@ const resolvers = {
 
       return { list };
     },
+    async getDayData(root, { date }, { currentUser, Exercise, Approach }) {
+      const exercises = Exercise.find({ userId: currentUser.userId, date });
+      const approaches = Approach.find({ userId: currentUser.userId, date });
+
+      await Promise.all([exercises, approaches]);
+
+      return { date, exercises, approaches };
+    },
+
   },
   Mutation: {
     async signupUser(root, { username, email, password }, { User }) {

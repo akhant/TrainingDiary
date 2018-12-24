@@ -31,7 +31,7 @@ export const REMOVE_FROM_LIST = 'REMOVE_FROM_LIST';
 // попеременно(1) или без гантелей(0), номер упражнения
 // Группы: 1- Спина, 2-Грудь, 3-Дельты, 4-Руки, 5-Ноги, 6-Пресс
 
-export const exerciseList = [
+/* export const exerciseList = [
   {
     exId: 1101,
     exGroup: 'Спина',
@@ -129,3 +129,4 @@ export const exerciseList = [
     exerciseName: 'Подъем ног лежа',
   },
 ];
+ */

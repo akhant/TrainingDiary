@@ -2,8 +2,6 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import 'semantic-ui-css/semantic.min.css';
-
-import decode from 'jwt-decode';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import configureStore from '../store';
@@ -21,7 +19,6 @@ import ExercisesPage from './pages/exercisesPage/ExercisesPage';
 import HomePage from './HomePage';
 import Main from './pages/dashboard/Main';
 import Statistic from './pages/statistic/Statistic';
-import { userLoggedIn } from '../AC/auth';
 import withSession from './withSession';
 import '../assets/js';
 import '../assets/styles/bootstrap.css';
@@ -49,15 +46,6 @@ const client = new ApolloClient({
   },
 });
 
-/* if (localStorage.TrainingDiaryToken) {
-  const payload = decode(localStorage.TrainingDiaryToken);
-  const user = {
-    token: localStorage.TrainingDiaryToken,
-    email: payload.email,
-    confirmed: payload.confirmed,
-  };
-  store.dispatch(userLoggedIn(user));
-} */
 
 // TODO: return ConfirmedRoute for statistic and exercises pages
 const Root = () => (

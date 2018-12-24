@@ -18,20 +18,37 @@ const Header = () => {
         <h1 className="main_h1">Training diary</h1>
       </Link>
 
-      {data && data.getCurrentUser ? (
-        <Logout />
-      ) : (
-        <div className="logout_wrapper">
-          <Link className="btn" to="/login">
+      <div className="header__nav">
+        {data && data.getCurrentUser ? (
+          <div>
+            <Logout />
 
-            Log in
-          </Link>
-          <Link className="btn" to="/signup">
+            <Link className="header__nav_link" to="/dashboard">
 
-            Sign Up
-          </Link>
-        </div>
-      )}
+              Dashboard
+            </Link>
+            <Link className="header__nav_link" to="/statistic">
+
+              Statistic
+            </Link>
+            <Link className="header__nav_link" to="/exercises">
+
+              Exercises
+            </Link>
+          </div>
+        ) : (
+          <div >
+            <Link className="header__nav_link" to="/login">
+
+              Log in
+            </Link>
+            <Link className="header__nav_link" to="/signup">
+
+              Sign Up
+            </Link>
+          </div>
+        )}
+      </div>
 
       <div className="hr" />
     </div>

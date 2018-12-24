@@ -23,6 +23,28 @@ export const GET_LIST = gql`
   }
 `;
 
+export const GET_DAY_DATA = gql`
+  query($date: String!) {
+    getDayData(date: $date) {
+      date
+      exercises {
+        exerciseName
+        exerciseId
+      }
+      approaches {
+        value
+        exerciseName
+        exerciseTime
+        restTime
+        timeFromStart
+        weight
+        approachNumber
+        exerciseId
+      }
+    }
+  }
+`;
+
 export const SIGNIN_USER = gql`
   mutation($email: String!, $password: String!) {
     signinUser(email: $email, password: $password) {
@@ -40,25 +62,39 @@ export const SIGNUP_USER = gql`
 `;
 
 export const ADD_TO_LIST = gql`
-  mutation($exerciseName: String! $weightFrom: Int, $weightTo: Int) {
-    addToList(exerciseName: $exerciseName, weightFrom: $weightFrom, weightTo: $weightTo) {
+  mutation($exerciseName: String!, $weightFrom: Int, $weightTo: Int) {
+    addToList(
+      exerciseName: $exerciseName
+      weightFrom: $weightFrom
+      weightTo: $weightTo
+    ) {
       exerciseDescriptionId
     }
   }
 `;
 
 export const CHANGE_LIST = gql`
-  mutation($exerciseDescriptionId: ID!, $exerciseName: String! $weightFrom: Int, $weightTo: Int) {
-    changeList(exerciseDescriptionId: $exerciseDescriptionId, exerciseName: $exerciseName, weightFrom: $weightFrom, weightTo: $weightTo) {
+  mutation(
+    $exerciseDescriptionId: ID!
+    $exerciseName: String!
+    $weightFrom: Int
+    $weightTo: Int
+  ) {
+    changeList(
+      exerciseDescriptionId: $exerciseDescriptionId
+      exerciseName: $exerciseName
+      weightFrom: $weightFrom
+      weightTo: $weightTo
+    ) {
       exerciseDescriptionId
     }
   }
 `;
 
 export const REMOVE_FROM_LIST = gql`
-mutation($exerciseDescriptionId: ID! ) {
-  removeFromList(exerciseDescriptionId: $exerciseDescriptionId) {
-    exerciseDescriptionId
+  mutation($exerciseDescriptionId: ID!) {
+    removeFromList(exerciseDescriptionId: $exerciseDescriptionId) {
+      exerciseDescriptionId
+    }
   }
-}
 `;

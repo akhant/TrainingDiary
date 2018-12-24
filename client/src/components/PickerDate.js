@@ -5,6 +5,7 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addParam } from '../AC';
 
+
 class PickerDate extends Component {
   state = {
     date: moment(),
@@ -45,12 +46,14 @@ class PickerDate extends Component {
   render() {
     return (
       <div className={this.props.className}>
-        <DatePicker
-          dateFormat="DD.MM.YYYY"
-          className="react_datepicker"
-          selected={this.state.date}
-          onChange={this.handleChange}
-        />
+
+            <DatePicker
+              dateFormat="DD.MM.YYYY"
+              className="react_datepicker"
+              selected={this.state.date}
+              onChange={this.handleChange}
+            />
+
       </div>
     );
   }

@@ -10,11 +10,12 @@ import { makeExecutableSchema } from 'graphql-tools';
 import typeDefs from './graphql/schema';
 import resolvers from './graphql/resolvers';
 import User from './models/user';
-import Date from './models/date';
+import TrainingDate from './models/date';
 import Exercise from './models/exercise';
 import Approach from './models/approach';
 import Statistic from './models/statistic';
 import List from './models/list';
+import * as route from './controllers';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -40,7 +41,7 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(async (req, res, next) => {
   const token = req.headers.authorization;
-  if (token !== 'null') {
+  if (token) {
     try {
       const currentUser = await jwt.verify(token, process.env.JWT_SECRET);
       req.currentUser = currentUser;
@@ -59,7 +60,7 @@ app.use(
       currentUser,
       User,
       List,
-      Date,
+      TrainingDate,
       Exercise,
       Approach,
       Statistic,
@@ -69,7 +70,7 @@ app.use(
 );
 
 // routes
-/* app.get('/api/data', route.getData);
+app.get('/api/data', route.getData);
 app.post('/api/data', route.addExercise);
 app.post('/api/drop', route.dropDatabase);
 app.post('/api/deleteEx', route.deleteExercise);
@@ -79,16 +80,6 @@ app.post('/api/deleteApproach', route.deleteApproach);
 app.post('/api/changeApproach', route.changeApproach);
 app.post('/api/workoutStart', route.workoutStart);
 app.post('/api/workoutFinish', route.workoutFinish);
-app.post('/api/users', route.userSignup);
-app.post('/api/auth', route.userLogin);
-app.get('/confirmation/:token', route.userConfirmServer);
-app.post('/api/confirmation', route.userConfirm);
-app.post('/api/reset_password_request', route.resetPasswordRequest);
-app.get('/reset_password_request/:token', route.resetPasswordRequestServer);
-app.post('/api/reset_password', route.resetPassword);
-app.post('/api/list/get', route.getList);
-app.put('/api/list/add', route.addToList);
-app.post('/api/list/update', route.changeList);
-app.delete('/api/list/remove', route.removeFromList); */
+
 // server
 app.listen(PORT, () => console.log(`Express server listening on port ${PORT}`));

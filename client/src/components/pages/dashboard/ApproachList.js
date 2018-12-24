@@ -129,7 +129,7 @@ export class ApproachList extends Component {
 
   render() {
     const { approaches, exercise } = this.props;
-    if (!approaches) return null;
+    
     return (
       <div className="ApproachList">
         <Weight onChangeWeight={this.onChangeWeight} />
@@ -146,7 +146,7 @@ export class ApproachList extends Component {
         {/* filter exercise with necessary exercise id */}
         <div className="approachList_items">
           {approaches.map(approach => {
-            if (approach.exerciseId === exercise._id) {
+            if (approach.exerciseId === exercise.exerciseId) {
               return (
                 <Approach
                   restTime={this.restTime}
@@ -167,8 +167,8 @@ export class ApproachList extends Component {
 }
 
 export default connect(
-  ({ approaches, statistic, messages }) => ({
-    approaches,
+  ({ statistic, messages }) => ({
+    
     statistic,
     messages,
   }),
