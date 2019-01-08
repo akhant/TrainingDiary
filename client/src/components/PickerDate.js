@@ -8,28 +8,20 @@ import { addParam } from '../AC';
 
 class PickerDate extends Component {
   state = {
-    date: moment(),
+    date: this.props.params.PickDate || moment(),
   };
 
   // date for Statistic component
   componentDidMount = () => {
-    if (this.props.pickDateFromMain) {
+    const {pickDate} = this.props.params
+    if (pickDate) {
       this.setState({
-        date: this.props.pickDateFromMain,
+        date: pickDate,
       });
     }
   };
 
-  componentDidUpdate = () => {
-    if (
-      this.props.pickDateFromMain &&
-      this.state.date !== this.props.pickDateFromMain
-    ) {
-      this.setState({
-        date: this.props.pickDateFromMain,
-      });
-    }
-  };
+
 
   handleChange = date => {
     this.setState(
@@ -38,12 +30,15 @@ class PickerDate extends Component {
       },
       () => {
         this.props.addParam({ pickDate: date });
-        this.props.handleChange(date);
+
       }
     );
   };
 
   render() {
+    console.log("param", this.props.params)
+    
+    console.log(moment().format("ddd MMM DD YY"))
     return (
       <div className={this.props.className}>
 
@@ -60,6 +55,8 @@ class PickerDate extends Component {
 }
 
 export default connect(
-  null,
+  ({params}) => ({
+    params
+  }),
   { addParam }
 )(PickerDate);

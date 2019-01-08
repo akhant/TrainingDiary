@@ -8,17 +8,17 @@ type User {
 }
 
 type Exercise {
-    dateId: String!
-    userId: String!
-    exerciseId: String
+    dateId: ID!
+    userId: ID!
+    exerciseId: ID!
     exerciseName: String!
     date: String
 }
 
 type Approach {
-    userId: String!
-    exerciseId: String!
-    dateId: String!
+    userId: ID!
+    exerciseId: ID!
+    dateId: ID!
     value: String!
     approachNumber: Int
     exerciseName: String
@@ -30,10 +30,11 @@ type Approach {
 }
 
 type Data {
-    dateId: String!
+    dateId: ID!
     date: String!
     exercises: [Exercise]!
     approaches: [Approach]!
+    list: [ExerciseDescription]!
 }
 
 type Token {
@@ -67,6 +68,8 @@ type Mutation {
     addToList(exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
     removeFromList(exerciseDescriptionId: ID!): ExerciseDescription
     changeList(exerciseDescriptionId: ID!,exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
+    addExercise(date: String!): Exercise
+    removeExercise(exerciseId: ID!): Exercise
 }
 `;
 

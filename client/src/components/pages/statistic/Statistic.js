@@ -13,7 +13,7 @@ import StatisticTable from './StatisticTable';
 
 export class Statistic extends Component {
   state = {
-    pickStatisticDate: moment(),
+    pickStatisticDate: this.props.params.pickDate || moment(),
     showExerciseStatistic: '',
   };
 

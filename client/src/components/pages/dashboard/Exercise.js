@@ -2,47 +2,66 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ApproachList from './ApproachList';
 import ExerciseSelect from './ExerciseSelect';
-import { deleteExercise, changeExerciseNameValue } from '../../../AC';
+import { changeExerciseNameValue } from '../../../AC';
+import { Mutation } from 'react-apollo';
+import { REMOVE_EXERCISE } from '../../../queries';
 
 export class Exercise extends Component {
   state = {
-    id: this.props.exercise._id,
+    exerciseId: this.props.exercise.exerciseId,
   };
 
-  handleDeleteExercise = () => {
-    this.props.deleteExercise(this.props.pickDate, this.state.id);
+  handleRemoveExercise = async (removeExercise, refetchGetDayData) => {
+    await removeExercise();
+    await refetchGetDayData();
   };
 
   handleChangeExerciseNameValue = e => {
-    this.props.changeExerciseNameValue(e, this.props.exercise._id);
+    this.props.changeExerciseNameValue(e, this.props.exercise.exerciseId);
   };
 
   render() {
     const { exercise } = this.props;
 
     return (
-      <div className="Exercise">
-        <ExerciseSelect
-          changeSelect={this.handleChangeExerciseNameValue}
-          exerciseName={exercise.exerciseName}
-        />
-        <div>
-          <ApproachList exercise={exercise} approaches={this.props.approaches} />
-        </div>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={this.handleDeleteExercise}
-          className="deleteExercise_btn"
-        >
-          {' '}
-        </div>
-      </div>
+      <Mutation
+        mutation={REMOVE_EXERCISE}
+        variables={{ exerciseId: exercise.exerciseId }}
+      >
+        {removeExercise => (
+          <div className="Exercise">
+            <ExerciseSelect
+              changeSelect={this.handleChangeExerciseNameValue}
+              exerciseName={exercise.exerciseName}
+              list={this.props.list}
+            />
+            <div>
+              <ApproachList
+                exercise={exercise}
+                approaches={this.props.approaches}
+              />
+            </div>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() =>
+                this.handleRemoveExercise(
+                  removeExercise,
+                  this.props.refetchGetDayData
+                )
+              }
+              className="deleteExercise_btn"
+            >
+              {' '}
+            </div>
+          </div>
+        )}
+      </Mutation>
     );
   }
 }
 
 export default connect(
   null,
-  { deleteExercise, changeExerciseNameValue }
+  { changeExerciseNameValue }
 )(Exercise);

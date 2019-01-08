@@ -44,7 +44,7 @@ export default class AddExerciseForm extends Component {
     const errors = {};
     const from = +data.weightFrom
     const to = +data.weightTo
-
+// TODO: add spaces
     if (!isAlphanumeric(data.exerciseName)) {
       errors.exerciseName =
         'Invlid exerciseName, use only decimals and english letters  ';

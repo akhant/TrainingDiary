@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Accordion, Icon } from 'semantic-ui-react';
 import ElementOfList from './ElementOfList';
 import AddExerciseForm from './AddExerciseForm';
 import { Query } from 'react-apollo';
 import { GET_LIST } from '../../../queries';
+import { putListToRedux } from '../../../AC';
+import { connect } from 'react-redux';
 
 class ExercisesPage extends Component {
   state = { activeIndex: null };
 
-  handleClick = (index) => {
-    console.log(index)
+  handleClick = index => {
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? null : index;
 
@@ -23,46 +23,54 @@ class ExercisesPage extends Component {
     return (
       <div>
         <Query query={GET_LIST}>
-          {({ data, refetch }) => (
-            <Grid>
-              <Row>
-                <Col sx={12} />
-                <h1 className="center">ExercisesPage</h1>
-              </Row>
-              <Row>
-                <Col sm={6}>
-                  <h3>List of exercises</h3>
-                  <Accordion styled>
-                    {data.getList ? (
-                      data.getList.list.map((exercise, index) => (
-                        <ElementOfList
-                          index={index}
-                          activeIndex={activeIndex}
-                          handleClick={this.handleClick}
-                          refetchGetList={refetch}
-                          key={exercise.exerciseDescriptionId}
-                          exercise={exercise}
-                        />
-                      ))
-                    ) : (
-                      <div>Add exercises to your list => </div>
-                    )}
+          {({ data, refetch }) => {
+            console.log('​ExercisesPage -> render -> data', data);
 
-               
-                  </Accordion>
-                </Col>
-                <Col sm={6}>
-                <h3 className="center">Add exercise</h3>
-                  <AddExerciseForm refetchGetList={refetch} />
-                </Col>
-              </Row>
-              
-            </Grid>
-          )}
+            if (data.getList) {
+              this.props.putListToRedux(data.getList.list);
+            }
+
+            return (
+              <Grid>
+                <Row>
+                  <Col sx={12} />
+                  <h1 className="center">ExercisesPage</h1>
+                </Row>
+                <Row>
+                  <Col sm={6}>
+                    <h3>List of exercises</h3>
+                    <Accordion styled>
+                      {data.getList ? (
+                        data.getList.list.map((exercise, index) => (
+                          <ElementOfList
+                            index={index}
+                            activeIndex={activeIndex}
+                            handleClick={this.handleClick}
+                            refetchGetList={refetch}
+                            key={exercise.exerciseDescriptionId}
+                            exercise={exercise}
+                          />
+                        ))
+                      ) : (
+                        <div>Add exercises to your list => </div>
+                      )}
+                    </Accordion>
+                  </Col>
+                  <Col sm={6}>
+                    <h3 className="center">Add exercise</h3>
+                    <AddExerciseForm refetchGetList={refetch} />
+                  </Col>
+                </Row>
+              </Grid>
+            );
+          }}
         </Query>
       </div>
     );
   }
 }
 
-export default ExercisesPage;
+export default connect(
+  null,
+  { putListToRedux }
+)(ExercisesPage);

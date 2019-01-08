@@ -41,6 +41,12 @@ export const GET_DAY_DATA = gql`
         approachNumber
         exerciseId
       }
+      list {
+        exerciseName
+        weightFrom
+        weightTo
+        exerciseDescriptionId
+      }
     }
   }
 `;
@@ -95,6 +101,23 @@ export const REMOVE_FROM_LIST = gql`
   mutation($exerciseDescriptionId: ID!) {
     removeFromList(exerciseDescriptionId: $exerciseDescriptionId) {
       exerciseDescriptionId
+    }
+  }
+`;
+
+export const ADD_EXERCISE = gql`
+  mutation($date: String!) {
+    addExercise(date: $date) {
+      exerciseName
+      exerciseId
+    }
+  }
+`;
+
+export const REMOVE_EXERCISE = gql`
+  mutation($exerciseId: ID!) {
+    removeExercise(exerciseId: $exerciseId) {
+      exerciseId
     }
   }
 `;

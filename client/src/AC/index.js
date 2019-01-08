@@ -11,6 +11,7 @@ import {
   SHOW_MESSAGE,
   WORKOUT_FINISH,
   ADD_PARAM,
+  PUT_LIST_TO_REDUX
 } from '../constants';
 
 export const fetchData = pickDate => ({
@@ -84,4 +85,9 @@ export const workoutFinish = (pickDate, workoutFinish) => ({
 export const addParam = param => ({
   type: ADD_PARAM,
   param,
+});
+
+export const putListToRedux = list => ({
+  type: PUT_LIST_TO_REDUX,
+  list,
 });

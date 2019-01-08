@@ -83,7 +83,6 @@ class SignupForm extends React.Component {
                 <Form.Field error={!!errors.username}>
                   <label htmlFor="username">Username</label>
                   <input
-                    type="username"
                     id="username"
                     name="username"
                     placeholder="Enter your name"

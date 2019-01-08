@@ -3,7 +3,7 @@
     "rules": {
         "comma-dangle": ["warn", "always-multiline"],
         "linebreak-style": "off",
-        "array-callback-return": "warn",
+        "array-callback-return": "off",
         "no-shadow": "warn",
         "no-unused-vars": "warn",
         "max-len": "off",
@@ -11,5 +11,6 @@
         "no-undef": "warn",
         "import/no-named-as-default-member": "off",
         "import/prefer-default-export": "warn"
+        
     }
 }

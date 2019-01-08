@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 export class ExerciseSelect extends Component {
   state = {
     selectedExercise: ' ',
+    list: this.props.list,
   };
 
   componentDidMount = () => {
@@ -20,18 +21,19 @@ export class ExerciseSelect extends Component {
   };
 
   optionsList = () => {
-    const { listOfExercises } = this.props;
-    if (listOfExercises) {
-      const list = [];
-      for (let i = 0; i < listOfExercises.length; i++) {
-        list.push(
-          <option key={i} value={listOfExercises[i].exerciseName}>
-            {listOfExercises[i].exerciseName}
-          </option>
-        );
-      }
-      return list;
+    const { listOfExercises, list } = this.props;
+    console.log('list', list);
+    let trueList = listOfExercises.length ? listOfExercises : list;
+
+    const renderList = [];
+    for (let i = 0; i < trueList.length; i++) {
+      renderList.push(
+        <option key={i} value={trueList[i].exerciseName}>
+          {trueList[i].exerciseName}
+        </option>
+      );
     }
+    return renderList;
   };
 
   render() {

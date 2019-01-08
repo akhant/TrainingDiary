@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const ExerciseSchema = new Schema({
   exerciseId: String,
   userId: String,
-  exerciseName: String,
+  exerciseName: { type: String, default: '' },
   date: String,
 });
 

@@ -10,15 +10,23 @@ const resolvers = {
 
       return { list };
     },
-    async getDayData(root, { date }, { currentUser, Exercise, Approach }) {
+    async getDayData(
+      root,
+      { date },
+      {
+        currentUser, Exercise, Approach, List,
+      }
+    ) {
       const exercises = Exercise.find({ userId: currentUser.userId, date });
       const approaches = Approach.find({ userId: currentUser.userId, date });
+      const list = await List.find({ userId: currentUser.userId });
 
-      await Promise.all([exercises, approaches]);
+      await Promise.all([exercises, approaches, list]);
 
-      return { date, exercises, approaches };
+      return {
+        date, exercises, approaches, list,
+      };
     },
-
   },
   Mutation: {
     async signupUser(root, { username, email, password }, { User }) {
@@ -91,6 +99,25 @@ const resolvers = {
       );
 
       return updated;
+    },
+
+    async addExercise(root, { date }, { currentUser, Exercise }) {
+      console.log(date);
+      const exercise = new Exercise({
+        userId: currentUser.userId,
+        date,
+      });
+
+      exercise.exerciseId = exercise._id.toString();
+      await exercise.save();
+      return exercise;
+    },
+    async removeExercise(root, { exerciseId }, { currentUser, Exercise }) {
+      const removed = await Exercise.findOneAndRemove({
+        userId: currentUser.userId,
+        exerciseId,
+      });
+      return removed;
     },
   },
 };

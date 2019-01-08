@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import 'semantic-ui-css/semantic.min.css';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import configureStore from '../store';
@@ -21,6 +20,7 @@ import Main from './pages/dashboard/Main';
 import Statistic from './pages/statistic/Statistic';
 import withSession from './withSession';
 import '../assets/js';
+import 'semantic-ui-css/semantic.min.css';
 import '../assets/styles/bootstrap.css';
 import '../assets/styles/styles.sass';
 
@@ -53,7 +53,6 @@ const Root = () => (
     <Router>
       <Fragment>
         <Header />
-
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route exact path="/confirmation" component={ConfirmationPage} />

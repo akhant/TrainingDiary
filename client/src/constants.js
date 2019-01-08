@@ -26,6 +26,7 @@ export const GET_LIST = 'GET_LIST';
 export const ADD_TO_LIST = 'ADD_TO_LIST';
 export const CHANGE_LIST = 'CHANGE_LIST';
 export const REMOVE_FROM_LIST = 'REMOVE_FROM_LIST';
+export const PUT_LIST_TO_REDUX = 'PUT_LIST_TO_REDUX'
 // Расшифровка id: первая цифра -группа,
 // вторая - выполняется упражнение с двумя гантелями(2),
 // попеременно(1) или без гантелей(0), номер упражнения
