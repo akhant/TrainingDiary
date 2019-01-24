@@ -33,6 +33,7 @@ export const GET_DAY_DATA = gql`
       }
       approaches {
         value
+        approachId
         exerciseName
         exerciseTime
         restTime
@@ -127,6 +128,30 @@ export const CHANGE_SELECT_EXERCISE_NAME = gql`
     changeSelectExerciseName(exerciseId: $exerciseId, exerciseName: $exerciseName) {
       exerciseId
       exerciseName
+    }
+  }
+`;
+
+export const ADD_APPROACH = gql`
+  mutation($exerciseId: ID!, $weight: Int!) {
+    addApproach(exerciseId: $exerciseId, weight: $weight) {
+      approachId
+    }
+  }
+`;
+
+export const REMOVE_APPROACH = gql`
+  mutation($approachId: ID!) {
+    removeApproach(approachId: $approachId) {
+      approachId
+    }
+  }
+`;
+
+export const CHANGE_APPROACH_VALUE = gql`
+  mutation($approachId: ID!, $value: String!) {
+    changeApproachValue(approachId: $approachId, value: $value) {
+      approachId
     }
   }
 `;

@@ -9,15 +9,13 @@ export class Exercise extends Component {
     exerciseId: this.props.exercise.exerciseId,
   };
 
-  handleRemoveExercise = async (removeExercise) => {
+  handleRemoveExercise = async removeExercise => {
     await removeExercise();
     this.props.refetchGetDayData();
   };
 
-
-
   render() {
-    const { exercise} = this.props;
+    const { exercise } = this.props;
 
     return (
       <Mutation
@@ -26,25 +24,14 @@ export class Exercise extends Component {
       >
         {removeExercise => (
           <div className="exercise">
-            <ExerciseSelect
-              
-              
-              {...this.props}
-              
-            />
+            <ExerciseSelect {...this.props} />
             <div>
-              <ApproachList
-                {...this.props}
-              />
+              <ApproachList {...this.props} />
             </div>
             <div
               role="button"
               tabIndex={0}
-              onClick={() =>
-                this.handleRemoveExercise(
-                  removeExercise
-                )
-              }
+              onClick={() => this.handleRemoveExercise(removeExercise)}
               className="deleteExercise_btn"
             >
               {' '}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Mutation } from 'react-apollo';
+import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE } from '../../../queries';
 
 export class Approach extends Component {
   state = {
@@ -12,8 +13,13 @@ export class Approach extends Component {
     });
   };
 
-  handleChangeApproachValue = e => {
-    // exercise finished
+  handleChangeApproachValue = async (e, changeApproachValue) => {
+    const value = e.target.value;
+    this.setState({ approachValue: value });
+    await changeApproachValue({ variables: { approachId: this.props.approach.approachId, value } });
+    this.props.refetchGetDayData();
+
+    /* // exercise finished
 
     // exercise Time
     this.exerciseTime = Date.now() - this.props.startApproach;
@@ -33,11 +39,12 @@ export class Approach extends Component {
           this.state.finishApproach
         );
       }
-    );
+    ); */
   };
 
-  handleDeleteApproach = () => {
-    this.props.onDeleteApproach(this.props.approach._id);
+  handleDeleteApproach = async (e, removeApproach) => {
+    await removeApproach({});
+    this.props.refetchGetDayData();
   };
 
   optionsList = () => {
@@ -53,28 +60,41 @@ export class Approach extends Component {
   };
 
   render() {
+    const { approach } = this.props;
+
     return (
       <div className="Approach">
-        <select
-          className="Approach__select custom_select"
-          value={this.state.approachValue}
-          onChange={this.handleChangeApproachValue}
+        <Mutation mutation={CHANGE_APPROACH_VALUE}>
+          {changeApproachValue => (
+            <select
+              className="Approach__select custom_select"
+              value={this.state.approachValue}
+              onChange={e =>
+                this.handleChangeApproachValue(e, changeApproachValue)
+              }
+            >
+              {this.optionsList()}
+            </select>
+          )}
+        </Mutation>
+        <Mutation
+          mutation={REMOVE_APPROACH}
+          variables={{ approachId: approach.approachId }}
         >
-          {this.optionsList()}
-        </select>
-        <div
-          role="button"
-          tabIndex={0}
-          className="deleteApproach_btn"
-          onClick={this.handleDeleteApproach}
-        >
-          -
-        </div>
+          {removeApproach => (
+            <div
+              role="button"
+              tabIndex={0}
+              className="deleteApproach_btn"
+              onClick={() => this.handleDeleteApproach(removeApproach)}
+            >
+              -
+            </div>
+          )}
+        </Mutation>
       </div>
     );
   }
 }
 
-export default connect(({ statistic }) => ({
-  statistic,
-}))(Approach);
+export default Approach;

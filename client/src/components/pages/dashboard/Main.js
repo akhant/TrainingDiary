@@ -15,7 +15,7 @@ export class Main extends Component {
   };
 
   onClickAddExercise = async (e, addExercise, refetchGetDayData) => {
-    const date = this.state.pickDate.format('ddd MMM DD YY');
+    const date = this.state.pickDate.format('ddd MMM DD YYYY');
     await addExercise({ variables: { date } });
     await refetchGetDayData();
     /* if (!this.props.messages.started) {
@@ -41,7 +41,7 @@ export class Main extends Component {
 
   componentDidMount = async () => {
     const { pickDate } = this.state;
-    const date = pickDate.format('ddd MMM DD YY');
+    const date = pickDate.format('ddd MMM DD YYYY');
     await this.props.client.reFetchObservableQueries({
       query: GET_DAY_DATA,
       variables: {
@@ -52,13 +52,11 @@ export class Main extends Component {
 
   render() {
     const { pickDate } = this.state;
-    const date = pickDate.format('ddd MMM DD YY');
-
+    const date = pickDate.format('ddd MMM DD YYYY');
     return (
       <Query query={GET_DAY_DATA} variables={{ date }}>
-        {({ data: {getDayData}, refetch }) => {
+        {({ data: { getDayData }, refetch }) => {
           if (getDayData) {
-             console.log("getDayData", getDayData)          
             return (
               <Mutation mutation={ADD_EXERCISE}>
                 {addExercise => (
@@ -66,7 +64,10 @@ export class Main extends Component {
                     <Row>
                       <Col sm={6} />
                       <Col sm={6}>
-                        <Timer pickDate={pickDate} />
+                {/* if today */}
+                        {date === new Date().toDateString() && (
+                          <Timer pickDate={pickDate} />
+                        )}
                       </Col>
                     </Row>
                     <Row>

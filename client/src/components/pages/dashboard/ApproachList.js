@@ -9,12 +9,16 @@ import {
   showMessage,
 } from '../../../AC';
 import Weight from './Weight';
+import { ADD_APPROACH } from '../../../queries';
+import { Mutation } from 'react-apollo';
+import { Message } from 'semantic-ui-react';
 
 export class ApproachList extends Component {
   state = {
     startApproach: 0,
     finishApproach: 0,
-    weight: this.props.getDayData.approaches.length ? this.props.getDayData.approaches[this.props.approaches.length-1].weight : 0,
+    weight: 0,
+    error: '',
   };
 
   onChangeApproachValue = (
@@ -39,8 +43,23 @@ export class ApproachList extends Component {
     });
   };
 
-  onClickAddApproach = () => {
-    if (!this.checkMessage()) return;
+  onClickAddApproach = async (e, addApproach) => {
+    if (!this.props.exercise.exerciseName) {
+      this.setState({ error: 'Set exercise first' });
+      return
+    }
+    
+    if (!this.state.weight) {
+      this.setState({ error: 'Set weight first' });
+      return
+    } 
+
+      this.setState({ error: '' });
+    
+
+    await addApproach();
+    this.props.refetchGetDayData();
+    /* if (!this.checkMessage()) return;
 
     // approach start time
     this.setState({
@@ -76,7 +95,7 @@ export class ApproachList extends Component {
         }
       });
       // Are there approaches?
-      return this.props.approaches.some(approach => approach.date === today);
+      return this.props.approaches.some(approach => approach.date === today); 
     };
 
     // rest time for first approach and next
@@ -87,11 +106,10 @@ export class ApproachList extends Component {
         (Date.now() - this.state.finishApproach) / 1000
       );
     }
+    */
   };
 
-  onDeleteApproach = approachId => {
-    this.props.deleteApproach(approachId);
-  };
+
   onChangeWeight = weightValue => {
     this.setState({
       weight: weightValue,
@@ -99,7 +117,7 @@ export class ApproachList extends Component {
   };
 
   checkMessage = () => {
-    // clear from screen
+    /* // clear from screen
     this.props.showMessage({
       message: '',
     });
@@ -124,39 +142,61 @@ export class ApproachList extends Component {
         return false;
       }
     }
-    return true;
+    return true; */
   };
 
   render() {
-    const { exercise, getDayData: {approaches, list}} = this.props;
+    const {
+      exercise,
+      getDayData: { approaches, list },
+    } = this.props;
+    const { error, weight } = this.state;
 
     return (
       <div className="ApproachList">
-      {exercise.exerciseName &&  <Weight weight={this.state.weight} list={list} exercise={exercise} onChangeWeight={this.onChangeWeight} /> }
-       
+        {error && <Message warning>{error}</Message>}
+        {exercise.exerciseName && (
+          <Weight
+            weight={this.state.weight}
+            list={list}
+            exercise={exercise}
+            onChangeWeight={this.onChangeWeight}
+          />
+        )}
+
         <br />
         <p className="approach_header">Approaches: </p>
-        <div
-          role="button"
-          tabIndex={0}
-          className="addApproach_btn"
-          onClick={this.onClickAddApproach}
+        <Mutation
+          mutation={ADD_APPROACH}
+          variables={{ exerciseId: exercise.exerciseId, weight: +weight }}
         >
-          +
-        </div>
+          {(addApproach, { data }) => (
+            <div
+              role="button"
+              tabIndex={0}
+              className="addApproach_btn"
+              onClick={e => this.onClickAddApproach(e, addApproach)}
+            >
+              +
+            </div>
+          )}
+        </Mutation>
         {/* filter exercise with necessary exercise id */}
         <div className="approachList_items">
           {approaches.map(approach => {
             if (approach.exerciseId === exercise.exerciseId) {
               return (
                 <Approach
-                  restTime={this.restTime}
+                  /* restTime={this.restTime}
                   startApproach={this.state.startApproach}
                   exercise={exercise}
-                  key={approach._id}
-                  approach={approach}
+                  
+                  
                   onChangeApproachValue={this.onChangeApproachValue}
-                  onDeleteApproach={this.onDeleteApproach}
+                  onDeleteApproach={this.onDeleteApproach} */
+                  approach={approach}
+                  key={approach.approachId}
+                  {...this.props}
                 />
               );
             }
@@ -169,7 +209,6 @@ export class ApproachList extends Component {
 
 export default connect(
   ({ statistic, messages }) => ({
-    
     statistic,
     messages,
   }),

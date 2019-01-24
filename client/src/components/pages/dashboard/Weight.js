@@ -8,7 +8,7 @@ class Weight extends Component {
     weight: this.props.weight,
   };
   handleChangeWeightValue = e => {
-    e.preventDefault();
+    
     this.setState({
       weight: e.target.value,
     });

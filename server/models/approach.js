@@ -14,6 +14,7 @@ const ApproachSchema = new Schema({
   restTime: Number,
   timeFromStart: Number,
   weight: Number,
+  approachId: String,
 });
 
 export default mongoose.model('Approach', ApproachSchema);

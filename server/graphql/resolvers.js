@@ -10,19 +10,15 @@ const resolvers = {
 
       return { list };
     },
-    async getDayData(
-      root,
-      { date },
-      {
-        currentUser, Exercise, Approach, List,
-      }
-    ) {
+    async getDayData(root, { date }, {
+      currentUser, Exercise, Approach, List,
+    }) {
       const exercises = Exercise.find({ userId: currentUser.userId, date });
       const approaches = Approach.find({ userId: currentUser.userId, date });
       const list = List.find({ userId: currentUser.userId });
 
       await Promise.all([exercises, approaches, list]);
-      
+
       return {
         date,
         exercises,
@@ -58,11 +54,7 @@ const resolvers = {
       user.setConfirmationToken();
       return { token: user.confirmationToken };
     },
-    async addToList(
-      root,
-      { exerciseName, weightFrom, weightTo },
-      { currentUser, List }
-    ) {
+    async addToList(root, { exerciseName, weightFrom, weightTo }, { currentUser, List }) {
       const exercise = new List({
         exerciseName,
         userId: currentUser.userId,
@@ -72,13 +64,10 @@ const resolvers = {
 
       exercise.exerciseDescriptionId = exercise._id.toString();
       await exercise.save();
+
       return exercise;
     },
-    async removeFromList(
-      root,
-      { exerciseDescriptionId },
-      { currentUser, List }
-    ) {
+    async removeFromList(root, { exerciseDescriptionId }, { currentUser, List }) {
       const removed = await List.findOneAndRemove({
         userId: currentUser.userId,
         exerciseDescriptionId,
@@ -122,11 +111,7 @@ const resolvers = {
       return removed;
     },
 
-    async changeSelectExerciseName(
-      root,
-      { exerciseId, exerciseName },
-      { currentUser, Exercise }
-    ) {
+    async changeSelectExerciseName(root, { exerciseId, exerciseName }, { currentUser, Exercise }) {
       const updated = await Exercise.findOneAndUpdate(
         {
           userId: currentUser.userId,
@@ -134,7 +119,39 @@ const resolvers = {
         },
         { exerciseName }
       );
-      
+
+      return updated;
+    },
+    async addApproach(root, { exerciseId, weight }, { currentUser, Approach }) {
+      const approach = new Approach({
+        userId: currentUser.userId,
+        exerciseId,
+        date: new Date().toDateString(),
+        value: 0,
+        weight,
+        // TODO: add time
+      });
+
+      approach.approachId = approach._id.toString();
+      await approach.save();
+      return approach;
+    },
+    async removeApproach(root, { approachId }, { currentUser, Approach }) {
+      const removed = await Approach.findOneAndRemove({
+        userId: currentUser.userId,
+        approachId,
+      });
+      return removed;
+    },
+    async changeApproachValue(root, { approachId, value }, { currentUser, Approach }) {
+      const updated = await Approach.findOneAndUpdate(
+        {
+          userId: currentUser.userId,
+          approachId,
+        },
+        { value }
+      );
+
       return updated;
     },
   },

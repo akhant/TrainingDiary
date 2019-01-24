@@ -19,6 +19,7 @@ type Approach {
     userId: ID!
     exerciseId: ID!
     dateId: ID!
+    approachId: ID
     value: String!
     approachNumber: Int
     exerciseName: String
@@ -26,7 +27,7 @@ type Approach {
     exerciseTime: Int
     restTime: Int
     timeFromStart: Int
-    weight: Int!
+    weight: Int
 }
 
 type Data {
@@ -71,6 +72,9 @@ type Mutation {
     addExercise(date: String!): Exercise
     removeExercise(exerciseId: ID!): Exercise
     changeSelectExerciseName(exerciseId: ID!, exerciseName: String!): Exercise
+    addApproach(exerciseId: ID!, weight: Int!): Approach
+    removeApproach(approachId: ID!): Approach
+    changeApproachValue(approachId: ID!, value: String!): Approach
 }
 `;
 
