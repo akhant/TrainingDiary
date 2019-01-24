@@ -155,3 +155,11 @@ export const CHANGE_APPROACH_VALUE = gql`
     }
   }
 `;
+
+export const CHANGE_APPROACH_WEIGHT = gql`
+  mutation($approachId: ID!, $weight: Int!) {
+    changeApproachWeight(approachId: $approachId, weight: $weight) {
+      approachId
+    }
+  }
+`;

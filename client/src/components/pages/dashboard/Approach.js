@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE } from '../../../queries';
+import Weight from './Weight';
 
 export class Approach extends Component {
   state = {
     approachValue: '',
     finishApproach: 0,
+    weight: 0
   };
   componentDidMount = () => {
     this.setState({
@@ -42,8 +44,8 @@ export class Approach extends Component {
     ); */
   };
 
-  handleDeleteApproach = async (e, removeApproach) => {
-    await removeApproach({});
+  handleDeleteApproach = async (removeApproach) => {
+    await removeApproach();
     this.props.refetchGetDayData();
   };
 
@@ -64,6 +66,13 @@ export class Approach extends Component {
 
     return (
       <div className="Approach">
+
+            <Weight
+            {...this.props}
+            
+          />
+
+      
         <Mutation mutation={CHANGE_APPROACH_VALUE}>
           {changeApproachValue => (
             <select

@@ -103,11 +103,17 @@ const resolvers = {
       await exercise.save();
       return exercise;
     },
-    async removeExercise(root, { exerciseId }, { currentUser, Exercise }) {
+    async removeExercise(root, { exerciseId }, { currentUser, Exercise, Approach }) {
       const removed = await Exercise.findOneAndRemove({
         userId: currentUser.userId,
         exerciseId,
       });
+
+      await Approach.deleteMany({
+        userId: currentUser.userId,
+        exerciseId,
+      });
+     
       return removed;
     },
 
@@ -122,20 +128,40 @@ const resolvers = {
 
       return updated;
     },
-    async addApproach(root, { exerciseId, weight }, { currentUser, Approach }) {
+
+    async addApproach(root, { exerciseId }, {
+      currentUser, Approach, Exercise, List,
+    }) {
+      const exercise = await Exercise.findOne({ userId: currentUser.userId, exerciseId });
+
+      const exerciseDescription = await List.findOne({
+        userId: currentUser.userId,
+        exerciseName: exercise.exerciseName,
+      });
+
       const approach = new Approach({
         userId: currentUser.userId,
         exerciseId,
         date: new Date().toDateString(),
         value: 0,
-        weight,
+        weight: exerciseDescription.weightTo,
         // TODO: add time
       });
+      const allApproachesForThisExercise = await Approach.find({
+        userId: currentUser.userId,
+        exerciseId,
+      });
+      if (allApproachesForThisExercise.length) {
+        const last = allApproachesForThisExercise[allApproachesForThisExercise.length - 1];
+
+        approach.weight = last.weight;
+      }
 
       approach.approachId = approach._id.toString();
       await approach.save();
       return approach;
     },
+
     async removeApproach(root, { approachId }, { currentUser, Approach }) {
       const removed = await Approach.findOneAndRemove({
         userId: currentUser.userId,
@@ -143,6 +169,7 @@ const resolvers = {
       });
       return removed;
     },
+
     async changeApproachValue(root, { approachId, value }, { currentUser, Approach }) {
       const updated = await Approach.findOneAndUpdate(
         {
@@ -150,6 +177,18 @@ const resolvers = {
           approachId,
         },
         { value }
+      );
+
+      return updated;
+    },
+
+    async changeApproachWeight(root, { approachId, weight }, { currentUser, Approach }) {
+      const updated = await Approach.findOneAndUpdate(
+        {
+          userId: currentUser.userId,
+          approachId,
+        },
+        { weight }
       );
 
       return updated;

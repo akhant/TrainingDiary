@@ -8,7 +8,7 @@ import {
   changeApproach,
   showMessage,
 } from '../../../AC';
-import Weight from './Weight';
+
 import { ADD_APPROACH } from '../../../queries';
 import { Mutation } from 'react-apollo';
 import { Message } from 'semantic-ui-react';
@@ -49,10 +49,6 @@ export class ApproachList extends Component {
       return
     }
     
-    if (!this.state.weight) {
-      this.setState({ error: 'Set weight first' });
-      return
-    } 
 
       this.setState({ error: '' });
     
@@ -155,14 +151,9 @@ export class ApproachList extends Component {
     return (
       <div className="ApproachList">
         {error && <Message warning>{error}</Message>}
-        {exercise.exerciseName && (
-          <Weight
-            weight={this.state.weight}
-            list={list}
-            exercise={exercise}
-            onChangeWeight={this.onChangeWeight}
-          />
-        )}
+
+          
+
 
         <br />
         <p className="approach_header">Approaches: </p>
@@ -170,7 +161,7 @@ export class ApproachList extends Component {
           mutation={ADD_APPROACH}
           variables={{ exerciseId: exercise.exerciseId, weight: +weight }}
         >
-          {(addApproach, { data }) => (
+          {(addApproach) => (
             <div
               role="button"
               tabIndex={0}

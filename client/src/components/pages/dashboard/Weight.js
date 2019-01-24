@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { Mutation } from 'react-apollo';
+import {CHANGE_APPROACH_WEIGHT} from '../../../queries'
 import _ from 'lodash';
 
 class Weight extends Component {
   state = {
-    weight: this.props.weight,
+    weight: this.props.approach.weight,
   };
-  handleChangeWeightValue = e => {
-    
+  handleChangeWeight = async (e, changeApproachWeight) => {
+    const value = e.target.value
     this.setState({
-      weight: e.target.value,
+      weight: value,
     });
-    this.props.onChangeWeight(e.target.value);
+    await changeApproachWeight({variables: { approachId: this.props.approach.approachId, weight: +value}})
+    
   };
 
   optionsList = () => {
     const exercise = _.find(
-      this.props.list,
+      this.props.getDayData.list,
       e => this.props.exercise.exerciseName === e.exerciseName
     );
 
     const renderList = [];
-    renderList.push(
-      <option key={0} value="Choose weight">
-        Choose weight
-      </option>
-    );
+    
     if (exercise) {
       for (let i = exercise.weightTo; i > exercise.weightFrom; i--) {
         renderList.push(
@@ -41,16 +39,21 @@ class Weight extends Component {
 
   render() {
     return (
-      <div className="weight">
-        <span className="weight_header">Вес: </span>
-        <select
-          className="weight__select custom_select"
-          value={this.state.weight}
-          onChange={this.handleChangeWeightValue}
-        >
-          {this.optionsList()}
-        </select>
-      </div>
+      <Mutation mutation={CHANGE_APPROACH_WEIGHT}>
+          {changeApproachWeight => (
+            <div className="weight">
+            <span className="weight_header">Вес: </span>
+            <select
+              className="weight__select custom_select"
+              value={this.state.weight}
+              onChange={(e) => this.handleChangeWeight(e, changeApproachWeight)}
+            >
+              {this.optionsList()}
+            </select>
+          </div>
+          )}
+        </Mutation>
+      
     );
   }
 }
@@ -59,4 +62,4 @@ Weight.propTypes = {
   onChangeWeight: PropTypes.func,
 };
 
-export default connect(({ listOfExercises }) => ({ listOfExercises }))(Weight);
+export default Weight;

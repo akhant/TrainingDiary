@@ -75,6 +75,7 @@ type Mutation {
     addApproach(exerciseId: ID!, weight: Int!): Approach
     removeApproach(approachId: ID!): Approach
     changeApproachValue(approachId: ID!, value: String!): Approach
+    changeApproachWeight(approachId: ID!, weight: Int!): Approach
 }
 `;
 
