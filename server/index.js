@@ -41,7 +41,7 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(async (req, res, next) => {
   const token = req.headers.authorization;
-  if (token) {
+  if (token && token !== "null") {
     try {
       const currentUser = await jwt.verify(token, process.env.JWT_SECRET);
       req.currentUser = currentUser;

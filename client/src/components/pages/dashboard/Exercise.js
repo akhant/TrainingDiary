@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import ApproachList from './ApproachList';
 import ExerciseSelect from './ExerciseSelect';
-import { changeExerciseNameValue } from '../../../AC';
 import { Mutation } from 'react-apollo';
 import { REMOVE_EXERCISE } from '../../../queries';
 
@@ -11,17 +9,15 @@ export class Exercise extends Component {
     exerciseId: this.props.exercise.exerciseId,
   };
 
-  handleRemoveExercise = async (removeExercise, refetchGetDayData) => {
+  handleRemoveExercise = async (removeExercise) => {
     await removeExercise();
-    await refetchGetDayData();
+    this.props.refetchGetDayData();
   };
 
-  handleChangeExerciseNameValue = e => {
-    this.props.changeExerciseNameValue(e, this.props.exercise.exerciseId);
-  };
+
 
   render() {
-    const { exercise } = this.props;
+    const { exercise} = this.props;
 
     return (
       <Mutation
@@ -29,16 +25,16 @@ export class Exercise extends Component {
         variables={{ exerciseId: exercise.exerciseId }}
       >
         {removeExercise => (
-          <div className="Exercise">
+          <div className="exercise">
             <ExerciseSelect
-              changeSelect={this.handleChangeExerciseNameValue}
-              exerciseName={exercise.exerciseName}
-              list={this.props.list}
+              
+              
+              {...this.props}
+              
             />
             <div>
               <ApproachList
-                exercise={exercise}
-                approaches={this.props.approaches}
+                {...this.props}
               />
             </div>
             <div
@@ -46,8 +42,7 @@ export class Exercise extends Component {
               tabIndex={0}
               onClick={() =>
                 this.handleRemoveExercise(
-                  removeExercise,
-                  this.props.refetchGetDayData
+                  removeExercise
                 )
               }
               className="deleteExercise_btn"
@@ -61,7 +56,4 @@ export class Exercise extends Component {
   }
 }
 
-export default connect(
-  null,
-  { changeExerciseNameValue }
-)(Exercise);
+export default Exercise;

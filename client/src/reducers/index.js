@@ -8,6 +8,7 @@ import params from './params';
 import user from './user';
 import listOfExercises from './listOfExercises';
 
+
 export default combineReducers({
   date,
   exercises,

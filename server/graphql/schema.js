@@ -70,6 +70,7 @@ type Mutation {
     changeList(exerciseDescriptionId: ID!,exerciseName: String!, weightFrom: Int, weightTo: Int): ExerciseDescription
     addExercise(date: String!): Exercise
     removeExercise(exerciseId: ID!): Exercise
+    changeSelectExerciseName(exerciseId: ID!, exerciseName: String!): Exercise
 }
 `;
 

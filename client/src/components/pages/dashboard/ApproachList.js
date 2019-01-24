@@ -14,7 +14,7 @@ export class ApproachList extends Component {
   state = {
     startApproach: 0,
     finishApproach: 0,
-    weight: 40,
+    weight: this.props.getDayData.approaches.length ? this.props.getDayData.approaches[this.props.approaches.length-1].weight : 0,
   };
 
   onChangeApproachValue = (
@@ -128,11 +128,12 @@ export class ApproachList extends Component {
   };
 
   render() {
-    const { approaches, exercise } = this.props;
-    
+    const { exercise, getDayData: {approaches, list}} = this.props;
+
     return (
       <div className="ApproachList">
-        <Weight onChangeWeight={this.onChangeWeight} />
+      {exercise.exerciseName &&  <Weight weight={this.state.weight} list={list} exercise={exercise} onChangeWeight={this.onChangeWeight} /> }
+       
         <br />
         <p className="approach_header">Approaches: </p>
         <div

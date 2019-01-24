@@ -36,15 +36,13 @@ class PickerDate extends Component {
   };
 
   render() {
-    console.log("param", this.props.params)
     
-    console.log(moment().format("ddd MMM DD YY"))
     return (
       <div className={this.props.className}>
 
             <DatePicker
               dateFormat="DD.MM.YYYY"
-              className="react_datepicker"
+              className="react-datepicker"
               selected={this.state.date}
               onChange={this.handleChange}
             />

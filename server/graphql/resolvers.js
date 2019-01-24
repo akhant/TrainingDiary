@@ -19,12 +19,15 @@ const resolvers = {
     ) {
       const exercises = Exercise.find({ userId: currentUser.userId, date });
       const approaches = Approach.find({ userId: currentUser.userId, date });
-      const list = await List.find({ userId: currentUser.userId });
+      const list = List.find({ userId: currentUser.userId });
 
       await Promise.all([exercises, approaches, list]);
-
+      
       return {
-        date, exercises, approaches, list,
+        date,
+        exercises,
+        approaches,
+        list,
       };
     },
   },
@@ -102,7 +105,6 @@ const resolvers = {
     },
 
     async addExercise(root, { date }, { currentUser, Exercise }) {
-      console.log(date);
       const exercise = new Exercise({
         userId: currentUser.userId,
         date,
@@ -118,6 +120,22 @@ const resolvers = {
         exerciseId,
       });
       return removed;
+    },
+
+    async changeSelectExerciseName(
+      root,
+      { exerciseId, exerciseName },
+      { currentUser, Exercise }
+    ) {
+      const updated = await Exercise.findOneAndUpdate(
+        {
+          userId: currentUser.userId,
+          exerciseId,
+        },
+        { exerciseName }
+      );
+      
+      return updated;
     },
   },
 };

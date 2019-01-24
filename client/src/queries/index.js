@@ -121,3 +121,12 @@ export const REMOVE_EXERCISE = gql`
     }
   }
 `;
+
+export const CHANGE_SELECT_EXERCISE_NAME = gql`
+  mutation($exerciseId: ID!, $exerciseName: String!) {
+    changeSelectExerciseName(exerciseId: $exerciseId, exerciseName: $exerciseName) {
+      exerciseId
+      exerciseName
+    }
+  }
+`;

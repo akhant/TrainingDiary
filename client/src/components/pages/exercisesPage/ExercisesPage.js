@@ -24,13 +24,7 @@ class ExercisesPage extends Component {
       <div>
         <Query query={GET_LIST}>
           {({ data, refetch }) => {
-            console.log('​ExercisesPage -> render -> data', data);
-
-            if (data.getList) {
-              this.props.putListToRedux(data.getList.list);
-            }
-
-            return (
+           return (
               <Grid>
                 <Row>
                   <Col sx={12} />

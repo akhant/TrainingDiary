@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
-export default class Weight extends Component {
+class Weight extends Component {
   state = {
-    weight: 40,
+    weight: this.props.weight,
   };
   handleChangeWeightValue = e => {
+    e.preventDefault();
     this.setState({
       weight: e.target.value,
     });
@@ -13,22 +16,35 @@ export default class Weight extends Component {
   };
 
   optionsList = () => {
-    const list = [];
-    for (let i = 40; i > 9; i--) {
-      list.push(
-        <option key={i} value={i}>
-          {i}
-        </option>
-      );
+    const exercise = _.find(
+      this.props.list,
+      e => this.props.exercise.exerciseName === e.exerciseName
+    );
+
+    const renderList = [];
+    renderList.push(
+      <option key={0} value="Choose weight">
+        Choose weight
+      </option>
+    );
+    if (exercise) {
+      for (let i = exercise.weightTo; i > exercise.weightFrom; i--) {
+        renderList.push(
+          <option key={i + 1} value={i}>
+            {i}
+          </option>
+        );
+      }
+      return renderList;
     }
-    return list;
   };
+
   render() {
     return (
-      <div className="Weight">
+      <div className="weight">
         <span className="weight_header">Вес: </span>
         <select
-          className="Weight__select custom_select"
+          className="weight__select custom_select"
           value={this.state.weight}
           onChange={this.handleChangeWeightValue}
         >
@@ -39,10 +55,8 @@ export default class Weight extends Component {
   }
 }
 
-Weight.defaultProps = {
-  onChangeWeight: null,
-};
-
 Weight.propTypes = {
   onChangeWeight: PropTypes.func,
 };
+
+export default connect(({ listOfExercises }) => ({ listOfExercises }))(Weight);

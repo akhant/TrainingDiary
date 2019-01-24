@@ -61,7 +61,7 @@ export class Statistic extends Component {
         <div className="no_exercises">
           <PickerDate
             pickDateFromMain={this.state.pickStatisticDate}
-            className="PickerDate statistic_pikerDate"
+            className="picker-date statistic__picker-date"
             handleChange={this.handleChange}
           />
           <h2 className="no_exercises_h2">No exercises this day</h2>
