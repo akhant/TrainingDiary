@@ -55,6 +55,15 @@ type List {
     list: [ExerciseDescription]!
 }
 
+type Statistic {
+    userId: ID!
+    date: String!
+    workoutStart: String
+    workoutFinish: String
+    workoutTime: String
+
+}
+
 type Query {
     getCurrentUser: User
     getList: List
@@ -72,10 +81,12 @@ type Mutation {
     addExercise(date: String!): Exercise
     removeExercise(exerciseId: ID!): Exercise
     changeSelectExerciseName(exerciseId: ID!, exerciseName: String!): Exercise
-    addApproach(exerciseId: ID!, weight: Int!): Approach
+    addApproach(exerciseId: ID!, startApproachTime: String!): Approach
     removeApproach(approachId: ID!): Approach
-    changeApproachValue(approachId: ID!, value: String!): Approach
+    changeApproachValue(approachId: ID!, value: String!, finishApproachTime: String!): Approach
     changeApproachWeight(approachId: ID!, weight: Int!): Approach
+    workoutStart(workoutStart: String!): Statistic
+    workoutFinish(workoutFinish: String!): Statistic
 }
 `;
 

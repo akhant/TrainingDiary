@@ -8,9 +8,9 @@ const StatisticSchema = new Schema({
   approachId: String,
   userId: String,
   date: String,
-  workoutStart: Number,
-  workoutFinish: Number,
-  workoutTime: Number,
+  workoutStart: String,
+  finishWorkout: String,
+  workoutTime: String,
 });
 
 export default mongoose.model('Statistic', StatisticSchema);

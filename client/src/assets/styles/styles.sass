@@ -11,9 +11,9 @@ $bor-blue: 1px solid #41a9ec
 html, body
   margin: 0
   padding: 0
-  
-select, input  
-  outline: none
+
+div, select
+  outline: none 
 
 form
   width: 50%
@@ -29,6 +29,7 @@ body
   background-repeat: no-repeat
   background-attachment: scroll
   background-size: cover
+  
 
 text  
   font-size: 12px
@@ -166,6 +167,7 @@ a
   
 .approachList_items 
   display: flex
+  transition: 1s
 
 .ElementOfList
   position: relative
@@ -266,6 +268,7 @@ a
   background: radial-gradient($bg-blue, darken($bg-blue, 5%))
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
   border-radius: 50%
+  position: static
   margin: auto
   .react-datepicker
     border: none
@@ -283,12 +286,7 @@ a
 
 .react-datepicker-popper
   z-index: 3 !important
-  
 
-
-.statistic__picker-date
-  position: static
-  margin: auto
 
 .no_exercises
   .react-datepicker
@@ -360,7 +358,7 @@ a
   display: inline-block
   
 
-.link_to_main__wrapper
+.link-to-main__wrapper
   text-align: center
 
 .no_exercises

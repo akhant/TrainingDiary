@@ -4,7 +4,7 @@ import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE } from '../../../queries';
 import Weight from './Weight';
 
 export class Approach extends Component {
-  state = {
+  state = { 
     approachValue: '',
     finishApproach: 0,
     weight: 0
@@ -18,7 +18,7 @@ export class Approach extends Component {
   handleChangeApproachValue = async (e, changeApproachValue) => {
     const value = e.target.value;
     this.setState({ approachValue: value });
-    await changeApproachValue({ variables: { approachId: this.props.approach.approachId, value } });
+    await changeApproachValue({ variables: { approachId: this.props.approach.approachId, value, finishApproachTime: Date.now().toString() } });
     this.props.refetchGetDayData();
 
     /* // exercise finished

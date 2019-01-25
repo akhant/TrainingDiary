@@ -113,7 +113,7 @@ const resolvers = {
         userId: currentUser.userId,
         exerciseId,
       });
-     
+
       return removed;
     },
 
@@ -129,9 +129,13 @@ const resolvers = {
       return updated;
     },
 
-    async addApproach(root, { exerciseId }, {
-      currentUser, Approach, Exercise, List,
-    }) {
+    async addApproach(
+      root,
+      { exerciseId, startApproachTime },
+      {
+        currentUser, Approach, Exercise, List,
+      }
+    ) {
       const exercise = await Exercise.findOne({ userId: currentUser.userId, exerciseId });
 
       const exerciseDescription = await List.findOne({
@@ -142,6 +146,7 @@ const resolvers = {
       const approach = new Approach({
         userId: currentUser.userId,
         exerciseId,
+        startApproachTime,
         date: new Date().toDateString(),
         value: 0,
         weight: exerciseDescription.weightTo,
@@ -170,13 +175,17 @@ const resolvers = {
       return removed;
     },
 
-    async changeApproachValue(root, { approachId, value }, { currentUser, Approach }) {
+    async changeApproachValue(
+      root,
+      { approachId, value, finishApproachTime },
+      { currentUser, Approach }
+    ) {
       const updated = await Approach.findOneAndUpdate(
         {
           userId: currentUser.userId,
           approachId,
         },
-        { value }
+        { value, finishApproachTime }
       );
 
       return updated;
@@ -192,6 +201,31 @@ const resolvers = {
       );
 
       return updated;
+    },
+    async workoutStart(root, { workoutStart }, { currentUser, Statistic }) {
+      const stat = new Statistic({
+        userId: currentUser.userId,
+        date: new Date().toDateString(),
+        workoutStart,
+      });
+
+      await stat.save();
+
+      return stat;
+    },
+    async workoutFinish(root, { workoutFinish }, { currentUser, Statistic }) {      
+      const stat = await Statistic.findOne(
+        {
+          userId: currentUser.userId,
+          date: new Date().toDateString(),
+        }
+      );
+      stat.workoutFinish = workoutFinish;
+      stat.workoutTime = +stat.workoutFinish - +stat.workoutStart;
+
+      await stat.save();
+
+      return stat;
     },
   },
 };

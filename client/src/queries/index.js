@@ -133,8 +133,8 @@ export const CHANGE_SELECT_EXERCISE_NAME = gql`
 `;
 
 export const ADD_APPROACH = gql`
-  mutation($exerciseId: ID!, $weight: Int!) {
-    addApproach(exerciseId: $exerciseId, weight: $weight) {
+  mutation($exerciseId: ID!, $startApproachTime: String!) {
+    addApproach(exerciseId: $exerciseId startApproachTime: $startApproachTime) {
       approachId
     }
   }
@@ -149,8 +149,8 @@ export const REMOVE_APPROACH = gql`
 `;
 
 export const CHANGE_APPROACH_VALUE = gql`
-  mutation($approachId: ID!, $value: String!) {
-    changeApproachValue(approachId: $approachId, value: $value) {
+  mutation($approachId: ID!, $value: String!, $finishApproachTime: String!) {
+    changeApproachValue(approachId: $approachId, value: $value, finishApproachTime: $finishApproachTime ) {
       approachId
     }
   }
@@ -160,6 +160,23 @@ export const CHANGE_APPROACH_WEIGHT = gql`
   mutation($approachId: ID!, $weight: Int!) {
     changeApproachWeight(approachId: $approachId, weight: $weight) {
       approachId
+    }
+  }
+`;
+
+
+export const WORKOUT_START = gql`
+  mutation($workoutStart: String!, ) {
+    workoutStart(workoutStart: $workoutStart) {
+      workoutStart
+    }
+  }
+`;
+
+export const WORKOUT_FINISH = gql`
+  mutation($workoutFinish: String!, ) {
+    workoutFinish(workoutFinish: $workoutFinish) {
+      workoutFinish
     }
   }
 `;

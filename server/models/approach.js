@@ -12,7 +12,8 @@ const ApproachSchema = new Schema({
   date: String,
   exerciseTime: Number,
   restTime: Number,
-  timeFromStart: Number,
+  startApproachTime: String,
+  finishApproachTime: String,
   weight: Number,
   approachId: String,
 });

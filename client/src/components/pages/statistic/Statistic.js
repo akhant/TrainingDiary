@@ -61,12 +61,12 @@ export class Statistic extends Component {
         <div className="no_exercises">
           <PickerDate
             pickDateFromMain={this.state.pickStatisticDate}
-            className="picker-date statistic__picker-date"
+            className="picker-date"
             handleChange={this.handleChange}
           />
           <h2 className="no_exercises_h2">No exercises this day</h2>
-          <div className="link_to_main__wrapper">
-            <Link className="link_to_main btn" to="/dashboard">
+          <div className="link-to-main__wrapper">
+            <Link className="link-to-main btn" to="/dashboard">
               {' '}
               To main{' '}
             </Link>
@@ -81,7 +81,7 @@ export class Statistic extends Component {
           <Col>
             <PickerDate
               pickDateFromMain={this.state.pickStatisticDate}
-              className="PickerDate statistic_pikerDate"
+              className="statistic_pikerDate"
               handleChange={this.handleChange}
             />
           </Col>
@@ -113,8 +113,8 @@ export class Statistic extends Component {
 
         <Row>
           <Col>
-            <div className="link_to_main__wrapper">
-              <Link className="link_to_main btn" to="/dashboard">
+            <div className="link-to-main__wrapper">
+              <Link className="link-to-main btn" to="/dashboard">
                 {' '}
                 To main{' '}
               </Link>

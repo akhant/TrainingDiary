@@ -44,17 +44,21 @@ export class ApproachList extends Component {
   };
 
   onClickAddApproach = async (e, addApproach) => {
-    if (!this.props.exercise.exerciseName) {
+    const {exercise, refetchGetDayData} = this.props
+    
+    if (!exercise.exerciseName) {
       this.setState({ error: 'Set exercise first' });
       return
     }
     
 
       this.setState({ error: '' });
-    
 
-    await addApproach();
-    this.props.refetchGetDayData();
+    await addApproach({variables:{ exerciseId: exercise.exerciseId, startApproachTime: Date.now().toString() }});
+    refetchGetDayData();
+    //start exercise
+
+
     /* if (!this.checkMessage()) return;
 
     // approach start time
@@ -146,20 +150,17 @@ export class ApproachList extends Component {
       exercise,
       getDayData: { approaches, list },
     } = this.props;
-    const { error, weight } = this.state;
+    const { error } = this.state;
+
 
     return (
       <div className="ApproachList">
         {error && <Message warning>{error}</Message>}
 
-          
-
-
         <br />
         <p className="approach_header">Approaches: </p>
         <Mutation
           mutation={ADD_APPROACH}
-          variables={{ exerciseId: exercise.exerciseId, weight: +weight }}
         >
           {(addApproach) => (
             <div
@@ -178,13 +179,6 @@ export class ApproachList extends Component {
             if (approach.exerciseId === exercise.exerciseId) {
               return (
                 <Approach
-                  /* restTime={this.restTime}
-                  startApproach={this.state.startApproach}
-                  exercise={exercise}
-                  
-                  
-                  onChangeApproachValue={this.onChangeApproachValue}
-                  onDeleteApproach={this.onDeleteApproach} */
                   approach={approach}
                   key={approach.approachId}
                   {...this.props}
