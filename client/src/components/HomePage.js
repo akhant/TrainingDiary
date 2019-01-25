@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout } from '../AC/auth';
 
-const HomePage = ({ isAuthenticated, logout }) => (
+
+const HomePage = ({ isAuthenticated }) => (
   <div className="HomePage">
     <h1>Welcome to the world of power and self-discipline!</h1>
     <p>This place helps you to make yourself stronger.</p>
 
     {isAuthenticated ? (
       <div>
-        <button type="button" className="btn" onClick={() => logout()}>
+        <button type="button" className="btn"/*  onClick={() => logout() } */>
           Logout
         </button>
         <Link className="btn" to="/dashboard">
@@ -58,6 +58,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(
-  mapStateToProps,
-  { logout }
+  mapStateToProps
 )(HomePage);

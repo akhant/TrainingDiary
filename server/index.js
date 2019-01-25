@@ -15,7 +15,6 @@ import Exercise from './models/exercise';
 import Approach from './models/approach';
 import Statistic from './models/statistic';
 import List from './models/list';
-import * as route from './controllers';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -68,18 +67,6 @@ app.use(
     graphiql: true,
   }))
 );
-
-// routes
-app.get('/api/data', route.getData);
-app.post('/api/data', route.addExercise);
-app.post('/api/drop', route.dropDatabase);
-app.post('/api/deleteEx', route.deleteExercise);
-app.post('/api/changeName', route.changeName);
-app.post('/api/addApproach', route.addApproach);
-app.post('/api/deleteApproach', route.deleteApproach);
-app.post('/api/changeApproach', route.changeApproach);
-app.post('/api/workoutStart', route.workoutStart);
-app.post('/api/workoutFinish', route.workoutFinish);
 
 // server
 app.listen(PORT, () => console.log(`Express server listening on port ${PORT}`));

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Message } from 'semantic-ui-react';
 import isEmail from 'validator/lib/isEmail';
-import { connect } from 'react-redux';
 import Delay from 'react-delay';
 import { Redirect } from 'react-router-dom';
 import InlineError from '../../messages/InlineError';
@@ -108,4 +107,4 @@ ForgotPasswordForm.propTypes = {
   submit: PropTypes.func.isRequired,
 };
 
-export default connect(({ user }) => ({ user }))(ForgotPasswordForm);
+export default ForgotPasswordForm;

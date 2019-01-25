@@ -4,7 +4,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { fetchData } from '../../../AC';
 import elapsedTime from '../../../helpers';
 import PickerDate from '../../PickerDate';
 import Message from '../../messages/Message';
@@ -19,24 +18,14 @@ export class Statistic extends Component {
     showExerciseStatistic: '',
   };
 
-  /* componentDidMount = () => {
-    this.setState({
-      pickDate: this.props.params.pickDate,
-    });
-  }; */
+  
   onClickMore = exerciseName => {
     this.setState({
       showExerciseStatistic: exerciseName,
     });
   };
 
-  /*  getWorkoutTime = () => {
-    const { workoutTime } = _.find(this.props.statistic, {
-      date: this.state.pickDate._d.toDateString(),
-    });
 
-    return elapsedTime(workoutTime);
-  }; */
   handleChange = choosenDate => {
     this.setState({
       pickDate: choosenDate,
@@ -72,15 +61,15 @@ export class Statistic extends Component {
       );
     } */
     // если есть подходы
-    console.log('pd', this.state.pickDate);
+
     return (
       <Query
         query={GET_DAY_DATA}
         variables={{ date: this.state.pickDate.format('ddd MMM DD YYYY') }}
       >
-        {({ data }) => {
-          if (data && data.getDayData) {
-            const { approaches, statistic } = data.getDayData;
+        {({ data: {getDayData} }) => {
+          if (getDayData) {
+            const { approaches, statistic } = getDayData;
             const filteredApproaches = _.groupBy(approaches, 'exerciseName');
             return (
               <Grid fluid>
@@ -136,10 +125,8 @@ export class Statistic extends Component {
 }
 
 export default connect(
-  ({ statistic, approaches, params }) => ({
-    statistic,
-    approaches,
+  ({  params }) => ({
+   
     params,
-  }),
-  { fetchData }
+  })
 )(Statistic);

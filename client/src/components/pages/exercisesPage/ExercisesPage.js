@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Accordion, Icon } from 'semantic-ui-react';
+import { Accordion } from 'semantic-ui-react';
 import ElementOfList from './ElementOfList';
 import AddExerciseForm from './AddExerciseForm';
 import { Query } from 'react-apollo';
 import { GET_LIST } from '../../../queries';
-import { putListToRedux } from '../../../AC';
-import { connect } from 'react-redux';
 
 class ExercisesPage extends Component {
   state = { activeIndex: null };
@@ -64,7 +62,4 @@ class ExercisesPage extends Component {
   }
 }
 
-export default connect(
-  null,
-  { putListToRedux }
-)(ExercisesPage);
+export default ExercisesPage;

@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import Approach from './Approach';
 
 import {
-  addApproach,
-  deleteApproach,
-  changeApproach,
   showMessage,
 } from '../../../AC';
 
@@ -193,9 +190,8 @@ export class ApproachList extends Component {
 }
 
 export default connect(
-  ({ statistic, messages }) => ({
-    statistic,
+  ({ messages }) => ({
     messages,
   }),
-  { addApproach, deleteApproach, changeApproach, showMessage }
+  { showMessage }
 )(ApproachList);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { workoutStart, showMessage, workoutFinish } from '../../../AC';
+import { showMessage } from '../../../AC';
 import elapsedTime from '../../../helpers';
 import {Mutation} from 'react-apollo'
 import {WORKOUT_START, WORKOUT_FINISH} from '../../../queries'
@@ -13,31 +13,11 @@ class Timer extends Component {
     elapsed: 0,
   };
 
-  /* componentDidUpdate = () => {
-    if (this.checkStat()) {
-      const { workoutTime } = this.checkStat();
-      if (!this.started && this.state.elapsed !== workoutTime) {
-        this.setState({
-          elapsed: workoutTime,
-        });
-      }
-    } else if (this.state.elapsed) {
-      this.setState({
-        elapsed: 0,
-      });
-    }
-  }; */
-
   componentWillUnmount = () => {
     clearInterval(this.timer);
     this.finish();
   };
 
-  // есть ли выбранный день в statistic
-/*   checkStat = () =>
-    _.find(this.props.statistic, {
-      date: this.props.pickDate._d.toDateString(),
-    }); */
 
   tick = () => {
     this.setState({
@@ -49,10 +29,7 @@ class Timer extends Component {
     if (this.started) return null;
 //send start time to server
     workoutStart({variables: { workoutStart: Date.now().toString() }})
-/*     const savedTime = this.checkStat()
-      ? this.checkStat().workoutTime * 1000
-      : 0;
- */
+
     this.setState(
       {
         start: Date.now() /* - savedTime */,
@@ -71,11 +48,7 @@ class Timer extends Component {
 //send finish time to server
     workoutFinish({variables: { workoutFinish: Date.now().toString() }})
    
-  /*   const savedTime = this.checkStat().workoutTime
-      ? this.checkStat().workoutTime * 1000
-      : 0; */
     clearInterval(this.timer);
-    //this.props.workoutFinish(this.props.pickDate, Date.now() + savedTime);
     this.started = 0;
     this.props.showMessage({ message: '', started: this.started });
   };
@@ -112,6 +85,6 @@ class Timer extends Component {
 }
 
 export default connect(
-  ({ statistic }) => ({ statistic }),
-  { workoutStart, showMessage, workoutFinish }
+  null, 
+  { showMessage }
 )(Timer);

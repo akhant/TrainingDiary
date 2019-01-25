@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
 import moment from 'moment';
-import { showMessage, putListToRedux } from '../../../AC';
+import { showMessage } from '../../../AC';
 import ExerciseList from './ExerciseList';
 import Timer from './Timer';
 import Message from '../../messages/Message';
@@ -108,7 +108,6 @@ export default withApollo(
     ({ messages }) => ({}),
     {
       showMessage,
-      putListToRedux,
-    }
+      }
   )(Main)
 );

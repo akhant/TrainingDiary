@@ -24,9 +24,10 @@ type Approach {
     approachNumber: Int
     exerciseName: String
     date: String!
-    exerciseTime: Int
-    restTime: Int
-    timeFromStart: Int
+    approachTime: Int
+    restTime: String
+    startApproachTime: String
+    finishApproachTime: String
     weight: Int
 }
 

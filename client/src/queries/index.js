@@ -34,14 +34,15 @@ export const GET_DAY_DATA = gql`
       approaches {
         date
         value
-        approachId
-        exerciseName
-        exerciseTime
-        restTime
-        timeFromStart
         weight
+        exerciseName
         approachNumber
+        approachId
         exerciseId
+        approachTime
+        restTime
+        startApproachTime
+        finishApproachTime
       }
       list {
         exerciseName

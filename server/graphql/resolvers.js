@@ -137,8 +137,10 @@ const resolvers = {
         currentUser, Approach, Exercise, List,
       }
     ) {
+      // need to find exercise description by exerciseId
       const exercise = await Exercise.findOne({ userId: currentUser.userId, exerciseId });
 
+      // need to find weight to
       const exerciseDescription = await List.findOne({
         userId: currentUser.userId,
         exerciseName: exercise.exerciseName,
@@ -152,16 +154,19 @@ const resolvers = {
         date: new Date().toDateString(),
         value: 0,
         weight: exerciseDescription.weightTo,
-        // TODO: add time
+        restTime: 0,
       });
+
       const allApproachesForThisExercise = await Approach.find({
         userId: currentUser.userId,
         exerciseId,
-      });
+      }).sort({ _id: 1 });
+
       if (allApproachesForThisExercise.length) {
         const last = allApproachesForThisExercise[allApproachesForThisExercise.length - 1];
 
         approach.weight = last.weight;
+        approach.restTime = startApproachTime - last.finishApproachTime;
       }
 
       approach.approachId = approach._id.toString();
@@ -182,19 +187,19 @@ const resolvers = {
       { approachId, value, finishApproachTime },
       { currentUser, Approach }
     ) {
-      const updated = await Approach.findOneAndUpdate(
-        {
-          userId: currentUser.userId,
-          approachId,
-        },
-        { value, finishApproachTime }
-      );
-
-      return updated;
+      const approach = await Approach.findOne({
+        userId: currentUser.userId,
+        approachId,
+      });
+      approach.value = value;
+      approach.finishApproachTime = finishApproachTime;
+      approach.approachTime = finishApproachTime - approach.startApproachTime;
+      await approach.save();
+      return approach;
     },
 
     async changeApproachWeight(root, { approachId, weight }, { currentUser, Approach }) {
-      const updated = await Approach.findOneAndUpdate(
+      const approach = await Approach.findOneAndUpdate(
         {
           userId: currentUser.userId,
           approachId,
@@ -202,7 +207,7 @@ const resolvers = {
         { weight }
       );
 
-      return updated;
+      return approach;
     },
     async workoutStart(root, { workoutStart }, { currentUser, Statistic }) {
       const stat = new Statistic({
@@ -215,15 +220,13 @@ const resolvers = {
 
       return stat;
     },
-    async workoutFinish(root, { workoutFinish }, { currentUser, Statistic }) {      
-      const stat = await Statistic.findOne(
-        {
-          userId: currentUser.userId,
-          date: new Date().toDateString(),
-        }
-      );
+    async workoutFinish(root, { workoutFinish }, { currentUser, Statistic }) {
+      const stat = await Statistic.findOne({
+        userId: currentUser.userId,
+        date: new Date().toDateString(),
+      });
       stat.workoutFinish = workoutFinish;
-      stat.workoutTime = +stat.workoutFinish - +stat.workoutStart;
+      stat.workoutTime = stat.workoutFinish - stat.workoutStart;
 
       await stat.save();
 
