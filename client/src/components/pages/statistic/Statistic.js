@@ -10,61 +10,58 @@ import PickerDate from '../../PickerDate';
 import Message from '../../messages/Message';
 import Chart from './Chart';
 import StatisticTable from './StatisticTable';
+import { Query } from 'react-apollo';
+import { GET_DAY_DATA } from '../../../queries';
 
 export class Statistic extends Component {
   state = {
-    pickStatisticDate: this.props.params.pickDate || moment(),
+    pickDate: /* this.props.params.pickDate || */ moment(),
     showExerciseStatistic: '',
   };
 
-  componentDidMount = () => {
+  /* componentDidMount = () => {
     this.setState({
-      pickStatisticDate: this.props.params.pickDate,
+      pickDate: this.props.params.pickDate,
     });
-  };
+  }; */
   onClickMore = exerciseName => {
     this.setState({
       showExerciseStatistic: exerciseName,
     });
   };
 
-  getWorkoutTime = () => {
+  /*  getWorkoutTime = () => {
     const { workoutTime } = _.find(this.props.statistic, {
-      date: this.state.pickStatisticDate._d.toDateString(),
+      date: this.state.pickDate._d.toDateString(),
     });
 
     return elapsedTime(workoutTime);
-  };
+  }; */
   handleChange = choosenDate => {
-    this.setState(
-      {
-        pickStatisticDate: choosenDate,
-      },
-      () => {
-        this.props.fetchData(this.state.pickStatisticDate);
-      }
-    );
+    this.setState({
+      pickDate: choosenDate,
+    });
   };
 
   render() {
-    const { approaches } = this.props;
+    /* const { approaches } = this.props;
 
     const selectedApproaches = approaches.filter(
       approach =>
-        approach.date === this.state.pickStatisticDate._d.toDateString()
+        approach.date === this.state.pickDate._d.toDateString()
     );
 
     const filteredApproaches = _.groupBy(selectedApproaches, 'exerciseName');
     // если в данный день нет подходов
     if (!selectedApproaches.length) {
       return (
-        <div className="no_exercises">
+        <div className="no-exercises">
           <PickerDate
-            pickDateFromMain={this.state.pickStatisticDate}
+            pickDateFromMain={this.state.pickDate}
             className="picker-date"
             handleChange={this.handleChange}
           />
-          <h2 className="no_exercises_h2">No exercises this day</h2>
+          <h2 className="no-exercises_h2">No exercises this day</h2>
           <div className="link-to-main__wrapper">
             <Link className="link-to-main btn" to="/dashboard">
               {' '}
@@ -73,55 +70,67 @@ export class Statistic extends Component {
           </div>
         </div>
       );
-    }
+    } */
     // если есть подходы
+    console.log('pd', this.state.pickDate);
     return (
-      <Grid fluid>
-        <Row>
-          <Col>
-            <PickerDate
-              pickDateFromMain={this.state.pickStatisticDate}
-              className="statistic_pikerDate"
-              handleChange={this.handleChange}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={5}>
-            <div className="training_time">
-              <span>Training time: {this.getWorkoutTime()}</span>
-            </div>
+      <Query
+        query={GET_DAY_DATA}
+        variables={{ date: this.state.pickDate.format('ddd MMM DD YYYY') }}
+      >
+        {({ data }) => {
+          if (data && data.getDayData) {
+            const { approaches, statistic } = data.getDayData;
+            const filteredApproaches = _.groupBy(approaches, 'exerciseName');
+            return (
+              <Grid fluid>
+                <Row>
+                  <Col>
+                    <PickerDate onPickDate={this.handleChange} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm={5}>
+                    <div className="training_time">
+                      <span>Training time: {statistic.workoutTime}</span>
+                    </div>
 
-            <StatisticTable
-              onClickMore={this.onClickMore}
-              pickDate={this.state.pickStatisticDate}
-              filteredApproaches={filteredApproaches}
-            />
-          </Col>
-          <Col sm={1} />
-          <Col sm={6}>
-            {this.state.showExerciseStatistic && (
-              <Chart
-                showExerciseStatistic={this.state.showExerciseStatistic}
-                approaches={approaches}
-              />
-            )}
-          </Col>
-        </Row>
+                    <StatisticTable
+                      onClickMore={this.onClickMore}
+                      pickDate={this.state.pickDate}
+                      filteredApproaches={filteredApproaches}
+                    />
+                  </Col>
+                  <Col sm={1} />
+                  <Col sm={6}>
+                    {this.state.showExerciseStatistic && (
+                      <Chart
+                        showExerciseStatistic={this.state.showExerciseStatistic}
+                        approaches={approaches}
+                      />
+                    )}
+                  </Col>
+                </Row>
 
-        <Message />
+                <Message />
 
-        <Row>
-          <Col>
-            <div className="link-to-main__wrapper">
-              <Link className="link-to-main btn" to="/dashboard">
-                {' '}
-                To main{' '}
-              </Link>
-            </div>
-          </Col>
-        </Row>
-      </Grid>
+                <Row>
+                  <Col>
+                    <div className="link-to-main__wrapper">
+                      <Link className="link-to-main btn" to="/dashboard">
+                        {' '}
+                        To main{' '}
+                      </Link>
+                    </div>
+                  </Col>
+                </Row>
+              </Grid>
+            );
+          }
+
+          return null;
+        }}
+      </Query>
     );
   }
 }

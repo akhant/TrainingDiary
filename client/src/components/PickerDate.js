@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addParam } from '../AC';
+import {withApollo} from 'react-apollo'
+import { GET_DAY_DATA } from '../queries'
 
 
 class PickerDate extends Component {
@@ -23,16 +25,21 @@ class PickerDate extends Component {
 
 
 
-  handleChange = date => {
+  handleChange = async (date) => {
+    this.props.onPickDate(date)
     this.setState(
       {
         date,
       },
       () => {
         this.props.addParam({ pickDate: date });
-
+        
       }
     );
+    await this.props.client.reFetchObservableQueries({
+      query: GET_DAY_DATA,
+      
+    });
   };
 
   render() {
@@ -52,9 +59,9 @@ class PickerDate extends Component {
   }
 }
 
-export default connect(
+export default withApollo(connect(
   ({params}) => ({
     params
   }),
   { addParam }
-)(PickerDate);
+)(PickerDate));

@@ -36,6 +36,7 @@ type Data {
     exercises: [Exercise]!
     approaches: [Approach]!
     list: [ExerciseDescription]!
+    statistic: [Statistic]
 }
 
 type Token {

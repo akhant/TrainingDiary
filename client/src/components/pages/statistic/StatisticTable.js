@@ -7,7 +7,7 @@ export default class StatisticTable extends Component {
     return approaches.map(approach => {
       counter++;
       return (
-        <div key={approach._id} className="elem_right__column">
+        <div key={approach.approachId} className="elem_right__column">
           <div className="elem_right__column__cell column-counter">
             {counter}
           </div>
@@ -26,8 +26,10 @@ export default class StatisticTable extends Component {
   };
 
   renderExerciseList = approaches => {
+
     const arr = [];
     for (let key in approaches) {
+      
       arr.push(
         <div key={key} className="statistic-table__elem__wrapper">
           <div className="elem__header center">{key}</div>

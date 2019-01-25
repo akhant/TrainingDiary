@@ -10,7 +10,7 @@ const ApproachSchema = new Schema({
   approachNumber: Number,
   exerciseName: String,
   date: String,
-  exerciseTime: Number,
+  workoutTime: Number,
   restTime: Number,
   startApproachTime: String,
   finishApproachTime: String,

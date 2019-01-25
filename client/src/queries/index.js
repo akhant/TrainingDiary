@@ -32,6 +32,7 @@ export const GET_DAY_DATA = gql`
         exerciseId
       }
       approaches {
+        date
         value
         approachId
         exerciseName
@@ -47,6 +48,11 @@ export const GET_DAY_DATA = gql`
         weightFrom
         weightTo
         exerciseDescriptionId
+      }
+      statistic {
+        workoutStart
+        workoutFinish
+        workoutTime
       }
     }
   }

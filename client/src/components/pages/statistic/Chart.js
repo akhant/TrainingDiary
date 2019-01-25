@@ -58,6 +58,7 @@ const Chart = createReactClass({
     // sort by date
     value = _.map(value, (v) => {
       const arr = [];
+      console.log(v)
       const arrayDate = v.date.split(' ');
       arr[0] = arrayDate[2];
       arr[1] = `${arrayDate[1]},`;

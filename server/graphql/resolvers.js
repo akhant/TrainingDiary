@@ -11,19 +11,20 @@ const resolvers = {
       return { list };
     },
     async getDayData(root, { date }, {
-      currentUser, Exercise, Approach, List,
+      currentUser, Exercise, Approach, List, Statistic,
     }) {
       const exercises = Exercise.find({ userId: currentUser.userId, date });
-      const approaches = Approach.find({ userId: currentUser.userId, date });
+      const approaches = Approach.find({ userId: currentUser.userId, date }).sort({ _id: 1 });
       const list = List.find({ userId: currentUser.userId });
-
-      await Promise.all([exercises, approaches, list]);
+      const statistic = Statistic.find({ userId: currentUser.userId, date });
+      await Promise.all([exercises, approaches, list, statistic]);
 
       return {
         date,
         exercises,
         approaches,
         list,
+        statistic,
       };
     },
   },
@@ -146,6 +147,7 @@ const resolvers = {
       const approach = new Approach({
         userId: currentUser.userId,
         exerciseId,
+        exerciseName: exercise.exerciseName,
         startApproachTime,
         date: new Date().toDateString(),
         value: 0,
