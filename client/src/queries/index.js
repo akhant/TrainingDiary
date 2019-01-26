@@ -51,9 +51,30 @@ export const GET_DAY_DATA = gql`
         exerciseDescriptionId
       }
       statistic {
+        date
         workoutStart
         workoutFinish
         workoutTime
+      }
+    }
+  }
+`;
+
+export const GET_EXERCISE_APPROACHES = gql`
+  query($exerciseName: String!) {
+    getExerciseApproaches(exerciseName: $exerciseName) {
+      approaches {
+        date
+        value
+        weight
+        exerciseName
+        approachNumber
+        approachId
+        exerciseId
+        approachTime
+        restTime
+        startApproachTime
+        finishApproachTime
       }
     }
   }
@@ -77,23 +98,14 @@ export const SIGNUP_USER = gql`
 
 export const ADD_TO_LIST = gql`
   mutation($exerciseName: String!, $weightFrom: Int, $weightTo: Int) {
-    addToList(
-      exerciseName: $exerciseName
-      weightFrom: $weightFrom
-      weightTo: $weightTo
-    ) {
+    addToList(exerciseName: $exerciseName, weightFrom: $weightFrom, weightTo: $weightTo) {
       exerciseDescriptionId
     }
   }
 `;
 
 export const CHANGE_LIST = gql`
-  mutation(
-    $exerciseDescriptionId: ID!
-    $exerciseName: String!
-    $weightFrom: Int
-    $weightTo: Int
-  ) {
+  mutation($exerciseDescriptionId: ID!, $exerciseName: String!, $weightFrom: Int, $weightTo: Int) {
     changeList(
       exerciseDescriptionId: $exerciseDescriptionId
       exerciseName: $exerciseName
@@ -141,7 +153,7 @@ export const CHANGE_SELECT_EXERCISE_NAME = gql`
 
 export const ADD_APPROACH = gql`
   mutation($exerciseId: ID!, $startApproachTime: String!) {
-    addApproach(exerciseId: $exerciseId startApproachTime: $startApproachTime) {
+    addApproach(exerciseId: $exerciseId, startApproachTime: $startApproachTime) {
       approachId
     }
   }
@@ -157,7 +169,7 @@ export const REMOVE_APPROACH = gql`
 
 export const CHANGE_APPROACH_VALUE = gql`
   mutation($approachId: ID!, $value: String!, $finishApproachTime: String!) {
-    changeApproachValue(approachId: $approachId, value: $value, finishApproachTime: $finishApproachTime ) {
+    changeApproachValue(approachId: $approachId, value: $value, finishApproachTime: $finishApproachTime) {
       approachId
     }
   }
@@ -171,9 +183,8 @@ export const CHANGE_APPROACH_WEIGHT = gql`
   }
 `;
 
-
 export const WORKOUT_START = gql`
-  mutation($workoutStart: String!, ) {
+  mutation($workoutStart: String!) {
     workoutStart(workoutStart: $workoutStart) {
       workoutStart
     }
@@ -181,7 +192,7 @@ export const WORKOUT_START = gql`
 `;
 
 export const WORKOUT_FINISH = gql`
-  mutation($workoutFinish: String!, ) {
+  mutation($workoutFinish: String!) {
     workoutFinish(workoutFinish: $workoutFinish) {
       workoutFinish
     }

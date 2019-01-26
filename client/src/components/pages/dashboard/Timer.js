@@ -1,90 +1,85 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { showMessage } from '../../../AC';
+import { Mutation } from 'react-apollo';
+import { addParam } from '../../../AC';
 import elapsedTime from '../../../helpers';
-import {Mutation} from 'react-apollo'
-import {WORKOUT_START, WORKOUT_FINISH} from '../../../queries'
+import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
 
 // TODO: fix timer
 class Timer extends Component {
   state = {
     start: '',
-    elapsed: 0,
+    elapsed: this.props.statistic ? Math.ceil(this.props.statistic.workoutTime / 1000) : 0,
   };
 
   componentWillUnmount = () => {
     clearInterval(this.timer);
-    this.finish();
+    // this.finish();
   };
-
 
   tick = () => {
-    this.setState({
-      elapsed: Math.round((Date.now() - this.state.start) / 1000),
-    });
+    this.setState(state => ({ elapsed: Math.round((Date.now() - state.start) / 1000) }));
   };
 
-  start = (workoutStart) => {
-    if (this.started) return null;
-//send start time to server
-    workoutStart({variables: { workoutStart: Date.now().toString() }})
+  start = async (workoutStart) => {
+    const { started } = this.props.params;
+    if (started) return null;
+    // send start time to server
+    await workoutStart({ variables: { workoutStart: Date.now().toString() } });
 
     this.setState(
       {
-        start: Date.now() /* - savedTime */,
+        start: Date.now(),
       },
       () => {
         this.timer = setInterval(this.tick, 1000);
-        
-        this.started = 1;
-        this.props.showMessage({ message: '', started: this.started });
+
+        this.props.addParam({ started: true, message: '' });
       }
     );
   };
 
-  finish = (workoutFinish) => {
-    if (!this.started) return null;
-//send finish time to server
-    workoutFinish({variables: { workoutFinish: Date.now().toString() }})
-   
+  finish = async (workoutFinish) => {
+    const { started } = this.props.params;
+    if (!started) return null;
+    // send finish time to server
     clearInterval(this.timer);
-    this.started = 0;
-    this.props.showMessage({ message: '', started: this.started });
+    await workoutFinish({ variables: { workoutFinish: Date.now().toString() } });
+
+    
+    this.props.addParam({ started: false, message: '' });
   };
 
   render() {
+    const { elapsed } = this.state;
+
     return (
       <div className="timer">
         <div className="timer_time">
-          <div className="center timer_time_numerals">
-            {' '}
-            {elapsedTime(this.state.elapsed)}
-          </div>
+          <div className="center timer_time_numerals"> {elapsedTime(elapsed)}</div>
         </div>
-        <Mutation mutation={WORKOUT_START} >
-        {(workoutStart) => (
-          <button className="timer_btn btn" onClick={(e)=> this.start(workoutStart)}>
-          {' '}
-          {this.state.elapsed ? 'Continue' : 'Start '}
-        </button>
-        )}
+        <Mutation mutation={WORKOUT_START}>
+          {workoutStart => (
+            <button className="timer_btn btn" onClick={e => this.start(workoutStart)}>
+              {' '}
+              {elapsed ? 'Continue' : 'Start '}
+            </button>
+          )}
         </Mutation>
-        <Mutation mutation={WORKOUT_FINISH} >
-        {(workoutFinish) => (
-          <button className="timer_btn btn" onClick={(e)=> this.finish(workoutFinish)}>
-          {' '}
-          Finish{' '}
-        </button>
-        )}
+        <Mutation mutation={WORKOUT_FINISH}>
+          {workoutFinish => (
+            <button className="timer_btn btn" onClick={e => this.finish(workoutFinish)}>
+              {' '}
+              Finish{' '}
+            </button>
+          )}
         </Mutation>
-        
       </div>
     );
   }
 }
 
 export default connect(
-  null, 
-  { showMessage }
+  ({ params }) => ({ params }),
+  { addParam }
 )(Timer);

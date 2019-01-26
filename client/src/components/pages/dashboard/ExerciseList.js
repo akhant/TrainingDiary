@@ -1,18 +1,14 @@
 import React, { Fragment } from 'react';
 import Exercise from './Exercise';
 
-const ExerciseList = props => {
+const ExerciseList = (props) => {
   const { exercises } = props.getDayData;
   return (
     <Fragment>
       {exercises.length ? (
         <div className="exercise_list">
           {exercises.map(exercise => (
-            <Exercise
-              key={exercise.exerciseId}
-              exercise={exercise}
-              {...props}
-            />
+            <Exercise key={exercise.exerciseId} exercise={exercise} {...props} />
           ))}
         </div>
       ) : (
@@ -22,6 +18,6 @@ const ExerciseList = props => {
       )}
     </Fragment>
   );
-}
+};
 
 export default ExerciseList;

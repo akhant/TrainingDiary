@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
 import ApproachList from './ApproachList';
 import ExerciseSelect from './ExerciseSelect';
-import { Mutation } from 'react-apollo';
 import { REMOVE_EXERCISE } from '../../../queries';
 
-export class Exercise extends Component {
+class Exercise extends Component {
   state = {
     exerciseId: this.props.exercise.exerciseId,
   };
 
-  handleRemoveExercise = async removeExercise => {
+  handleRemoveExercise = async (removeExercise) => {
     await removeExercise();
     this.props.refetchGetDayData();
   };
@@ -18,10 +18,7 @@ export class Exercise extends Component {
     const { exercise } = this.props;
 
     return (
-      <Mutation
-        mutation={REMOVE_EXERCISE}
-        variables={{ exerciseId: exercise.exerciseId }}
-      >
+      <Mutation mutation={REMOVE_EXERCISE} variables={{ exerciseId: exercise.exerciseId }}>
         {removeExercise => (
           <div className="exercise">
             <ExerciseSelect {...this.props} />

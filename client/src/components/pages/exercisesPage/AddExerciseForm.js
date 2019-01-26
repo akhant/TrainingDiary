@@ -12,14 +12,13 @@ export default class AddExerciseForm extends Component {
       weightFrom: 0,
       weightTo: 0,
     },
-    loading: false,
     errors: {},
   };
 
-  onChangeInput = e => {
-    this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value },
-    });
+  onChangeInput = (e) => {
+    console.log('​AddExerciseForm -> onChangeInput -> e', e.target);
+
+    this.setState({ data: { ...this.state.data, [e.target.name]: e.target.value } });
   };
 
   onSubmit = (e, addToList) => {
@@ -40,14 +39,13 @@ export default class AddExerciseForm extends Component {
     }
   };
 
-  validate = data => {
+  validate = (data) => {
     const errors = {};
-    const from = +data.weightFrom
-    const to = +data.weightTo
-// TODO: add spaces
+    const from = +data.weightFrom;
+    const to = +data.weightTo;
+    // TODO: add spaces
     if (!isAlphanumeric(data.exerciseName)) {
-      errors.exerciseName =
-        'Invlid exerciseName, use only decimals and english letters  ';
+      errors.exerciseName = 'Invlid exerciseName, use only decimals and english letters  ';
     }
 
     if (isNaN(from)) {

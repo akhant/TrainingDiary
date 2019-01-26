@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
 import { CHANGE_SELECT_EXERCISE_NAME } from '../../../queries';
 
-export class ExerciseSelect extends Component {
+class ExerciseSelect extends Component {
   state = {
     selectedExercise: this.props.exercise.exerciseName || '',
-    
   };
-
 
   componentDidMount = () => {
     this.setState({
@@ -17,7 +14,6 @@ export class ExerciseSelect extends Component {
   };
 
   onChangeSelect = async (e, changeSelectExerciseName) => {
-    
     this.setState({
       selectedExercise: e.target.value,
     });
@@ -27,12 +23,13 @@ export class ExerciseSelect extends Component {
         exerciseName: e.target.value,
       },
     });
-    this.props.refetchGetDayData()
-    
+    this.props.refetchGetDayData();
   };
 
   optionsList = () => {
-    const { getDayData: {list} } = this.props;
+    const {
+      getDayData: { list },
+    } = this.props;
     const renderList = [];
     renderList.push(
       <option key={0} value="Choose exercise">
@@ -52,7 +49,7 @@ export class ExerciseSelect extends Component {
   render() {
     return (
       <Mutation mutation={CHANGE_SELECT_EXERCISE_NAME}>
-        {(changeSelectExerciseName) => (
+        {changeSelectExerciseName => (
           <select
             onChange={e => this.onChangeSelect(e, changeSelectExerciseName)}
             value={this.state.selectedExercise}

@@ -1,197 +1,84 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import Approach from './Approach';
-
-import {
-  showMessage,
-} from '../../../AC';
-
-import { ADD_APPROACH } from '../../../queries';
 import { Mutation } from 'react-apollo';
-import { Message } from 'semantic-ui-react';
+import Approach from './Approach';
+import { addParam } from '../../../AC';
+import { ADD_APPROACH } from '../../../queries';
 
-export class ApproachList extends Component {
-  state = {
-    startApproach: 0,
-    finishApproach: 0,
-    weight: 0,
-    error: '',
-  };
-
-  onChangeApproachValue = (
-    approachValue,
-    approachId,
-    exerciseTime,
-    restTime,
-    finishApproach
-  ) => {
-    this.setState({
-      finishApproach,
-    });
-    this.props.changeApproach(
-      approachValue,
-      approachId,
-      exerciseTime,
-      restTime,
-      this.state.weight
-    );
-    this.props.showMessage({
+const ApproachList = (props) => {
+  const {
+    exercise,
+    refetchGetDayData,
+    getDayData: { approaches },
+    params: { started },
+    addParam,
+  } = props;
+  const checkParams = () => {
+    // clear from screen
+    addParam({
       message: '',
     });
-  };
-
-  onClickAddApproach = async (e, addApproach) => {
-    const {exercise, refetchGetDayData} = this.props
-    
-    if (!exercise.exerciseName) {
-      this.setState({ error: 'Set exercise first' });
-      return
-    }
-    
-
-      this.setState({ error: '' });
-
-    await addApproach({variables:{ exerciseId: exercise.exerciseId, startApproachTime: Date.now().toString() }});
-    refetchGetDayData();
-    //start exercise
-
-
-    /* if (!this.checkMessage()) return;
-
-    // approach start time
-    this.setState({
-      startApproach: Date.now(),
-    });
-
-    // send add approach
-    if (this.props.approaches.length) {
-      this.props.addApproach(
-        this.props.exercise.date,
-        this.props.exercise.dateId,
-        this.props.exercise._id,
-        this.props.exercise.exerciseName,
-        this.props.approaches[this.props.approaches.length - 1]._id
-      );
-    } else {
-      this.props.addApproach(
-        this.props.exercise.date,
-        this.props.exercise.dateId,
-        this.props.exercise._id,
-        this.props.exercise.exerciseName
-      );
-    }
-
-    // check is this approach first
-    const firstTime = () => {
-      const date = new Date();
-      const today = date.toDateString();
-      // start time for this day
-      this.props.statistic.map(stat => {
-        if (stat.date === today) {
-          this.workoutStart = stat.workoutStart;
-        }
-      });
-      // Are there approaches?
-      return this.props.approaches.some(approach => approach.date === today); 
-    };
-
-    // rest time for first approach and next
-    if (!firstTime()) {
-      this.restTime = Math.round((Date.now() - this.workoutStart) / 1000);
-    } else if (this.state.finishApproach) {
-      this.restTime = Math.ceil(
-        (Date.now() - this.state.finishApproach) / 1000
-      );
-    }
-    */
-  };
-
-
-  onChangeWeight = weightValue => {
-    this.setState({
-      weight: weightValue,
-    });
-  };
-
-  checkMessage = () => {
-    /* // clear from screen
-    this.props.showMessage({
-      message: '',
-    });
-    if (!this.props.messages.started) {
-      this.props.showMessage({
-        message: 'First click "start training"',
+    // if day didn't start
+    if (!started) {
+      addParam({
+        message: 'Click "start" first',
       });
       return false;
     }
-
-    // check not empty value
-    if (this.props.statistic.length) {
-      let flag = 0;
-      this.props.approaches.map(approach => {
-        if (!approach.value) {
-          flag = 1;
-        }
-      });
-      // if not fill preveus value
-      if (flag === 1) {
-        this.props.showMessage({ message: 'Fill previous approach' });
-        return false;
-      }
+    // if didn't choose exercise
+    if (!exercise.exerciseName) {
+      addParam({ message: 'Set exercise first' });
+      return false;
     }
-    return true; */
+
+    // if some approach value is empty
+    if (approaches.length && !approaches.every(approach => approach.value !== '0')) {
+      addParam({ message: 'Fill previous approach' });
+      return false;
+    }
+
+    return true;
   };
 
-  render() {
-    const {
-      exercise,
-      getDayData: { approaches, list },
-    } = this.props;
-    const { error } = this.state;
+  const onClickAddApproach = async (e, addApproach) => {
+    if (!checkParams()) return;
 
+    await addApproach({
+      variables: { exerciseId: exercise.exerciseId, startApproachTime: Date.now().toString() },
+    });
+    refetchGetDayData();
+  };
 
-    return (
-      <div className="ApproachList">
-        {error && <Message warning>{error}</Message>}
-
-        <br />
-        <p className="approach_header">Approaches: </p>
-        <Mutation
-          mutation={ADD_APPROACH}
-        >
-          {(addApproach) => (
-            <div
-              role="button"
-              tabIndex={0}
-              className="addApproach_btn"
-              onClick={e => this.onClickAddApproach(e, addApproach)}
-            >
-              +
-            </div>
-          )}
-        </Mutation>
-        {/* filter exercise with necessary exercise id */}
-        <div className="approachList_items">
-          {approaches.map(approach => {
-            if (approach.exerciseId === exercise.exerciseId) {
-              return (
-                <Approach
-                  approach={approach}
-                  key={approach.approachId}
-                  {...this.props}
-                />
-              );
-            }
-          })}
-        </div>
+  return (
+    <div className="ApproachList">
+      <br />
+      <p className="approach_header">Approaches: </p>
+      <Mutation mutation={ADD_APPROACH}>
+        {addApproach => (
+          <div
+            role="button"
+            tabIndex={0}
+            className="addApproach_btn"
+            onClick={e => onClickAddApproach(e, addApproach)}
+          >
+            +
+          </div>
+        )}
+      </Mutation>
+      <div className="approachList_items">
+        {approaches.map((approach) => {
+          if (approach.exerciseId === exercise.exerciseId) {
+            return <Approach approach={approach} key={approach.approachId} {...props} />;
+          }
+        })}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default connect(
-  ({ messages }) => ({
-    messages,
+  ({ params }) => ({
+    params,
   }),
-  { showMessage }
+  { addParam }
 )(ApproachList);

@@ -10,9 +10,7 @@ const Chart = createReactClass({
   getInitialState() {
     return {
       data: {
-        values: this.getData().length
-          ? this.getData()
-          : [{ x: new Date(2015, 2, 5), y: 1 }],
+        values: this.getData().length ? this.getData() : [{ x: new Date(2015, 2, 5), y: 1 }],
       },
     };
   },
@@ -50,7 +48,7 @@ const Chart = createReactClass({
           date: approach.date,
           value: approach.value,
           weight: approach.weight,
-          restTime: approach.restTime,
+          restTime: Math.ceil(approach.restTime / 1000),
         });
       }
     });
@@ -58,7 +56,7 @@ const Chart = createReactClass({
     // sort by date
     value = _.map(value, (v) => {
       const arr = [];
-      console.log(v)
+      console.log(v);
       const arrayDate = v.date.split(' ');
       arr[0] = arrayDate[2];
       arr[1] = `${arrayDate[1]},`;

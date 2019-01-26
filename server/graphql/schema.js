@@ -37,7 +37,7 @@ type Data {
     exercises: [Exercise]!
     approaches: [Approach]!
     list: [ExerciseDescription]!
-    statistic: [Statistic]
+    statistic: Statistic
 }
 
 type Token {
@@ -72,6 +72,7 @@ type Query {
     getExercises: Data
     getAllStatisticData: Data
     getDayData(date: String!): Data
+    getExerciseApproaches(exerciseName: String!): Data
 }
 
 type Mutation {

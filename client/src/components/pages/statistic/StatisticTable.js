@@ -2,34 +2,30 @@ import React, { Component } from 'react';
 import 'react-table/react-table.css';
 
 export default class StatisticTable extends Component {
-  tdRender = approaches => {
+  tdRender = (approaches) => {
     let counter = 0;
-    return approaches.map(approach => {
+    return approaches.map(({
+      value, weight, approachId, restTime,
+    }) => {
       counter++;
       return (
-        <div key={approach.approachId} className="elem_right__column">
-          <div className="elem_right__column__cell column-counter">
-            {counter}
-          </div>
-          <div className="elem_right__column__cell">{approach.value}</div>
-          <div className="elem_right__column__cell">{approach.weight}</div>
-          <div className="elem_right__column__cell">
-            {approach.restTime ? approach.restTime : 0}
-          </div>
+        <div key={approachId} className="elem_right__column">
+          <div className="elem_right__column__cell column-counter">{counter}</div>
+          <div className="elem_right__column__cell">{value}</div>
+          <div className="elem_right__column__cell">{weight}</div>
+          <div className="elem_right__column__cell">{Math.ceil(restTime / 1000)}</div>
         </div>
       );
     });
   };
 
-  handleMoreClick = exerciseName => {
+  handleMoreClick = (exerciseName) => {
     this.props.onClickMore(exerciseName);
   };
 
-  renderExerciseList = approaches => {
-
+  renderExerciseList = (approaches) => {
     const arr = [];
-    for (let key in approaches) {
-      
+    for (const key in approaches) {
       arr.push(
         <div key={key} className="statistic-table__elem__wrapper">
           <div className="elem__header center">{key}</div>
@@ -42,10 +38,7 @@ export default class StatisticTable extends Component {
             </div>
             <div className="elem_right">{this.tdRender(approaches[key])}</div>
           </div>
-          <button
-            className="btn statistic_more_btn"
-            onClick={() => this.handleMoreClick(key)}
-          >
+          <button className="btn statistic_more_btn" onClick={() => this.handleMoreClick(key)}>
             More...
           </button>
         </div>

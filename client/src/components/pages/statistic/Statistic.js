@@ -4,29 +4,30 @@ import moment from 'moment';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Query, withApollo } from 'react-apollo';
+import { Loader } from 'semantic-ui-react';
 import elapsedTime from '../../../helpers';
 import PickerDate from '../../PickerDate';
 import Message from '../../messages/Message';
 import Chart from './Chart';
 import StatisticTable from './StatisticTable';
-import { Query } from 'react-apollo';
-import { GET_DAY_DATA } from '../../../queries';
+import { GET_DAY_DATA, GET_EXERCISE_APPROACHES } from '../../../queries';
 
-export class Statistic extends Component {
+class Statistic extends Component {
   state = {
-    pickDate: /* this.props.params.pickDate || */ moment(),
+    pickDate: moment(),
     showExerciseStatistic: '',
   };
 
-  
-  onClickMore = exerciseName => {
+  onClickMore = (exerciseName) => {
     this.setState({
       showExerciseStatistic: exerciseName,
     });
   };
 
+  handleChange = (choosenDate) => {
+    console.log('​Statistic -> handleChange -> choosenDate', choosenDate);
 
-  handleChange = choosenDate => {
     this.setState({
       pickDate: choosenDate,
     });
@@ -60,14 +61,13 @@ export class Statistic extends Component {
         </div>
       );
     } */
-    // если есть подходы
+
+    const { pickDate, showExerciseStatistic } = this.state;
 
     return (
-      <Query
-        query={GET_DAY_DATA}
-        variables={{ date: this.state.pickDate.format('ddd MMM DD YYYY') }}
-      >
-        {({ data: {getDayData} }) => {
+      <Query query={GET_DAY_DATA} variables={{ date: pickDate.format('ddd MMM DD YYYY') }}>
+        {({ data: { getDayData }, loading }) => {
+          /* if (loading) return <Loader />; */
           if (getDayData) {
             const { approaches, statistic } = getDayData;
             const filteredApproaches = _.groupBy(approaches, 'exerciseName');
@@ -75,28 +75,34 @@ export class Statistic extends Component {
               <Grid fluid>
                 <Row>
                   <Col>
-                    <PickerDate onPickDate={this.handleChange} />
+                    <PickerDate pickDate={pickDate} onPickDate={this.handleChange} />
                   </Col>
                 </Row>
                 <Row>
                   <Col sm={5}>
                     <div className="training_time">
-                      <span>Training time: {statistic.workoutTime}</span>
+                      <span>Training time:</span>{' '}
+                      {statistic ? elapsedTime(Math.ceil(statistic.workoutTime / 1000)) : '0'}
                     </div>
 
-                    <StatisticTable
-                      onClickMore={this.onClickMore}
-                      pickDate={this.state.pickDate}
-                      filteredApproaches={filteredApproaches}
-                    />
+                    <StatisticTable onClickMore={this.onClickMore} filteredApproaches={filteredApproaches} />
                   </Col>
                   <Col sm={1} />
                   <Col sm={6}>
-                    {this.state.showExerciseStatistic && (
-                      <Chart
-                        showExerciseStatistic={this.state.showExerciseStatistic}
-                        approaches={approaches}
-                      />
+                    {showExerciseStatistic && (
+                      <Query query={GET_EXERCISE_APPROACHES} variables={{ exerciseName: showExerciseStatistic }}>
+                        {({ data: { getExerciseApproaches }, loading: chartLoading }) => {
+                          if (chartLoading) return <Loader />;
+                          if (getExerciseApproaches) {
+                            return (
+                              <Chart
+                                showExerciseStatistic={showExerciseStatistic}
+                                approaches={getExerciseApproaches.approaches}
+                              />
+                            );
+                          }
+                        }}
+                      </Query>
                     )}
                   </Col>
                 </Row>
@@ -124,9 +130,8 @@ export class Statistic extends Component {
   }
 }
 
-export default connect(
-  ({  params }) => ({
-   
+export default withApollo(
+  connect(({ params }) => ({
     params,
-  })
-)(Statistic);
+  }))(Statistic)
+);

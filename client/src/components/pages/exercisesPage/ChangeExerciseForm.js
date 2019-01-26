@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
-import InlineError from '../../messages/InlineError';
 import { Mutation } from 'react-apollo';
+import InlineError from '../../messages/InlineError';
 import { REMOVE_FROM_LIST, CHANGE_LIST } from '../../../queries';
 
 class ChangeExerciseForm extends Component {
@@ -12,7 +12,7 @@ class ChangeExerciseForm extends Component {
       weightFrom: 0,
       weightTo: 0,
     },
-    loading: false,
+    
     errors: {},
   };
 
@@ -20,13 +20,13 @@ class ChangeExerciseForm extends Component {
     this.setState({ data: this.props.exercise });
   };
 
-  onChangeInput = e => {
+  onChangeInput = (e) => {
     this.setState({
       data: { ...this.state.data, [e.target.name]: e.target.value },
     });
   };
 
-  onRemoveExercise = async removeFromList => {
+  onRemoveExercise = async (removeFromList) => {
     await removeFromList();
     await this.props.refetchGetList();
     this.props.changeActiveIndex(null);
@@ -39,19 +39,18 @@ class ChangeExerciseForm extends Component {
     const errors = this.validate(data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
-      await changeList()
+      await changeList();
       this.props.refetchGetList();
     }
   };
 
-  validate = data => {
+  validate = (data) => {
     const errors = {};
-    const from = +data.weightFrom
-    const to = +data.weightTo
+    const from = +data.weightFrom;
+    const to = +data.weightTo;
 
     if (!isAlphanumeric(data.exerciseName)) {
-      errors.exerciseName =
-        'Invlid exerciseName, use only decimals and english letters  ';
+      errors.exerciseName = 'Invlid exerciseName, use only decimals and english letters  ';
     }
 
     if (isNaN(from)) {
@@ -68,73 +67,81 @@ class ChangeExerciseForm extends Component {
 
     return errors;
   };
+
   render() {
     const { errors, data } = this.state;
-    const { exercise } = this.props
+    const { exercise } = this.props;
 
     return (
       <div className="ChangeExerciseForm">
-      <Mutation mutation={CHANGE_LIST} variables={{ exerciseDescriptionId: exercise.exerciseDescriptionId, exerciseName: data.exerciseName, weightFrom: Number(data.weightFrom), weightTo: Number(data.weightTo)}} >
-       {(changeList) => (
-        <Form onSubmit={(e) => this.onSubmit(e,changeList)}>
-          <Form.Field
-          error={!!errors.exerciseName}
-            required
-            label="Name of exercise"
-            placeholder="Enter name of new exercise"
-            control="input"
-            name="exerciseName"
-            onChange={this.onChangeInput}
-            value={this.state.data.exerciseName}
-          />
-          {errors.exerciseName && <InlineError text={errors.exerciseName} />}
-          <Form.Group>
-            <Form.Field
-            error={!!errors.weightFrom}
-              required
-              label="Weight from"
-              control="input"
-              name="weightFrom"
-              onChange={this.onChangeInput}
-              value={this.state.data.weightFrom}
-            />
-            {errors.weightFrom && <InlineError text={errors.weightFrom} />}
-            <Form.Field
-            error={!!errors.weightTo}
-              required
-              label="Weight to"
-              control="input"
-              name="weightTo"
-              onChange={this.onChangeInput}
-              value={this.state.data.weightTo}
-            />
-            {errors.weightTo && <InlineError text={errors.weightTo} />}
-          </Form.Group>
-          <button className="btn inline" type="submit">
-            {' '}
-            Change exercise{' '}
-          </button>
-          <Mutation
-            mutation={REMOVE_FROM_LIST}
-            variables={{
-              exerciseDescriptionId: this.props.exercise.exerciseDescriptionId,
-            }}
-          >
-            {(removeFromList, { data }) => (
-              <button
-                type="button"
-                className=" btn inline btn_remove"
-                onClick={() => this.onRemoveExercise(removeFromList)}
-              >
-                Remove exercise
+        <Mutation
+          mutation={CHANGE_LIST}
+          variables={{
+            exerciseDescriptionId: exercise.exerciseDescriptionId,
+            exerciseName: data.exerciseName,
+            weightFrom: Number(data.weightFrom),
+            weightTo: Number(data.weightTo),
+          }}
+        >
+          {changeList => (
+            <Form onSubmit={e => this.onSubmit(e, changeList)}>
+              <Form.Field
+                error={!!errors.exerciseName}
+                required
+                label="Name of exercise"
+                placeholder="Enter name of new exercise"
+                control="input"
+                name="exerciseName"
+                onChange={this.onChangeInput}
+                value={this.state.data.exerciseName}
+              />
+              {errors.exerciseName && <InlineError text={errors.exerciseName} />}
+              <Form.Group>
+                <Form.Field
+                  error={!!errors.weightFrom}
+                  required
+                  label="Weight from"
+                  control="input"
+                  name="weightFrom"
+                  onChange={this.onChangeInput}
+                  value={this.state.data.weightFrom}
+                />
+                {errors.weightFrom && <InlineError text={errors.weightFrom} />}
+                <Form.Field
+                  error={!!errors.weightTo}
+                  required
+                  label="Weight to"
+                  control="input"
+                  name="weightTo"
+                  onChange={this.onChangeInput}
+                  value={this.state.data.weightTo}
+                />
+                {errors.weightTo && <InlineError text={errors.weightTo} />}
+              </Form.Group>
+              <button className="btn inline" type="submit">
+                {' '}
+                Change exercise{' '}
               </button>
-            )}
-          </Mutation>
-        </Form>
-      
-       )}
-      </Mutation>
-        </div>
+              <Mutation
+                mutation={REMOVE_FROM_LIST}
+                variables={{
+                  exerciseDescriptionId: this.props.exercise.exerciseDescriptionId,
+                }}
+              >
+                {(removeFromList, { data }) => (
+                  <button
+                    type="button"
+                    className=" btn inline btn_remove"
+                    onClick={() => this.onRemoveExercise(removeFromList)}
+                  >
+                    Remove exercise
+                  </button>
+                )}
+              </Mutation>
+            </Form>
+          )}
+        </Mutation>
+      </div>
     );
   }
 }

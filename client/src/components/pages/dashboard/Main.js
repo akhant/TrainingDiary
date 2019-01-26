@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
 import moment from 'moment';
-import { showMessage } from '../../../AC';
+import { Mutation, Query, withApollo } from 'react-apollo';
+import { Loader } from 'semantic-ui-react';
+import { addParam } from '../../../AC';
 import ExerciseList from './ExerciseList';
 import Timer from './Timer';
-import Message from '../../messages/Message';
+import ErrorMessage from '../../messages/Message';
 import { ADD_EXERCISE, GET_DAY_DATA } from '../../../queries';
-import { Mutation, Query, withApollo } from 'react-apollo';
 
 export class Main extends Component {
   state = {
@@ -15,6 +16,11 @@ export class Main extends Component {
   };
 
   onClickAddExercise = async (e, addExercise, refetchGetDayData) => {
+    const { started } = this.props.params;
+    if (!started) {
+      this.props.addParam({ message: 'First, click to "start"' });
+      return;
+    }
     const date = this.state.pickDate.format('ddd MMM DD YYYY');
     await addExercise({ variables: { date } });
     await refetchGetDayData();
@@ -40,13 +46,8 @@ export class Main extends Component {
   };
 
   componentDidMount = async () => {
-    const { pickDate } = this.state;
-    const date = pickDate.format('ddd MMM DD YYYY');
     await this.props.client.reFetchObservableQueries({
       query: GET_DAY_DATA,
-      variables: {
-        date,
-      },
     });
   };
 
@@ -55,7 +56,8 @@ export class Main extends Component {
     const date = pickDate.format('ddd MMM DD YYYY');
     return (
       <Query query={GET_DAY_DATA} variables={{ date }}>
-        {({ data: { getDayData }, refetch }) => {
+        {({ data: { getDayData }, refetch, loading }) => {
+          /*  if (loading) return <Loader /> */
           if (getDayData) {
             return (
               <Mutation mutation={ADD_EXERCISE}>
@@ -64,33 +66,22 @@ export class Main extends Component {
                     <Row>
                       <Col sm={6} />
                       <Col sm={6}>
-                {/* if today */}
-                        {date === new Date().toDateString() && (
-                          <Timer pickDate={pickDate} />
-                        )}
+                        {/* if today */}
+                        <Timer {...getDayData} pickDate={pickDate} />
                       </Col>
                     </Row>
                     <Row>
                       <Col sm={12}>
                         <div className="exercise_list_with_buttons">
-                          <button
-                            className="btn"
-                            onClick={e =>
-                              this.onClickAddExercise(e, addExercise, refetch)
-                            }
-                          >
+                          <button className="btn" onClick={e => this.onClickAddExercise(e, addExercise, refetch)}>
                             Add exercise
                           </button>
-                          <ExerciseList
-                            getDayData={getDayData}
-                            pickDate={pickDate}
-                            refetchGetDayData={refetch}
-                          />
+                          <ExerciseList getDayData={getDayData} pickDate={pickDate} refetchGetDayData={refetch} />
                         </div>
                       </Col>
                     </Row>
 
-                    <Message />
+                    <ErrorMessage />
                   </Grid>
                 )}
               </Mutation>
@@ -105,9 +96,9 @@ export class Main extends Component {
 
 export default withApollo(
   connect(
-    ({ messages }) => ({}),
+    ({ params }) => ({ params }),
     {
-      showMessage,
-      }
+      addParam,
+    }
   )(Main)
 );

@@ -1,13 +1,15 @@
 import React from 'react';
 
+// time - in seconds
 const elapsedTime = (time) => {
-  const H = ~~(time / 3600) < 10 ? `0${~~(time / 3600)}` : ~~(time / 3600);
-  const M = ~~(time / 60) < 10 ? `0${~~(time / 60)}` : ~~(time / 60);
-  let S = time % 60 < 10 ? `0${time % 60}` : time % 60;
-  if (!time) S = '00';
+  if (time === 0) return <div className="add-time">00:00:00</div>;
+  const S = `${time % 60} sec `;
+  const H = time < 3600 ? '' : `${~~(time / 3600)} h `;
+  const M = time < 60 ? '' : `${~~((time % 3600) / 60)} min `;
+
   return (
-    <div className="timer_numerals">
-      {H}:{M}:{S}
+    <div className="add-time">
+      {H} {M} {S}
     </div>
   );
 };

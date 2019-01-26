@@ -16,7 +16,7 @@ const resolvers = {
       const exercises = Exercise.find({ userId: currentUser.userId, date });
       const approaches = Approach.find({ userId: currentUser.userId, date }).sort({ _id: 1 });
       const list = List.find({ userId: currentUser.userId });
-      const statistic = Statistic.find({ userId: currentUser.userId, date });
+      const statistic = Statistic.findOne({ userId: currentUser.userId, date });
       await Promise.all([exercises, approaches, list, statistic]);
 
       return {
@@ -27,7 +27,16 @@ const resolvers = {
         statistic,
       };
     },
+
+    async getExerciseApproaches(root, { exerciseName }, { currentUser, Approach }) {
+      const approaches = Approach.find({ userId: currentUser.userId, exerciseName }).sort({ _id: 1 });
+
+      return {
+        approaches,
+      };
+    },
   },
+
   Mutation: {
     async signupUser(root, { username, email, password }, { User }) {
       const user = await User.findOne({ email });
@@ -44,6 +53,7 @@ const resolvers = {
       await newUser.save();
       return { token: newUser.confirmationToken };
     },
+
     async signinUser(root, { email, password }, { User }) {
       const user = await User.findOne({ email });
       if (!user) {
@@ -55,6 +65,7 @@ const resolvers = {
       user.setConfirmationToken();
       return { token: user.confirmationToken };
     },
+
     async addToList(root, { exerciseName, weightFrom, weightTo }, { currentUser, List }) {
       const exercise = new List({
         exerciseName,
@@ -68,6 +79,7 @@ const resolvers = {
 
       return exercise;
     },
+
     async removeFromList(root, { exerciseDescriptionId }, { currentUser, List }) {
       const removed = await List.findOneAndRemove({
         userId: currentUser.userId,
@@ -76,13 +88,10 @@ const resolvers = {
 
       return removed;
     },
-    async changeList(
-      root,
-      {
-        exerciseDescriptionId, exerciseName, weightFrom, weightTo,
-      },
-      { currentUser, List }
-    ) {
+
+    async changeList(root, {
+      exerciseDescriptionId, exerciseName, weightFrom, weightTo,
+    }, { currentUser, List }) {
       const updated = await List.findOneAndUpdate(
         {
           userId: currentUser.userId,
@@ -104,6 +113,7 @@ const resolvers = {
       await exercise.save();
       return exercise;
     },
+
     async removeExercise(root, { exerciseId }, { currentUser, Exercise, Approach }) {
       const removed = await Exercise.findOneAndRemove({
         userId: currentUser.userId,
@@ -118,7 +128,9 @@ const resolvers = {
       return removed;
     },
 
-    async changeSelectExerciseName(root, { exerciseId, exerciseName }, { currentUser, Exercise }) {
+    async changeSelectExerciseName(root, { exerciseId, exerciseName }, {
+      currentUser, Exercise, Approach, List,
+    }) {
       const updated = await Exercise.findOneAndUpdate(
         {
           userId: currentUser.userId,
@@ -127,16 +139,22 @@ const resolvers = {
         { exerciseName }
       );
 
+      // need to find weight to
+      const exerciseDescription = await List.findOne({
+        userId: currentUser.userId,
+        exerciseName,
+      });
+      await Approach.updateMany(
+        { userId: currentUser.userId, exerciseId },
+        { weight: exerciseDescription.weightTo, exerciseName }
+      );
+
       return updated;
     },
 
-    async addApproach(
-      root,
-      { exerciseId, startApproachTime },
-      {
-        currentUser, Approach, Exercise, List,
-      }
-    ) {
+    async addApproach(root, { exerciseId, startApproachTime }, {
+      currentUser, Approach, Exercise, List,
+    }) {
       // need to find exercise description by exerciseId
       const exercise = await Exercise.findOne({ userId: currentUser.userId, exerciseId });
 
@@ -182,11 +200,7 @@ const resolvers = {
       return removed;
     },
 
-    async changeApproachValue(
-      root,
-      { approachId, value, finishApproachTime },
-      { currentUser, Approach }
-    ) {
+    async changeApproachValue(root, { approachId, value, finishApproachTime }, { currentUser, Approach }) {
       const approach = await Approach.findOne({
         userId: currentUser.userId,
         approachId,
@@ -209,17 +223,26 @@ const resolvers = {
 
       return approach;
     },
+
     async workoutStart(root, { workoutStart }, { currentUser, Statistic }) {
-      const stat = new Statistic({
+      const existing = await Statistic.findOne({
+        userId: currentUser.userId,
+        date: new Date().toDateString(),
+      });
+      if (existing) {
+        existing.workoutStart = workoutStart;
+        existing.save();
+        return existing;
+      }
+      const newStat = new Statistic({
         userId: currentUser.userId,
         date: new Date().toDateString(),
         workoutStart,
       });
-
-      await stat.save();
-
-      return stat;
+      newStat.save();
+      return newStat;
     },
+
     async workoutFinish(root, { workoutFinish }, { currentUser, Statistic }) {
       const stat = await Statistic.findOne({
         userId: currentUser.userId,
