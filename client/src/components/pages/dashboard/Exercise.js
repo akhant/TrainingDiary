@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import ApproachList from './ApproachList';
 import ExerciseSelect from './ExerciseSelect';
-import { REMOVE_EXERCISE } from '../../../queries';
+import { REMOVE_EXERCISE, GET_DAY_DATA } from '../../../queries';
 
 class Exercise extends Component {
   state = {
@@ -11,14 +11,14 @@ class Exercise extends Component {
 
   handleRemoveExercise = async (removeExercise) => {
     await removeExercise();
-    this.props.refetchGetDayData();
+    /* this.props.refetchGetDayData(); */
   };
 
   render() {
     const { exercise } = this.props;
 
     return (
-      <Mutation mutation={REMOVE_EXERCISE} variables={{ exerciseId: exercise.exerciseId }}>
+      <Mutation mutation={REMOVE_EXERCISE} variables={{ exerciseId: exercise.exerciseId }} refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}>
         {removeExercise => (
           <div className="exercise">
             <ExerciseSelect {...this.props} />

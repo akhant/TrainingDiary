@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
 import Approach from './Approach';
 import { addParam } from '../../../AC';
-import { ADD_APPROACH } from '../../../queries';
+import { ADD_APPROACH, GET_DAY_DATA } from '../../../queries';
 
 const ApproachList = (props) => {
   const {
@@ -46,14 +46,14 @@ const ApproachList = (props) => {
     await addApproach({
       variables: { exerciseId: exercise.exerciseId, startApproachTime: Date.now().toString() },
     });
-    refetchGetDayData();
+    // refetchGetDayData();
   };
 
   return (
     <div className="ApproachList">
       <br />
       <p className="approach_header">Approaches: </p>
-      <Mutation mutation={ADD_APPROACH}>
+      <Mutation mutation={ADD_APPROACH} refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]} >
         {addApproach => (
           <div
             role="button"
@@ -68,7 +68,7 @@ const ApproachList = (props) => {
       <div className="approachList_items">
         {approaches.map((approach) => {
           if (approach.exerciseId === exercise.exerciseId) {
-            return <Approach approach={approach} key={approach.approachId} {...props} />;
+            return <Approach approach={approach} key={approach.approachId} {...props}  />;
           }
         })}
       </div>

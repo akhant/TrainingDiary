@@ -11,7 +11,7 @@ const ElementOfList = ({
       {exercise.exerciseName}
     </Accordion.Title>
     <Accordion.Content active={activeIndex === index}>
-      <ChangeExerciseForm refetchGetList={refetchGetList} exercise={exercise} changeActiveIndex={handleClick} />
+      <ChangeExerciseForm exercise={exercise} changeActiveIndex={handleClick} />
     </Accordion.Content>
   </div>
 );

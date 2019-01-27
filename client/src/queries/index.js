@@ -206,3 +206,11 @@ export const SEND_FORGOT_PASSWORD = gql`
     }
   }
 `;
+
+export const RESET_PASSWORD = gql`
+  mutation($email: String!, $password: String!) {
+    resetPassword(email: $email, password: $password) {
+      token
+    }
+  }
+`;

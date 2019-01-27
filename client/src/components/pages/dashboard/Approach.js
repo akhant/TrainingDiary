@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE } from '../../../queries';
+import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE, GET_DAY_DATA } from '../../../queries';
 import Weight from './Weight';
 
 class Approach extends Component {
@@ -31,7 +31,7 @@ class Approach extends Component {
 
   handleDeleteApproach = async (removeApproach) => {
     await removeApproach();
-    this.props.refetchGetDayData();
+    // this.props.refetchGetDayData();
   };
 
   optionsList = () => {
@@ -64,7 +64,7 @@ class Approach extends Component {
             </select>
           )}
         </Mutation>
-        <Mutation mutation={REMOVE_APPROACH} variables={{ approachId: approach.approachId }}>
+        <Mutation mutation={REMOVE_APPROACH} variables={{ approachId: approach.approachId }} refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}  >
           {removeApproach => (
             <div
               role="button"

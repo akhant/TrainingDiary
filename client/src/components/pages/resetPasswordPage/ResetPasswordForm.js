@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
 import Delay from 'react-delay';
 import { Redirect } from 'react-router-dom';
+import { Mutation } from 'react-apollo';
 import InlineError from '../../messages/InlineError';
+import { RESET_PASSWORD } from '../../../queries';
 
 class ResetPasswordForm extends React.Component {
   state = {
@@ -18,25 +20,24 @@ class ResetPasswordForm extends React.Component {
     time: 5,
   };
 
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.user.passwordChanged !== this.props.user.passwordChanged && this.props.user.passwordChanged) {
-      return this.setState({ loading: false }, () => {
-        this.timeCounter();
-      });
-    }
-  };
-
   onChange = e => this.setState({
     data: { ...this.state.data, [e.target.name]: e.target.value },
   });
 
-  onSubmit = (e) => {
+  onSubmit = async (e, resetPassword) => {
     e.preventDefault();
     const errors = this.validate(this.state.data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
       this.setState({ loading: true });
-      this.props.submit(this.state.data);
+      const {
+        data: { resetPassword: response },
+      } = await resetPassword();
+      if (response) {
+        this.setState({ loading: false }, () => {
+          this.timeCounter();
+        });
+      }
     }
   };
 
@@ -45,8 +46,8 @@ class ResetPasswordForm extends React.Component {
   };
 
   timeCounter = () => {
-    const timer = setInterval(this.tick, 1000);
-    if (this.state.time === 1) clearInterval(timer);
+    this.timer = setInterval(this.tick, 1000);
+    if (this.state.time === 0) clearInterval(this.timer);
   };
 
   validate = (data) => {
@@ -57,6 +58,10 @@ class ResetPasswordForm extends React.Component {
     }
 
     return errors;
+  };
+
+  componentWillUnmount = () => {
+    clearInterval(this.timer);
   };
 
   render() {
@@ -89,52 +94,56 @@ class ResetPasswordForm extends React.Component {
 
             {setTimeout(() => {
               window.location.reload(true);
-            }, 10000)}
+            }, 5000)}
           </div>
         )}
         {/* if all is OK */}
-        <Form onSubmit={this.onSubmit} loading={loading}>
-          <Form.Field>
-            <label htmlFor="email">Your email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="abc@def.com"
-              value={data.email}
-              onChange={this.onChange}
-            />
-            {errors.email && <InlineError text={errors.email} />}
-          </Form.Field>
+        <Mutation mutation={RESET_PASSWORD} variables={{ email: data.email, password: data.password }}>
+          {resetPassword => (
+            <Form onSubmit={e => this.onSubmit(e, resetPassword)} loading={loading}>
+              <Form.Field>
+                <label htmlFor="email">Your email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="abc@def.com"
+                  value={data.email}
+                  onChange={this.onChange}
+                />
+                {errors.email && <InlineError text={errors.email} />}
+              </Form.Field>
 
-          <Form.Field error={!!errors.password}>
-            <label htmlFor="password">New Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="your new password"
-              value={data.password}
-              onChange={this.onChange}
-            />
-            {errors.password && <InlineError text={errors.password} />}
-          </Form.Field>
+              <Form.Field error={!!errors.password}>
+                <label htmlFor="password">New Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="your new password"
+                  value={data.password}
+                  onChange={this.onChange}
+                />
+                {errors.password && <InlineError text={errors.password} />}
+              </Form.Field>
 
-          <Form.Field error={!!errors.passwordConfirmation}>
-            <label htmlFor="passwordConfirmation">Confirm your new password</label>
-            <input
-              type="password"
-              id="passwordConfirmation"
-              name="passwordConfirmation"
-              placeholder="type it again, please"
-              value={data.passwordConfirmation}
-              onChange={this.onChange}
-            />
-            {errors.passwordConfirmation && <InlineError text={errors.passwordConfirmation} />}
-          </Form.Field>
+              <Form.Field error={!!errors.passwordConfirmation}>
+                <label htmlFor="passwordConfirmation">Confirm your new password</label>
+                <input
+                  type="password"
+                  id="passwordConfirmation"
+                  name="passwordConfirmation"
+                  placeholder="type it again, please"
+                  value={data.passwordConfirmation}
+                  onChange={this.onChange}
+                />
+                {errors.passwordConfirmation && <InlineError text={errors.passwordConfirmation} />}
+              </Form.Field>
 
-          <Button primary>Reset</Button>
-        </Form>
+              <Button primary>Reset</Button>
+            </Form>
+          )}
+        </Mutation>
       </div>
     );
   }

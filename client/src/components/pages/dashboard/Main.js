@@ -15,7 +15,7 @@ export class Main extends Component {
     pickDate: moment(),
   };
 
-  onClickAddExercise = async (e, addExercise, refetchGetDayData) => {
+  onClickAddExercise = async (e, addExercise) => {
     const { started } = this.props.params;
     if (!started) {
       this.props.addParam({ message: 'First, click to "start"' });
@@ -23,7 +23,6 @@ export class Main extends Component {
     }
     const date = this.state.pickDate.format('ddd MMM DD YYYY');
     await addExercise({ variables: { date } });
-    await refetchGetDayData();
     /* if (!this.props.messages.started) {
       this.props.showMessage({
         message: 'First, click to "start training"',
@@ -60,7 +59,7 @@ export class Main extends Component {
           /*  if (loading) return <Loader /> */
           if (data && getDayData) {
             return (
-              <Mutation mutation={ADD_EXERCISE}>
+              <Mutation mutation={ADD_EXERCISE} refetchQueries={[{ query: GET_DAY_DATA, variables: { date } }]}>
                 {addExercise => (
                   <Grid fluid>
                     <Row>

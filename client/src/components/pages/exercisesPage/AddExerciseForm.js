@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
-import { ADD_TO_LIST } from '../../../queries';
+import { ADD_TO_LIST, GET_LIST } from '../../../queries';
 import InlineError from '../../messages/InlineError';
 
 export default class AddExerciseForm extends Component {
@@ -35,7 +35,7 @@ export default class AddExerciseForm extends Component {
           weightTo: Number(data.weightTo),
         },
       });
-      this.props.refetchGetList();
+      
     }
   };
 
@@ -66,7 +66,7 @@ export default class AddExerciseForm extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <Mutation mutation={ADD_TO_LIST}>
+      <Mutation mutation={ADD_TO_LIST} refetchQueries={[{ query: GET_LIST }]}>
         {addToList => (
           <Form onSubmit={e => this.onSubmit(e, addToList)}>
             <Form.Field

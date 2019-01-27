@@ -3,7 +3,7 @@ import { Form } from 'semantic-ui-react';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import { Mutation } from 'react-apollo';
 import InlineError from '../../messages/InlineError';
-import { REMOVE_FROM_LIST, CHANGE_LIST } from '../../../queries';
+import { REMOVE_FROM_LIST, CHANGE_LIST, GET_LIST } from '../../../queries';
 
 class ChangeExerciseForm extends Component {
   state = {
@@ -28,7 +28,7 @@ class ChangeExerciseForm extends Component {
 
   onRemoveExercise = async (removeFromList) => {
     await removeFromList();
-    await this.props.refetchGetList();
+    
     this.props.changeActiveIndex(null);
   };
 
@@ -40,7 +40,7 @@ class ChangeExerciseForm extends Component {
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
       await changeList();
-      this.props.refetchGetList();
+      
     }
   };
 
@@ -81,7 +81,8 @@ class ChangeExerciseForm extends Component {
             exerciseName: data.exerciseName,
             weightFrom: Number(data.weightFrom),
             weightTo: Number(data.weightTo),
-          }}
+          }} 
+          refetchQueries={[{ query: GET_LIST }]}
         >
           {changeList => (
             <Form onSubmit={e => this.onSubmit(e, changeList)}>
@@ -127,6 +128,7 @@ class ChangeExerciseForm extends Component {
                 variables={{
                   exerciseDescriptionId: this.props.exercise.exerciseDescriptionId,
                 }}
+                refetchQueries={[{ query: GET_LIST }]}
               >
                 {(removeFromList, { data }) => (
                   <button

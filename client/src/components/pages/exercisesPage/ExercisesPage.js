@@ -38,7 +38,7 @@ class ExercisesPage extends Component {
                             index={index}
                             activeIndex={activeIndex}
                             handleClick={this.handleClick}
-                            refetchGetList={refetch}
+                            
                             key={exercise.exerciseDescriptionId}
                             exercise={exercise}
                           />
@@ -50,7 +50,7 @@ class ExercisesPage extends Component {
                   </Col>
                   <Col sm={6}>
                     <h3 className="center">Add exercise</h3>
-                    <AddExerciseForm refetchGetList={refetch} />
+                    <AddExerciseForm  />
                   </Col>
                 </Row>
               </Grid>
