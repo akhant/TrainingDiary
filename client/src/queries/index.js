@@ -198,3 +198,11 @@ export const WORKOUT_FINISH = gql`
     }
   }
 `;
+
+export const SEND_FORGOT_PASSWORD = gql`
+  mutation($email: String!) {
+    sendForgotPassword(email: $email) {
+      ok
+    }
+  }
+`;

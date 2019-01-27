@@ -56,9 +56,9 @@ export class Main extends Component {
     const date = pickDate.format('ddd MMM DD YYYY');
     return (
       <Query query={GET_DAY_DATA} variables={{ date }}>
-        {({ data: { getDayData }, refetch, loading }) => {
+        {({ data, data: { getDayData }, refetch }) => {
           /*  if (loading) return <Loader /> */
-          if (getDayData) {
+          if (data && getDayData) {
             return (
               <Mutation mutation={ADD_EXERCISE}>
                 {addExercise => (

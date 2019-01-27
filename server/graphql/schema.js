@@ -66,6 +66,10 @@ type Statistic {
 
 }
 
+type Ok {
+    ok: String
+}
+
 type Query {
     getCurrentUser: User
     getList: List
@@ -90,6 +94,7 @@ type Mutation {
     changeApproachWeight(approachId: ID!, weight: Int!): Approach
     workoutStart(workoutStart: String!): Statistic
     workoutFinish(workoutFinish: String!): Statistic
+    sendForgotPassword(email: String!): Ok
 }
 `;
 

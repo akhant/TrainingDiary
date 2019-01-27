@@ -18,23 +18,19 @@ class ResetPasswordForm extends React.Component {
     time: 5,
   };
 
-  componentDidUpdate = prevProps => {
-    if (
-      prevProps.user.passwordChanged !== this.props.user.passwordChanged &&
-      this.props.user.passwordChanged
-    ) {
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.user.passwordChanged !== this.props.user.passwordChanged && this.props.user.passwordChanged) {
       return this.setState({ loading: false }, () => {
         this.timeCounter();
       });
     }
   };
 
-  onChange = e =>
-    this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value },
-    });
+  onChange = e => this.setState({
+    data: { ...this.state.data, [e.target.name]: e.target.value },
+  });
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const errors = this.validate(this.state.data);
     this.setState({ errors });
@@ -53,7 +49,7 @@ class ResetPasswordForm extends React.Component {
     if (this.state.time === 1) clearInterval(timer);
   };
 
-  validate = data => {
+  validate = (data) => {
     const errors = {};
     if (!data.password) errors.password = "Can't be blank";
     if (data.password !== data.passwordConfirmation) {
@@ -88,8 +84,7 @@ class ResetPasswordForm extends React.Component {
         {loading && (
           <div>
             <Message className="center" style={{ fontSize: '30px' }} negative>
-              Oops, something goes wrong! Check your data again or confirm
-              changing in email.
+              Oops, something goes wrong! Check your data again or confirm changing in email.
             </Message>
 
             {setTimeout(() => {
@@ -126,9 +121,7 @@ class ResetPasswordForm extends React.Component {
           </Form.Field>
 
           <Form.Field error={!!errors.passwordConfirmation}>
-            <label htmlFor="passwordConfirmation">
-              Confirm your new password
-            </label>
+            <label htmlFor="passwordConfirmation">Confirm your new password</label>
             <input
               type="password"
               id="passwordConfirmation"
@@ -137,9 +130,7 @@ class ResetPasswordForm extends React.Component {
               value={data.passwordConfirmation}
               onChange={this.onChange}
             />
-            {errors.passwordConfirmation && (
-              <InlineError text={errors.passwordConfirmation} />
-            )}
+            {errors.passwordConfirmation && <InlineError text={errors.passwordConfirmation} />}
           </Form.Field>
 
           <Button primary>Reset</Button>

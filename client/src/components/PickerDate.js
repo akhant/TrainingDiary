@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { withApollo } from 'react-apollo';
-import moment from 'moment';
 import { addParam } from '../AC';
-import { GET_DAY_DATA } from '../queries';
+/* import { GET_DAY_DATA } from '../queries'; */
 
 class PickerDate extends Component {
   state = {
@@ -14,12 +13,12 @@ class PickerDate extends Component {
 
   handleChange = async (date) => {
     this.props.onPickDate(date);
+    this.setState({date})
 
     await this.props.client.resetStore()
   };
 
   render() {
-    console.log('state.date', this.state.date);
     return (
       <div>
         <DatePicker

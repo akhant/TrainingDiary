@@ -1,3 +1,5 @@
+import { sendResetPasswordEmail, sendConfirmationEmail } from '../mailer';
+
 const resolvers = {
   Query: {
     async getCurrentUser(root, args, { currentUser, User }) {
@@ -51,6 +53,7 @@ const resolvers = {
       newUser.setConfirmationToken();
       newUser.userId = newUser._id.toString();
       await newUser.save();
+      // sendConfirmationEmail(newUser)
       return { token: newUser.confirmationToken };
     },
 
@@ -254,6 +257,17 @@ const resolvers = {
       await stat.save();
 
       return stat;
+    },
+    //  TODO: send reset password email
+    async sendForgotPassword(root, { email }, { User }) {
+      const user = await User.findOne({ email });
+      if (user) {
+        // user.sendResetPasswordEmail(user)
+      } else {
+        throw new Error('Invalid email');
+      }
+
+      return { ok: 'email was sended' };
     },
   },
 };

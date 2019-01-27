@@ -12,6 +12,7 @@ import Message from '../../messages/Message';
 import Chart from './Chart';
 import StatisticTable from './StatisticTable';
 import { GET_DAY_DATA, GET_EXERCISE_APPROACHES } from '../../../queries';
+/* import Graphic from './Graphic' */
 
 class Statistic extends Component {
   state = {
@@ -66,9 +67,9 @@ class Statistic extends Component {
 
     return (
       <Query query={GET_DAY_DATA} variables={{ date: pickDate.format('ddd MMM DD YYYY') }}>
-        {({ data: { getDayData }, loading }) => {
+        {({ data, data: { getDayData } }) => {
           /* if (loading) return <Loader />; */
-          if (getDayData) {
+          if (data && getDayData) {
             const { approaches, statistic } = getDayData;
             const filteredApproaches = _.groupBy(approaches, 'exerciseName');
             return (
@@ -99,6 +100,7 @@ class Statistic extends Component {
                                 showExerciseStatistic={showExerciseStatistic}
                                 approaches={getExerciseApproaches.approaches}
                               />
+                              
                             );
                           }
                         }}
