@@ -10,7 +10,7 @@ const StatisticSchema = new Schema({
   date: String,
   workoutStart: String,
   finishWorkout: String,
-  workoutTime: String,
+  workoutTime: { type: String, default: '0' },
 });
 
 export default mongoose.model('Statistic', StatisticSchema);

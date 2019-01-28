@@ -32,6 +32,12 @@ class Statistic extends Component {
     });
   };
 
+  componentDidMount = async () => {
+    await this.props.client.reFetchObservableQueries({
+      query: GET_DAY_DATA,
+    });
+  };
+
   render() {
     /* const { approaches } = this.props;
 

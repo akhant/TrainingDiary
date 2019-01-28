@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Mutation } from 'react-apollo';
+import { Mutation, withApollo } from 'react-apollo';
 import { addParam } from '../../../AC';
 import { elapsedTime } from '../../../helpers';
 import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
@@ -8,43 +8,37 @@ import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
 // TODO: fix timer
 class Timer extends Component {
   state = {
-    start: '',
+    start: this.props.statistic ? this.props.statistic.workoutStart : Date.now(),
     elapsed: this.props.statistic ? Math.ceil(this.props.statistic.workoutTime / 1000) : 0,
   };
 
   componentWillUnmount = () => {
-    clearInterval(this.timer);
-    // this.finish();
+    this.finish();
   };
 
   tick = () => {
-    this.setState(state => ({ elapsed: Math.round((Date.now() - state.start) / 1000) }));
+    this.setState({ elapsed: Math.round((Date.now() - this.state.start) / 1000) });
   };
 
-  start = async (workoutStart) => {
+  start = async () => {
     const { started } = this.props.params;
     if (started) return null;
-    // send start time to server
-    await workoutStart({ variables: { workoutStart: Date.now().toString() } });
+    this.timer = setInterval(this.tick, 1000);
 
-    this.setState(
-      {
-        start: Date.now(),
-      },
-      () => {
-        this.timer = setInterval(this.tick, 1000);
-
-        this.props.addParam({ started: true, message: '' });
-      }
-    );
+    this.props.addParam({ started: true, message: '' });
+    // send start time to server only first time
+    if (!this.state.elapsed) {
+      await this.props.client.mutate({ mutation: WORKOUT_START, variables: { workoutStart: Date.now().toString() } });
+    }
   };
 
-  finish = async (workoutFinish) => {
+  finish = async () => {
     const { started } = this.props.params;
     if (!started) return null;
     // send finish time to server
     clearInterval(this.timer);
-    await workoutFinish({ variables: { workoutFinish: Date.now().toString() } });
+    console.log(this.props.client)
+    await this.props.client.mutate({ mutation: WORKOUT_FINISH, variables: { workoutFinish: Date.now().toString() } });
 
     this.props.addParam({ started: false, message: '' });
   };
@@ -56,29 +50,25 @@ class Timer extends Component {
       <div className="timer">
         <div className="timer_time">
           <div className="center timer_time_numerals"> {elapsedTime(elapsed)}</div>
+
+          <button className="timer_btn btn" onClick={this.start}>
+            {' '}
+            {elapsed ? 'Continue' : 'Start '}
+          </button>
+
+          <button className="timer_btn btn" onClick={this.finish}>
+            {' '}
+            Finish{' '}
+          </button>
         </div>
-        <Mutation mutation={WORKOUT_START}>
-          {workoutStart => (
-            <button className="timer_btn btn" onClick={e => this.start(workoutStart)}>
-              {' '}
-              {elapsed ? 'Continue' : 'Start '}
-            </button>
-          )}
-        </Mutation>
-        <Mutation mutation={WORKOUT_FINISH}>
-          {workoutFinish => (
-            <button className="timer_btn btn" onClick={e => this.finish(workoutFinish)}>
-              {' '}
-              Finish{' '}
-            </button>
-          )}
-        </Mutation>
       </div>
     );
   }
 }
 
-export default connect(
-  ({ params }) => ({ params }),
-  { addParam }
-)(Timer);
+export default withApollo(
+  connect(
+    ({ params }) => ({ params }),
+    { addParam }
+  )(Timer)
+);

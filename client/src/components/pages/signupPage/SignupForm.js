@@ -1,8 +1,6 @@
 import React from 'react';
 import { Form, Button } from 'semantic-ui-react';
-import isEmail from 'validator/lib/isEmail';
 import { connect } from 'react-redux';
-import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import InlineError from '../../messages/InlineError';
