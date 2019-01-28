@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
+import { Icon } from 'semantic-ui-react';
 import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE, GET_DAY_DATA } from '../../../queries';
 import Weight from './Weight';
 
@@ -50,13 +51,13 @@ class Approach extends Component {
     const { approach } = this.props;
 
     return (
-      <div className="Approach">
+      <div className="approach">
         <Weight {...this.props} />
-
+        
         <Mutation mutation={CHANGE_APPROACH_VALUE}>
           {changeApproachValue => (
             <select
-              className="Approach__select custom_select"
+              className="approach__select custom_select"
               value={this.state.approachValue}
               onChange={e => this.handleChangeApproachValue(e, changeApproachValue)}
             >
@@ -64,15 +65,19 @@ class Approach extends Component {
             </select>
           )}
         </Mutation>
-        <Mutation mutation={REMOVE_APPROACH} variables={{ approachId: approach.approachId }} refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}  >
+        <Mutation
+          mutation={REMOVE_APPROACH}
+          variables={{ approachId: approach.approachId }}
+          refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+        >
           {removeApproach => (
             <div
               role="button"
               tabIndex={0}
-              className="deleteApproach_btn"
+              className="approach__btn_delete"
               onClick={() => this.handleDeleteApproach(removeApproach)}
             >
-              -
+              <Icon size="small" name="trash alternate outline" />
             </div>
           )}
         </Mutation>

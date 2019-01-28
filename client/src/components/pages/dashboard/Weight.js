@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 import _ from 'lodash';
+import { Icon } from 'semantic-ui-react';
 import { CHANGE_APPROACH_WEIGHT } from '../../../queries';
 
 class Weight extends Component {
@@ -20,10 +20,7 @@ class Weight extends Component {
   };
 
   optionsList = () => {
-    const exercise = _.find(
-      this.props.getDayData.list,
-      e => this.props.exercise.exerciseName === e.exerciseName
-    );
+    const exercise = _.find(this.props.getDayData.list, e => this.props.exercise.exerciseName === e.exerciseName);
 
     const renderList = [];
 
@@ -44,7 +41,6 @@ class Weight extends Component {
       <Mutation mutation={CHANGE_APPROACH_WEIGHT}>
         {changeApproachWeight => (
           <div className="weight">
-            <span className="weight_header">Вес: </span>
             <select
               className="weight__select custom_select"
               value={this.state.weight}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
+import { Icon } from 'semantic-ui-react';
 import Approach from './Approach';
 import { addParam } from '../../../AC';
 import { ADD_APPROACH, GET_DAY_DATA } from '../../../queries';
@@ -48,25 +49,32 @@ const ApproachList = (props) => {
   };
 
   return (
-    <div className="ApproachList">
+    <div className="approach-list">
       <br />
-      <p className="approach_header">Approaches: </p>
-      <Mutation mutation={ADD_APPROACH} refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]} >
+      
+      <Mutation
+        mutation={ADD_APPROACH}
+        refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+      >
         {addApproach => (
           <div
             role="button"
             tabIndex={0}
-            className="addApproach_btn"
+            className="approach-list__btn_add"
             onClick={e => onClickAddApproach(e, addApproach)}
           >
-            +
+            <Icon size="mini" name="add circle" />
           </div>
         )}
       </Mutation>
-      <div className="approachList_items">
+      <div className="approach-list__signs">
+      <Icon className="approach-list__icon_up" name="balance scale" />
+      <Icon className="approach-list__icon_down" name="pencil" />
+      </div>
+      <div className="approach-list__items">
         {approaches.map((approach) => {
           if (approach.exerciseId === exercise.exerciseId) {
-            return <Approach approach={approach} key={approach.approachId} {...props}  />;
+            return <Approach approach={approach} key={approach.approachId} {...props} />;
           }
         })}
       </div>

@@ -6,14 +6,14 @@ const ExerciseList = (props) => {
   return (
     <Fragment>
       {exercises.length ? (
-        <div className="exercise_list">
+        <div className="exercise-list">
           {exercises.map(exercise => (
             <Exercise key={exercise.exerciseId} exercise={exercise} {...props} />
           ))}
         </div>
       ) : (
-        <div className="no_exercises">
-          <h2 className="no_exercises_h2">No exercises</h2>
+        <div className="no-exercises">
+          <h2 className="no-exercises_h2">No exercises</h2>
         </div>
       )}
     </Fragment>

@@ -88,7 +88,6 @@ const Chart = createReactClass({
       d.setTime(v.x);
       const zeroMonth = d.getMonth() + 1 < 10 ? '0' : '';
       v.x = `${d.getDate()}.${zeroMonth}${d.getMonth() + 1}`;
-      v.y = v.y;
       return v;
     });
     return data;

@@ -61,26 +61,23 @@ export class Main extends Component {
             return (
               <Mutation mutation={ADD_EXERCISE} refetchQueries={[{ query: GET_DAY_DATA, variables: { date } }]}>
                 {addExercise => (
-                  <Grid fluid>
+                  <Grid className="dashboard" fluid>
+                    <ErrorMessage />
                     <Row>
-                      <Col sm={6} />
-                      <Col sm={6}>
-                        {/* if today */}
+                      <Col>
                         <Timer {...getDayData} pickDate={pickDate} />
                       </Col>
                     </Row>
                     <Row>
                       <Col sm={12}>
-                        <div className="exercise_list_with_buttons">
-                          <button className="btn" onClick={e => this.onClickAddExercise(e, addExercise, refetch)}>
+                        <div className="exercise-list_with-buttons">
+                          <button className="btn exercise-list_with-buttons__btn" onClick={e => this.onClickAddExercise(e, addExercise, refetch)}>
                             Add exercise
                           </button>
                           <ExerciseList getDayData={getDayData} pickDate={pickDate} refetchGetDayData={refetch} />
                         </div>
                       </Col>
                     </Row>
-
-                    <ErrorMessage />
                   </Grid>
                 )}
               </Mutation>

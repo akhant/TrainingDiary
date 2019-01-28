@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Mutation, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { addParam } from '../../../AC';
 import { elapsedTime } from '../../../helpers';
 import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
@@ -24,7 +24,6 @@ class Timer extends Component {
     const { started } = this.props.params;
     if (started) return null;
     this.timer = setInterval(this.tick, 1000);
-
     this.props.addParam({ started: true, message: '' });
     // send start time to server only first time
     if (!this.state.elapsed) {
@@ -37,9 +36,7 @@ class Timer extends Component {
     if (!started) return null;
     // send finish time to server
     clearInterval(this.timer);
-    console.log(this.props.client)
     await this.props.client.mutate({ mutation: WORKOUT_FINISH, variables: { workoutFinish: Date.now().toString() } });
-
     this.props.addParam({ started: false, message: '' });
   };
 
@@ -50,17 +47,16 @@ class Timer extends Component {
       <div className="timer">
         <div className="timer_time">
           <div className="center timer_time_numerals"> {elapsedTime(elapsed)}</div>
-
-          <button className="timer_btn btn" onClick={this.start}>
-            {' '}
-            {elapsed ? 'Continue' : 'Start '}
-          </button>
-
-          <button className="timer_btn btn" onClick={this.finish}>
-            {' '}
-            Finish{' '}
-          </button>
         </div>
+        <button className="timer_btn btn" onClick={this.start}>
+          {' '}
+          {elapsed ? 'Continue' : 'Start '}
+        </button>
+
+        <button className="timer_btn btn" onClick={this.finish}>
+          {' '}
+          Finish{' '}
+        </button>
       </div>
     );
   }

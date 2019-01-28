@@ -5,7 +5,7 @@ import ChangeExerciseForm from './ChangeExerciseForm';
 const ElementOfList = ({
   handleClick, exercise, index, activeIndex, refetchGetList,
 }) => (
-  <div className="ElementOfList">
+  <div className="element-of-list">
     <Accordion.Title active={activeIndex === index} index={index} onClick={() => handleClick(index)}>
       <Icon name="dropdown" />
       {exercise.exerciseName}

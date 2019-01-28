@@ -39,34 +39,6 @@ class Statistic extends Component {
   };
 
   render() {
-    /* const { approaches } = this.props;
-
-    const selectedApproaches = approaches.filter(
-      approach =>
-        approach.date === this.state.pickDate._d.toDateString()
-    );
-
-    const filteredApproaches = _.groupBy(selectedApproaches, 'exerciseName');
-    // если в данный день нет подходов
-    if (!selectedApproaches.length) {
-      return (
-        <div className="no-exercises">
-          <PickerDate
-            pickDateFromMain={this.state.pickDate}
-            className="picker-date"
-            handleChange={this.handleChange}
-          />
-          <h2 className="no-exercises_h2">No exercises this day</h2>
-          <div className="link-to-main__wrapper">
-            <Link className="link-to-main btn" to="/dashboard">
-              {' '}
-              To main{' '}
-            </Link>
-          </div>
-        </div>
-      );
-    } */
-
     const { pickDate, showExerciseStatistic } = this.state;
 
     return (

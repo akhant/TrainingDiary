@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
+import { Icon } from 'semantic-ui-react';
 import ApproachList from './ApproachList';
 import ExerciseSelect from './ExerciseSelect';
 import { REMOVE_EXERCISE, GET_DAY_DATA } from '../../../queries';
@@ -18,7 +19,11 @@ class Exercise extends Component {
     const { exercise } = this.props;
 
     return (
-      <Mutation mutation={REMOVE_EXERCISE} variables={{ exerciseId: exercise.exerciseId }} refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}>
+      <Mutation
+        mutation={REMOVE_EXERCISE}
+        variables={{ exerciseId: exercise.exerciseId }}
+        refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+      >
         {removeExercise => (
           <div className="exercise">
             <ExerciseSelect {...this.props} />
@@ -29,9 +34,9 @@ class Exercise extends Component {
               role="button"
               tabIndex={0}
               onClick={() => this.handleRemoveExercise(removeExercise)}
-              className="deleteExercise_btn"
+              className="exercise__btn_delete"
             >
-              {' '}
+              <Icon size="mini" name="trash alternate" />
             </div>
           </div>
         )}

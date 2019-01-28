@@ -45,7 +45,7 @@ class ChangeExerciseForm extends Component {
     const { exercise } = this.props;
 
     return (
-      <div className="ChangeExerciseForm">
+      <div className="change-exercise__form">
         <Mutation
           mutation={CHANGE_LIST}
           variables={{

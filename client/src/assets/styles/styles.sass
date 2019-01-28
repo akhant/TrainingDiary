@@ -7,6 +7,7 @@ $btn-color: #41A9EC
 $bg-blue: #244768
 $bor: 1px solid #ccc
 $bor-blue: 1px solid #41a9ec
+$remove: #CE0202
 
 html, body
   margin: 0
@@ -30,25 +31,29 @@ body
   background-attachment: scroll
   background-size: cover
   
-
 text  
   font-size: 12px
 
 .inline 
   display: inline-block
 
-.ChangeExerciseForm
-  .form
-    width: 100%
-    margin: 0
-    .fields
-      display: flex
-      width: 100%
-      align-items: flex-end
-      .field
-        width: 50%
-      
-  
+.center
+  text-align: center
+
+a
+  text-decoration: none
+  &:hover,  &:focus
+    text-decoration: none
+    color: white
+
+
+.confirm_restricted
+  text-align: center
+  margin: auto
+  font-size: 30px
+
+
+
 
 .header
   background-color: transparent
@@ -97,12 +102,6 @@ text
         border: none
 
 
-a
-  text-decoration: none
-  &:hover,  &:focus
-    text-decoration: none
-    color: white
-
 .btn
   color: white
   text-decoration: none
@@ -128,9 +127,6 @@ a
     outline: none
     border: none
 
-
-
-
 .btn_remove
   background: linear-gradient(to bottom, #DD4F43, darken(#DD4F43, 30%))
   &:focus, &:visited, &:hover, &:active
@@ -142,90 +138,78 @@ a
   margin: auto
   text-align: center 
 
-.center
-  text-align: center
 
-.exercise_list 
+
+
+.approach-list
   display: flex
-  justify-content: flex-start
-  overflow: auto
-  .exercise
-    margin: 20px 10px
+  &__header
+    font-size: 18px
+    font-weight: bold
+  &__signs
     position: relative
-    background-color: rgba(36,71,104,0.8)
-    padding: 10px 36px 25px 10px
-    border-radius: 10px
-    background: linear-gradient(to bottom, lighten($bg-blue, 20%), $bg-blue)
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-    select 
-      text-align: center 
-      text-align-last: center
+    width: 20px
+    i 
+      position: absolute
+  &__icon_up
+    top: 15px
+  &__icon_down
+    top: 45px
+  &__items
+    display: flex
+    margin-top: 10px
+  &__btn_add
+    color: #299D37 
+    z-index: 3 !important
+    cursor: pointer
+    position: absolute
+    width: 30px
+    height: 30px
+    right: 2px
+    bottom: 35px
+    i 
+      position: absolute
+      font-size: 25px !important
+    
+    
+  .approach
+    position: relative
+    &__btn_delete
+      position: relative
+      i
+        color: $remove 
+        cursor: pointer
+        vertical-align: middle
+        position: absolute
+        top: 8px
+        z-index: 1
+        bottom: -15px
+        right: 8px
+        line-height: 0
 
 
-.exercise_list_with_buttons
-  margin: 40px 0
-  
-.approachList_items 
-  display: flex
-  transition: 1s
 
-.ElementOfList
+.element-of-list
   position: relative
   
-.deleteExercise_btn
-  display: inline-block
-  font-size: 60px
-  color: red 
-  font-weight: bold
-  cursor: pointer
-  height: 25px
-  width: 25px
-  vertical-align: middle
-  background-image: url("../images/redRect.jpg")
-  background-repeat: no-repeat
-  position: absolute
-  top: 15px
-  right: 5px
-  
-.addApproach_btn
-  display: inline-block
-  font-size: 50px
-  color: #299D37 
-  font-weight: bold
-  cursor: pointer
-  height: 25px
-  width: 25px
-  vertical-align: middle
-  position: absolute
-  bottom: 20px
-  right: 8px
-  line-height: 12px
-  
-  
-
-.deleteApproach_btn
-  display: block
-  font-size: 50px
-  color: red 
-  font-weight: bold
-  cursor: pointer
-  height: 10px
-  width: 25px
-  vertical-align: middle
-  position: absolute
-  z-index: 1
-  bottom: -15px
-  right: 8px
-  line-height: 0
-
+.change-exercise__form
+  .form
+    width: 100%
+    margin: 0
+    .fields
+      display: flex
+      width: 100%
+      align-items: flex-end
+      .field
+        width: 50%
+      
 .timer
-  position: absolute
+  position: relative
+  margin:  30px auto
   background: linear-gradient(to bottom, $bg-blue, darken($bg-blue, 15%))
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
   border-radius: 20px
   width: 440px
-  left: 25%
-  z-index: 2
   .timer_btn
     color: white
     text-decoration: none
@@ -250,17 +234,49 @@ a
     background: radial-gradient($bg-blue, darken($dark-blue, 15%))
     border-radius: 20px
     width: 80%
-    margin: auto
+    position: relative
+    top: 25px
+    left: 10%
+    margin-top: 20px !important
     font-size: 40px
     font-weight: bold
     color: #41A9F0
     &_numerals
       margin: 40px
 
-.confirm_restricted
-  text-align: center
-  margin: auto
-  font-size: 30px
+.exercise-list_with-buttons
+  &__btn
+    display: block
+    margin: auto
+  .exercise-list 
+    display: flex
+    justify-content: flex-start
+    overflow: auto
+    .exercise
+      margin: 20px 10px
+      position: relative
+      background-color: rgba(36,71,104,0.8)
+      padding: 10px 36px 25px 10px
+      border-radius: 10px
+      background: linear-gradient(to bottom, lighten($bg-blue, 20%), $bg-blue)
+      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
+      &__btn_delete
+        display: inline-block
+        color: $remove 
+        cursor: pointer
+        height: 30px
+        width: 30px
+        vertical-align: middle
+        position: absolute
+        top: 13px
+        right: -3px
+        i 
+          position: absolute
+          font-size: 20px !important
+      &__select 
+        width: 230px
+
+ 
 
 .picker-date
   width: 210px
@@ -283,15 +299,21 @@ a
     top: 18px
     left: 18px
     cursor: pointer
+    &-popper
+      z-index: 3 !important
 
-.react-datepicker-popper
-  z-index: 3 !important
-
-
-.no-exercises
-  .react-datepicker
-    left: 0px
- 
+.weight
+  display: block
+  position: relative
+  &:after
+    content: '|'
+    font-size: 30px
+    font-weight: bold
+    color: $dark-blue
+    position: absolute
+    top: 10px
+    left: 11px
+    
 .custom_select
   color: #41A9F0
   background: radial-gradient($bg-blue, darken($dark-blue, 10%))
@@ -307,17 +329,6 @@ a
   padding-right: 4px
   position: relative
   z-index: 2
-  
-.weight_header, .approach_header
-  font-size: 18px
-  font-weight: bold
-
-.weight
-  display: inline-block
-  margin-top: 20px
-
-.Approach
-  position: relative
 
 .Message
   width: 500px
@@ -337,22 +348,17 @@ a
   h1 
     font-size: 30px
 
-.errorMessage
-  width: 400px
-  text-align: center
-  position: absolute
-  border: 1px solid red 
-  background-color: #ff7777
-  font-weight: bold
-  text-align: center
-  font-size: 18px
-  color: #eeeeee
-  padding: 20px 25px
-  border-radius: 5px
+.dashboard
+  position: relative
+  .error-message
+    text-align: center
+    width: 50%
+    left: 25%
+    top: -35px
+    position: absolute
 
-.approach_header
-  text-align: left
-  display: block
+
+  /* error-message */
 
 .link-to-statistic__wrapper, .link-to-exercises__wrapper
   display: inline-block

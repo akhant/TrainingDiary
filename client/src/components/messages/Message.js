@@ -5,7 +5,7 @@ import { Message } from 'semantic-ui-react';
 const ErrorMessage = (props) => {
   const { message } = props.params;
   return (
-    <div className="Message">
+    <div className="error-message">
       {message && (
         <Message negative>
           <p>{message}</p>

@@ -11,9 +11,9 @@ export default class StatisticTable extends Component {
       return (
         <div key={approachId} className="elem_right__column">
           <div className="elem_right__column__cell column-counter">{counter}</div>
-          <div className="elem_right__column__cell">{value}</div>
-          <div className="elem_right__column__cell">{weight}</div>
           <div className="elem_right__column__cell">{Math.ceil(restTime / 1000)}</div>
+          <div className="elem_right__column__cell">{weight}</div>
+          <div className="elem_right__column__cell">{value}</div>
         </div>
       );
     });
@@ -32,9 +32,9 @@ export default class StatisticTable extends Component {
           <div className="statistic-table__elem">
             <div className="elem_left">
               <div className="elem_left_row">Approach</div>
-              <div className="elem_left_row">Repetition</div>
-              <div className="elem_left_row">Weight</div>
               <div className="elem_left_row">Rest time</div>
+              <div className="elem_left_row">Weight</div>
+              <div className="elem_left_row">Value</div>
             </div>
             <div className="elem_right">{this.tdRender(approaches[key])}</div>
           </div>
