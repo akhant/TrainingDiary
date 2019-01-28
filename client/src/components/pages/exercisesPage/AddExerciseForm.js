@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
-import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import { ADD_TO_LIST, GET_LIST } from '../../../queries';
 import InlineError from '../../messages/InlineError';
+import { validateForm } from '../../../helpers';
 
 export default class AddExerciseForm extends Component {
   state = {
@@ -16,8 +16,6 @@ export default class AddExerciseForm extends Component {
   };
 
   onChangeInput = (e) => {
-    console.log('​AddExerciseForm -> onChangeInput -> e', e.target);
-
     this.setState({ data: { ...this.state.data, [e.target.name]: e.target.value } });
   };
 
@@ -25,42 +23,17 @@ export default class AddExerciseForm extends Component {
     e.preventDefault();
     const { data } = this.state;
 
-    const errors = this.validate(data);
+    const { errors, noErrors } = validateForm(data);
     this.setState({ errors });
-    if (Object.keys(errors).length === 0) {
-      addToList({
-        variables: {
-          exerciseName: data.exerciseName,
-          weightFrom: Number(data.weightFrom),
-          weightTo: Number(data.weightTo),
-        },
-      });
-      
-    }
-  };
+    if (!noErrors) return;
 
-  validate = (data) => {
-    const errors = {};
-    const from = +data.weightFrom;
-    const to = +data.weightTo;
-    // TODO: add spaces
-    if (!isAlphanumeric(data.exerciseName)) {
-      errors.exerciseName = 'Invlid exerciseName, use only decimals and english letters  ';
-    }
-
-    if (isNaN(from)) {
-      errors.weightFrom = 'Invalid value';
-    }
-
-    if (isNaN(to)) {
-      errors.weightTo = 'Invalid value';
-    }
-
-    if (to < from) {
-      errors.weightTo = 'value of weight "to" has to be bigger than "from" or equal';
-    }
-
-    return errors;
+    addToList({
+      variables: {
+        exerciseName: data.exerciseName,
+        weightFrom: Number(data.weightFrom),
+        weightTo: Number(data.weightTo),
+      },
+    });
   };
 
   render() {

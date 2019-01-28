@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Form, Button, Message } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
-import InlineError from '../../messages/InlineError';
-import { SIGNIN_USER } from '../../../queries';
 import { Mutation } from 'react-apollo';
-import isEmail from 'validator/lib/isEmail';
-import isAlphanumeric from 'validator/lib/isAlphanumeric';
+
 import { withRouter } from 'react-router-dom';
+import { SIGNIN_USER } from '../../../queries';
+import InlineError from '../../messages/InlineError';
 import { AuthContext } from '../../context';
+import { validateForm } from '../../../helpers';
+
 
 class LoginForm extends React.Component {
   state = {
@@ -21,37 +21,25 @@ class LoginForm extends React.Component {
     errors: {},
   };
 
-  onChange = e =>
-    this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value },
-    });
+  onChange = e => this.setState({
+    data: { ...this.state.data, [e.target.name]: e.target.value },
+  });
 
-  onSubmit = (e, signinUser, refetch) => {
+  onSubmit = async (e, signinUser, refetch) => {
     e.preventDefault();
 
-    const errors = this.validate(this.state.data);
+    const { errors, noErrors } = validateForm(this.state.data);
     this.setState({ errors });
-    if (Object.keys(errors).length === 0) {
-      signinUser().then(async ({ data }) => {
-        localStorage.setItem('TrainingDiaryToken', data.signinUser.token);
-        await refetch();
-        this.props.history.push('/dashboard');
-      });
-    }
-  };
+    if (!noErrors) return;
+    const {
+      data: {
+        signinUser: { token },
+      },
+    } = await signinUser();
+    localStorage.setItem('TrainingDiaryToken', token);
 
-  validate = data => {
-    const errors = {};
-
-    if (!isEmail(data.email)) errors.email = 'Invalid email';
-    if (!isAlphanumeric(data.password)) {
-      errors.password =
-        'Invlid password, use only decimals and english letters  ';
-    }
-    if (data.password.length < 8)
-      errors.password = 'Password has to be at least 8 characters';
-
-    return errors;
+    await refetch();
+    this.props.history.push('/dashboard');
   };
 
   render() {
@@ -62,10 +50,7 @@ class LoginForm extends React.Component {
         {(signinUser, { error }) => (
           <AuthContext.Consumer>
             {({ refetch }) => (
-              <Form
-                onSubmit={e => this.onSubmit(e, signinUser, refetch)}
-                loading={loading}
-              >
+              <Form onSubmit={e => this.onSubmit(e, signinUser, refetch)} loading={loading}>
                 <Form.Field error={!!errors.email}>
                   <label htmlFor="email">Email</label>
                   <input

@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import InlineError from '../../messages/InlineError';
 import { RESET_PASSWORD } from '../../../queries';
+import { validateForm } from '../../../helpers';
 
 class ResetPasswordForm extends React.Component {
   state = {
@@ -26,18 +27,17 @@ class ResetPasswordForm extends React.Component {
 
   onSubmit = async (e, resetPassword) => {
     e.preventDefault();
-    const errors = this.validate(this.state.data);
+    const { errors, noErrors } = validateForm(this.state.data);
     this.setState({ errors });
-    if (Object.keys(errors).length === 0) {
-      this.setState({ loading: true });
-      const {
-        data: { resetPassword: response },
-      } = await resetPassword();
-      if (response) {
-        this.setState({ loading: false }, () => {
-          this.timeCounter();
-        });
-      }
+    if (!noErrors) return;
+    this.setState({ loading: true });
+    const {
+      data: { resetPassword: response },
+    } = await resetPassword();
+    if (response) {
+      this.setState({ loading: false }, () => {
+        this.timeCounter();
+      });
     }
   };
 
@@ -48,16 +48,6 @@ class ResetPasswordForm extends React.Component {
   timeCounter = () => {
     this.timer = setInterval(this.tick, 1000);
     if (this.state.time === 0) clearInterval(this.timer);
-  };
-
-  validate = (data) => {
-    const errors = {};
-    if (!data.password) errors.password = "Can't be blank";
-    if (data.password !== data.passwordConfirmation) {
-      errors.password = 'Passwords must match';
-    }
-
-    return errors;
   };
 
   componentWillUnmount = () => {

@@ -8,7 +8,6 @@ import { ADD_APPROACH, GET_DAY_DATA } from '../../../queries';
 const ApproachList = (props) => {
   const {
     exercise,
-    refetchGetDayData,
     getDayData: { approaches },
     params: { started },
     addParam,
@@ -46,7 +45,6 @@ const ApproachList = (props) => {
     await addApproach({
       variables: { exerciseId: exercise.exerciseId, startApproachTime: Date.now().toString() },
     });
-    // refetchGetDayData();
   };
 
   return (

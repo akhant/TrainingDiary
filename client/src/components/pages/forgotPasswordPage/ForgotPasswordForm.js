@@ -1,16 +1,15 @@
 import React, { Fragment } from 'react';
 import { Form, Button, Message } from 'semantic-ui-react';
-import isEmail from 'validator/lib/isEmail';
 import Delay from 'react-delay';
 import { Redirect } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
+import { validateForm } from '../../../helpers';
 import InlineError from '../../messages/InlineError';
 import { SEND_FORGOT_PASSWORD } from '../../../queries';
 
 class ForgotPasswordForm extends React.Component {
   state = {
-    email: '',
-
+    data: { email: '' },
     loading: false,
     errors: {},
     message: '',
@@ -29,49 +28,33 @@ class ForgotPasswordForm extends React.Component {
 
   onSubmit = async (e, sendForgotPassword) => {
     e.preventDefault();
-    const errors = this.validate(this.state.email);
+    const { errors, noErrors } = validateForm(this.state.data);
     this.setState({ errors });
-    console.log('errors', errors);
-    if (Object.keys(errors).length === 0) {
-      this.setState({ loading: true });
-      const {
-        data: {
-          sendForgotPassword: { ok },
+    if (!noErrors) return;
+
+    this.setState({ loading: true });
+    const {
+      data: {
+        sendForgotPassword: { ok },
+      },
+    } = await sendForgotPassword();
+
+    if (ok) {
+      this.setState(
+        {
+          loading: false,
+          message: 'Email has been sent. Please, check your email-box',
         },
-      } = await sendForgotPassword();
-
-      if (ok) {
-        this.setState(
-          {
-            loading: false,
-            message: 'Email has been sent. Please, check your email-box',
-          },
-          () => {
-            this.timeCounter();
-          }
-        );
-      }
+        () => {
+          this.timeCounter();
+        }
+      );
     }
-  };
-
-  validate = (email) => {
-    const errors = {};
-    if (!isEmail(email)) errors.email = 'Invalid email';
-    return errors;
-  };
-
-  tick = () => {
-    this.setState({ time: this.state.time - 1 });
-  };
-
-  timeCounter = () => {
-    this.timer = setInterval(this.tick, 1000);
-    if (this.state.time === 0) clearInterval(this.timer);
   };
 
   render() {
     const {
-      errors, email, loading, time, message,
+      errors, data, loading, time, message,
     } = this.state;
 
     if (message) {
@@ -90,7 +73,7 @@ class ForgotPasswordForm extends React.Component {
     }
 
     return (
-      <Mutation mutation={SEND_FORGOT_PASSWORD} variables={{ email }}>
+      <Mutation mutation={SEND_FORGOT_PASSWORD} variables={{ ...data }}>
         {(sendForgotPassword, { error }) => (
           <Fragment>
             <Form onSubmit={e => this.onSubmit(e, sendForgotPassword)} loading={loading}>
@@ -102,7 +85,7 @@ class ForgotPasswordForm extends React.Component {
                   id="email"
                   name="email"
                   placeholder="email"
-                  value={email}
+                  value={data.email}
                   onChange={this.onChange}
                 />
                 {errors.email && <InlineError text={errors.email} />}

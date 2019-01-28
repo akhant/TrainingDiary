@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Accordion } from 'semantic-ui-react';
+import { Query } from 'react-apollo';
 import ElementOfList from './ElementOfList';
 import AddExerciseForm from './AddExerciseForm';
-import { Query } from 'react-apollo';
 import { GET_LIST } from '../../../queries';
 
 class ExercisesPage extends Component {
   state = { activeIndex: null };
 
-  handleClick = index => {
+  handleClick = (index) => {
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? null : index;
 
@@ -21,41 +21,38 @@ class ExercisesPage extends Component {
     return (
       <div>
         <Query query={GET_LIST}>
-          {({ data, refetch }) => {
-           return (
-              <Grid>
-                <Row>
-                  <Col sx={12} />
-                  <h1 className="center">ExercisesPage</h1>
-                </Row>
-                <Row>
-                  <Col sm={6}>
-                    <h3>List of exercises</h3>
-                    <Accordion styled>
-                      {data.getList ? (
-                        data.getList.list.map((exercise, index) => (
-                          <ElementOfList
-                            index={index}
-                            activeIndex={activeIndex}
-                            handleClick={this.handleClick}
-                            
-                            key={exercise.exerciseDescriptionId}
-                            exercise={exercise}
-                          />
-                        ))
-                      ) : (
-                        <div>Add exercises to your list => </div>
-                      )}
-                    </Accordion>
-                  </Col>
-                  <Col sm={6}>
-                    <h3 className="center">Add exercise</h3>
-                    <AddExerciseForm  />
-                  </Col>
-                </Row>
-              </Grid>
-            );
-          }}
+          {({ data, refetch }) => (
+            <Grid>
+              <Row>
+                <Col sx={12} />
+                <h1 className="center">ExercisesPage</h1>
+              </Row>
+              <Row>
+                <Col sm={6}>
+                  <h3>List of exercises</h3>
+                  <Accordion styled>
+                    {data.getList ? (
+                      data.getList.list.map((exercise, index) => (
+                        <ElementOfList
+                          index={index}
+                          activeIndex={activeIndex}
+                          handleClick={this.handleClick}
+                          key={exercise.exerciseDescriptionId}
+                          exercise={exercise}
+                        />
+                      ))
+                    ) : (
+                      <div>Add exercises to your list => </div>
+                    )}
+                  </Accordion>
+                </Col>
+                <Col sm={6}>
+                  <h3 className="center">Add exercise</h3>
+                  <AddExerciseForm />
+                </Col>
+              </Row>
+            </Grid>
+          )}
         </Query>
       </div>
     );

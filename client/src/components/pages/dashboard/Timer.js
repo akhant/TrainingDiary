@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
 import { addParam } from '../../../AC';
-import elapsedTime from '../../../helpers';
+import { elapsedTime } from '../../../helpers';
 import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
 
 // TODO: fix timer
@@ -46,7 +46,6 @@ class Timer extends Component {
     clearInterval(this.timer);
     await workoutFinish({ variables: { workoutFinish: Date.now().toString() } });
 
-    
     this.props.addParam({ started: false, message: '' });
   };
 

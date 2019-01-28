@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
-import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import { Mutation } from 'react-apollo';
+import { validateForm } from '../../../helpers';
 import InlineError from '../../messages/InlineError';
 import { REMOVE_FROM_LIST, CHANGE_LIST, GET_LIST } from '../../../queries';
 
@@ -12,7 +12,7 @@ class ChangeExerciseForm extends Component {
       weightFrom: 0,
       weightTo: 0,
     },
-    
+
     errors: {},
   };
 
@@ -28,44 +28,16 @@ class ChangeExerciseForm extends Component {
 
   onRemoveExercise = async (removeFromList) => {
     await removeFromList();
-    
+
     this.props.changeActiveIndex(null);
   };
 
   onSubmit = async (e, changeList) => {
     e.preventDefault();
-    const { data } = this.state;
-
-    const errors = this.validate(data);
+    const { errors, noErrors } = validateForm(this.state.data);
     this.setState({ errors });
-    if (Object.keys(errors).length === 0) {
-      await changeList();
-      
-    }
-  };
-
-  validate = (data) => {
-    const errors = {};
-    const from = +data.weightFrom;
-    const to = +data.weightTo;
-
-    if (!isAlphanumeric(data.exerciseName)) {
-      errors.exerciseName = 'Invlid exerciseName, use only decimals and english letters  ';
-    }
-
-    if (isNaN(from)) {
-      errors.weightFrom = 'Invalid value';
-    }
-
-    if (isNaN(to)) {
-      errors.weightTo = 'Invalid value';
-    }
-
-    if (to < from) {
-      errors.weightTo = 'value of weight "to" has to be bigger than "from" or equal';
-    }
-
-    return errors;
+    if (!noErrors) return;
+    await changeList();
   };
 
   render() {
@@ -81,7 +53,7 @@ class ChangeExerciseForm extends Component {
             exerciseName: data.exerciseName,
             weightFrom: Number(data.weightFrom),
             weightTo: Number(data.weightTo),
-          }} 
+          }}
           refetchQueries={[{ query: GET_LIST }]}
         >
           {changeList => (

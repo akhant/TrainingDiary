@@ -6,7 +6,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Query, withApollo } from 'react-apollo';
 import { Loader } from 'semantic-ui-react';
-import elapsedTime from '../../../helpers';
+import { elapsedTime } from '../../../helpers';
 import PickerDate from '../../PickerDate';
 import Message from '../../messages/Message';
 import Chart from './Chart';
@@ -27,8 +27,6 @@ class Statistic extends Component {
   };
 
   handleChange = (choosenDate) => {
-    console.log('​Statistic -> handleChange -> choosenDate', choosenDate);
-
     this.setState({
       pickDate: choosenDate,
     });
@@ -100,7 +98,6 @@ class Statistic extends Component {
                                 showExerciseStatistic={showExerciseStatistic}
                                 approaches={getExerciseApproaches.approaches}
                               />
-                              
                             );
                           }
                         }}
