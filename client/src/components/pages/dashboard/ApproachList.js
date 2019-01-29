@@ -48,10 +48,12 @@ const ApproachList = (props) => {
     });
   };
 
+  const filteredApproachesByExerciseId = approaches.filter(approach => approach.exerciseId === exercise.exerciseId);
+
   return (
     <div className="approach-list">
       <br />
-      
+
       <Mutation
         mutation={ADD_APPROACH}
         refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
@@ -68,15 +70,11 @@ const ApproachList = (props) => {
         )}
       </Mutation>
       <div className="approach-list__signs">
-      <Icon className="approach-list__icon_up" name="balance scale" />
-      <Icon className="approach-list__icon_down" name="pencil" />
+        <Icon className="approach-list__icon_up" name="balance scale" />
+        <Icon className="approach-list__icon_down" name="pencil" />
       </div>
       <div className="approach-list__items">
-        {approaches.map((approach) => {
-          if (approach.exerciseId === exercise.exerciseId) {
-            return <Approach approach={approach} key={approach.approachId} {...props} />;
-          }
-        })}
+        {filteredApproachesByExerciseId.map(approach => <Approach approach={approach} key={approach.approachId} {...props} />)}
       </div>
     </div>
   );

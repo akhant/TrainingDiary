@@ -1,3 +1,4 @@
+  
 @font-face
   font-family: "Shadows Into Light"
   src : url('https://fonts.googleapis.com/css?family=Shadows+Into+Light')
@@ -8,6 +9,10 @@ $bg-blue: #244768
 $bor: 1px solid #ccc
 $bor-blue: 1px solid #41a9ec
 $remove: #CE0202
+
+@import 'dashboard.sass'
+@import 'statistic.sass'
+@import 'exercises.sass'
 
 html, body
   margin: 0
@@ -25,7 +30,7 @@ html
   font-size: 16px !important
   
 body
-  background-image: linear-gradient(to bottom, rgba(255,255,255,0),#C5E5F9)
+  //background-image: linear-gradient(to bottom, rgba(255,255,255,0),#C5E5F9)
   font-family: 'Shadows Into Light', cursive !important
   background-repeat: no-repeat
   background-attachment: scroll
@@ -51,56 +56,6 @@ a
   text-align: center
   margin: auto
   font-size: 30px
-
-
-
-
-.header
-  background-color: transparent
-  text-align: center
-  margin-bottom: 20px
-  padding: 40px
-  position: relative
-  .main_h1
-    text-align: center
-    font-size: 60px
-    text-shadow: 0.1em 0.1em 0.2em #aaa
-    font-family: 'Shadows Into Light', cursive
-    margin: 0
-    color: $btn-color
-    display: inline-block
-  .hr  
-    height: 5px
-    width: 60%
-    background: linear-gradient(to bottom, $btn-color, darken($btn-color, 30%))
-    box-shadow: 0 5px 10px 1px #ccc
-    margin: auto
-    border-radius: 5px
-    margin-top: 20px
-  &__nav
-    position: absolute
-    top: 10px
-    right: 40px
-    &_link
-      color: $btn-color
-      text-decoration: none
-      padding: 5px
-      background: transparent
-      text-transform: uppercase
-      border: none
-      cursor: pointer 
-      margin: 5px
-      font-family: 'Shadows Into Light', cursive
-      transition: .2s
-      &:focus,  &:visited
-        color: $btn-color
-      &:hover, &:active
-        color: $dark-blue
-        cursor: pointer
-        text-decoration: none
-        outline: none
-        border: none
-
 
 .btn
   color: white
@@ -138,208 +93,55 @@ a
   margin: auto
   text-align: center 
 
-
-
-
-.approach-list
-  display: flex
-  &__header
-    font-size: 18px
-    font-weight: bold
-  &__signs
-    position: relative
-    width: 20px
-    i 
-      position: absolute
-  &__icon_up
-    top: 15px
-  &__icon_down
-    top: 45px
-  &__items
-    display: flex
-    margin-top: 10px
-  &__btn_add
-    color: #299D37 
-    z-index: 3 !important
-    cursor: pointer
-    position: absolute
-    width: 30px
-    height: 30px
-    right: 2px
-    bottom: 35px
-    i 
-      position: absolute
-      font-size: 25px !important
-    
-    
-  .approach
-    position: relative
-    &__btn_delete
-      position: relative
-      i
-        color: $remove 
-        cursor: pointer
-        vertical-align: middle
-        position: absolute
-        top: 8px
-        z-index: 1
-        bottom: -15px
-        right: 8px
-        line-height: 0
-
-
-
-.element-of-list
+.header
+  background-color: transparent
+  text-align: center
+  margin-bottom: 20px
+  padding: 40px
   position: relative
-  
-.change-exercise__form
-  .form
-    width: 100%
-    margin: 0
-    .fields
-      display: flex
-      width: 100%
-      align-items: flex-end
-      .field
-        width: 50%
-      
-.timer
-  position: relative
-  margin:  30px auto
-  background: linear-gradient(to bottom, $bg-blue, darken($bg-blue, 15%))
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-  border-radius: 20px
-  width: 440px
-  .timer_btn
-    color: white
-    text-decoration: none
-    padding: 10px 20px
-    background-color: $btn-color 
-    border-style: none
-    font-weight: normal
-    text-transform: uppercase
-    border-radius: 20px
-    margin-left: 6px
-    margin-bottom: 20px
-    cursor: pointer
-    transition: .5s
-    font-family: 'Shadows Into Light', cursive
-    margin-left: 44px
-    width: 150px
-    &:hover, &:focus
-      outline: none
-      color: $dark-blue
-      text-decoration: none
-  .timer_time
-    background: radial-gradient($bg-blue, darken($dark-blue, 15%))
-    border-radius: 20px
-    width: 80%
-    position: relative
-    top: 25px
-    left: 10%
-    margin-top: 20px !important
-    font-size: 40px
-    font-weight: bold
-    color: #41A9F0
-    &_numerals
-      margin: 40px
-
-.exercise-list_with-buttons
-  &__btn
-    display: block
-    margin: auto
-  .exercise-list 
-    display: flex
-    justify-content: flex-start
-    overflow: auto
-    .exercise
-      height: 132px
-      margin: 20px 10px
-      position: relative
-      background-color: rgba(36,71,104,0.8)
-      padding: 10px 36px 25px 10px
-      border-radius: 10px
-      background: linear-gradient(to bottom, lighten($bg-blue, 20%), $bg-blue)
-      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-      &__btn_delete
-        display: inline-block
-        color: $remove 
-        cursor: pointer
-        height: 30px
-        width: 30px
-        vertical-align: middle
-        position: absolute
-        top: 13px
-        right: -3px
-        i 
-          position: absolute
-          font-size: 20px !important
-      &__select 
-        width: 230px
-
- 
-
-.picker-date
-  width: 210px
-  height: 210px
-  background: radial-gradient($bg-blue, darken($bg-blue, 5%))
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-  border-radius: 50%
-  position: static
-  margin: auto
-  .react-datepicker
-    border: none
-    background: radial-gradient($bg-blue, darken($dark-blue, 10%))
-    color: #41A9F0
-    font-size: 30px
-    width: 174px
-    height: 174px
-    border-radius: 50%
+  .main_h1
     text-align: center
     position: relative
-    top: 18px
-    left: 18px
-    cursor: pointer
-    &-popper
-      z-index: 3 !important
-
-.weight
-  display: block
-  position: relative
-  &:after
-    content: '|'
-    font-size: 30px
-    font-weight: bold
-    color: $dark-blue
+    top: 20px
+    font-size: 50px
+    text-shadow: 0.1em 0.1em 0.2em #aaa
+    font-family: 'Shadows Into Light', cursive
+    margin: 0
+    color: $btn-color
+    display: inline-block
+  .hr  
+    height: 5px
+    width: 60%
+    background: linear-gradient(to bottom, $btn-color, darken($btn-color, 30%))
+    box-shadow: 0 5px 10px 1px #ccc
+    margin: auto
+    border-radius: 5px
+    margin-top: 20px
+  &__nav
     position: absolute
     top: 10px
-    left: 11px
-    
-.custom_select
-  color: #41A9F0
-  background: radial-gradient($bg-blue, darken($dark-blue, 10%))
-  border-style: none
-  border-radius: 5px
-  text-align: center
-  font-size: 16px
-  appearance: none
-  -moz-appearance: none
-  -webkit-appearance: none
-  cursor: pointer
-  margin: 2px
-  padding-right: 4px
-  position: relative
-  z-index: 2
+    right: 40px
+    &_link
+      color: $btn-color
+      text-decoration: none
+      padding: 5px
+      background: transparent
+      text-transform: uppercase
+      border: none
+      cursor: pointer 
+      margin: 5px
+      font-family: 'Shadows Into Light', cursive
+      transition: .2s
+      &:focus,  &:visited
+        color: $btn-color
+      &:hover, &:active
+        color: $dark-blue
+        cursor: pointer
+        text-decoration: none
+        outline: none
+        border: none
 
-.Message
-  width: 500px
-  margin: 0 auto
-  position: relative
-  
-.Chart
-  max-width: 100%
-
-.HomePage
+.main
   text-align: center
   margin: auto
   p
@@ -348,88 +150,4 @@ a
       margin-top: 50px
   h1 
     font-size: 30px
-
-.dashboard
-  position: relative
-  .error-message
-    text-align: center
-    width: 50%
-    left: 25%
-    top: -35px
-    position: absolute
-
-
-  /* error-message */
-
-.link-to-statistic__wrapper, .link-to-exercises__wrapper
-  display: inline-block
-  
-
-.link-to-main__wrapper
-  text-align: center
-
-.no-exercises
-  text-align: center
-  margin-top: 80px
-  font-size: 25px
-  .no-exercises_h2
-    margin: 40px
-
-.training_time
-  color: $btn-color
-  font-size: 18px
-  border-radius: 10px
-  overflow: hidden
-  padding: 10px
-  background: linear-gradient(to bottom, lighten($bg-blue, 5%), $bg-blue)
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-  width: 200px
-  margin: auto
-  margin-bottom: 40px
-  text-align: center
-  .timer_numerals
-    background: radial-gradient($bg-blue, darken($dark-blue, 15%))
-    border-radius: 5px
-
-  
-.statistic-table
-  width: 100%
-  font-size: 1rem
-  .elem__header
-    font-size: 18px
-    font-weight: bold
-  .statistic-table__elem__wrapper
-    padding: 20px 10px
-    position: relative
-    .statistic_more_btn
-      position: absolute
-      top: 40px
-      right: -135px
-      &:focus
-        color: $dark-blue
-    .statistic-table__elem
-      border-top: $bor-blue
-      padding-top: 20px
-    .elem_left
-      border-right: $bor-blue
-      padding-right: 20px
-      .elem_left_row
-        height: 30px
-        padding: 0 10px
-    .elem_right
-      padding-left: 20px
-      justify-content: flex-start
-      overflow: auto
-      .elem_right__column
-        margin-left: 10px
-        .column-counter
-          font-weight: bold
-        .elem_right__column__cell
-          border-bottom: $bor-blue
-          padding: 5px
-          height: 30px
-          text-align: center
-
-.statistic-table__elem, .elem_right
-  display: flex
 

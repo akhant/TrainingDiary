@@ -13,9 +13,9 @@ class PickerDate extends Component {
 
   handleChange = async (date) => {
     this.props.onPickDate(date);
-    this.setState({date})
+    this.setState({ date });
 
-    await this.props.client.resetStore()
+    await this.props.client.resetStore();
   };
 
   render() {

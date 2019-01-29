@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import _ from 'lodash';
-import { Icon } from 'semantic-ui-react';
 import { CHANGE_APPROACH_WEIGHT } from '../../../queries';
 
 class Weight extends Component {

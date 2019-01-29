@@ -1,0 +1,83 @@
+.statistic-table
+  width: 100%
+  font-size: 1rem
+  .elem__header
+    font-size: 18px
+    font-weight: bold
+  .statistic-table__elem__wrapper
+    padding: 20px 10px
+    position: relative
+    .statistic_more_btn
+      position: absolute
+      top: 40px
+      right: -135px
+      &:focus
+        color: $dark-blue
+    .statistic-table__elem
+      border-top: $bor-blue
+      padding-top: 20px
+    .elem_left
+      border-right: $bor-blue
+      padding-right: 20px
+      .elem_left_row
+        height: 30px
+        padding: 0 10px
+    .elem_right
+      padding-left: 20px
+      justify-content: flex-start
+      overflow: auto
+      .elem_right__column
+        margin-left: 10px
+        .column-counter
+          font-weight: bold
+        .elem_right__column__cell
+          border-bottom: $bor-blue
+          padding: 5px
+          height: 30px
+          text-align: center
+
+.statistic-table__elem, .elem_right
+  display: flex
+
+.training_time
+  color: $btn-color
+  font-size: 18px
+  border-radius: 10px
+  overflow: hidden
+  padding: 10px
+  background: linear-gradient(to bottom, lighten($bg-blue, 5%), $bg-blue)
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
+  width: 200px
+  margin: auto
+  margin-bottom: 40px
+  text-align: center
+  .timer_numerals
+    background: radial-gradient($bg-blue, darken($dark-blue, 15%))
+    border-radius: 5px
+
+.picker-date
+  width: 210px
+  height: 210px
+  background: radial-gradient($bg-blue, darken($bg-blue, 5%))
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
+  border-radius: 50%
+  position: static
+  margin: auto
+  .react-datepicker
+    border: none
+    background: radial-gradient($bg-blue, darken($dark-blue, 10%))
+    color: #41A9F0
+    font-size: 30px
+    width: 174px
+    height: 174px
+    border-radius: 50%
+    text-align: center
+    position: relative
+    top: 18px
+    left: 18px
+    cursor: pointer
+    &-popper
+      z-index: 3 !important
+
+.Chart
+  max-width: 100%

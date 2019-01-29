@@ -42,7 +42,7 @@ const Chart = createReactClass({
     const data = {};
     let value = [];
 
-    this.props.approaches.map((approach) => {
+    this.props.approaches.forEach((approach) => {
       if (approach.exerciseName === exerciseName) {
         value.push({
           date: approach.date,
@@ -56,7 +56,6 @@ const Chart = createReactClass({
     // sort by date
     value = _.map(value, (v) => {
       const arr = [];
-      console.log(v);
       const arrayDate = v.date.split(' ');
       arr[0] = arrayDate[2];
       arr[1] = `${arrayDate[1]},`;
@@ -73,7 +72,7 @@ const Chart = createReactClass({
       let val = 0;
       let weight = 0;
       let bounce = 0;
-      grAp[key].map((v) => {
+      grAp[key].forEach((v) => {
         val += parseInt(v.value);
         weight += v.weight;
       });

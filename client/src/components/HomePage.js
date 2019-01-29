@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => (
-  <div className="HomePage">
+  <div className="main">
     <h1>Welcome to the world of power and self-discipline!</h1>
     <p>This place helps you to make yourself stronger.</p>
     <div>

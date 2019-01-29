@@ -55,6 +55,8 @@ export const validateForm = (data) => {
         case 'weightFrom':
           if (isNaN(+weightFrom)) errors.weightFrom = 'Invalid value';
           break;
+        default:
+          return errors;
       }
     }
   }

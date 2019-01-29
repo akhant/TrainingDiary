@@ -7,7 +7,7 @@ import configureStore from '../store';
 import Header from './Header/Header';
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
-import ConfirmedRoute from '../routes/ConfirmedRoute';
+/* import ConfirmedRoute from '../routes/ConfirmedRoute'; */
 import SignupPage from './pages/signupPage/SignupPage';
 import LoginPage from './pages/loginPage/LoginPage';
 import NotFound from './pages/NotFound';

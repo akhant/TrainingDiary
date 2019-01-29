@@ -86,16 +86,7 @@ class Statistic extends Component {
 
                 <Message />
 
-                <Row>
-                  <Col>
-                    <div className="link-to-main__wrapper">
-                      <Link className="link-to-main btn" to="/dashboard">
-                        {' '}
-                        To main{' '}
-                      </Link>
-                    </div>
-                  </Col>
-                </Row>
+                
               </Grid>
             );
           }
