@@ -5,12 +5,12 @@ import isEmail from 'validator/lib/isEmail';
 export const elapsedTime = (time) => {
   if (time === 0) return <div className="add-time">00:00:00</div>;
   const S = time % 60 < 10 ? `0${time % 60}` : `${time % 60}`;
-  const H = time < 3600 ? '00' : time / 3600 < 10 ? `0${Math.ceil(time / 3600)}` : `${Math.ceil(time / 3600)}`;
+  const H = time < 3600 ? '00' : time / 3600 < 10 ? `0${Math.floor(time / 3600)}` : `${Math.floor(time / 3600)}`;
   const M = time < 60
     ? '00'
-    : (time % 3600) / 60 < 10
-      ? `0${Math.ceil((time % 3600) / 60)}`
-      : `${Math.ceil((time % 3600) / 60)}`;
+    : Math.floor(time % 3600) / 60 < 10
+      ? `0${Math.floor((time % 3600) / 60)}`
+      : `${Math.floor((time % 3600) / 60)}`;
 
   return (
     <div className="add-time">

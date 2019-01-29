@@ -13,30 +13,43 @@ class Timer extends Component {
   };
 
   componentWillUnmount = () => {
-    this.finish();
+    this.stop();
   };
 
   tick = () => {
     this.setState({ elapsed: Math.round((Date.now() - this.state.start) / 1000) });
   };
 
+  componentDidMount = () => {
+    const { started } = this.props.params;
+    if (started) this.continue();
+  };
+
+  continue = () => {
+    this.timer = setInterval(this.tick, 1000);
+    this.props.addParam({ started: true, message: '' });
+  };
+
   start = async () => {
     const { started } = this.props.params;
     if (started) return null;
-    this.timer = setInterval(this.tick, 1000);
-    this.props.addParam({ started: true, message: '' });
+    this.continue();
     // send start time to server only first time
     if (!this.state.elapsed) {
       await this.props.client.mutate({ mutation: WORKOUT_START, variables: { workoutStart: Date.now().toString() } });
     }
   };
 
-  finish = async () => {
+  stop = async () => {
     const { started } = this.props.params;
     if (!started) return null;
     // send finish time to server
     clearInterval(this.timer);
     await this.props.client.mutate({ mutation: WORKOUT_FINISH, variables: { workoutFinish: Date.now().toString() } });
+  };
+
+  finish = async () => {
+    this.stop();
     this.props.addParam({ started: false, message: '' });
   };
 

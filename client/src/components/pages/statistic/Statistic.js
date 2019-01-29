@@ -43,13 +43,13 @@ class Statistic extends Component {
 
     return (
       <Query query={GET_DAY_DATA} variables={{ date: pickDate.format('ddd MMM DD YYYY') }}>
-        {({ data, data: { getDayData } }) => {
-          /* if (loading) return <Loader />; */
+        {({ data, data: { getDayData }, loading }) => {
+          if (loading) return <Loader />;
           if (data && getDayData) {
             const { approaches, statistic } = getDayData;
             const filteredApproaches = _.groupBy(approaches, 'exerciseName');
             return (
-              <Grid fluid>
+              <Grid className="statistic" fluid>
                 <Row>
                   <Col>
                     <PickerDate pickDate={pickDate} onPickDate={this.handleChange} />

@@ -23,25 +23,6 @@ export class Main extends Component {
     }
     const date = this.state.pickDate.format('ddd MMM DD YYYY');
     await addExercise({ variables: { date } });
-    /* if (!this.props.messages.started) {
-      this.props.showMessage({
-        message: 'First, click to "start training"',
-      });
-      return;
-    }
-    const todayDate = this.props.date.filter(d => {
-      if (pickDate) {
-        return d.date === pickDate._d.toDateString();
-      }
-    })[0];
-
-    if (pickDate) {
-      if (todayDate) {
-        this.props.addExercise(pickDate, todayDate._id);
-      } else {
-        this.props.addExercise(pickDate);
-      }
-    } */
   };
 
   componentDidMount = async () => {
@@ -50,13 +31,15 @@ export class Main extends Component {
     });
   };
 
+  componentWillUnmount = () => this.props.addParam({ message: '' });
+
   render() {
     const { pickDate } = this.state;
     const date = pickDate.format('ddd MMM DD YYYY');
     return (
       <Query query={GET_DAY_DATA} variables={{ date }}>
-        {({ data, data: { getDayData }, refetch }) => {
-          /*  if (loading) return <Loader /> */
+        {({ data, data: { getDayData }, refetch }, loading) => {
+          if (loading) return <Loader />;
           if (data && getDayData) {
             return (
               <Mutation mutation={ADD_EXERCISE} refetchQueries={[{ query: GET_DAY_DATA, variables: { date } }]}>
@@ -71,7 +54,10 @@ export class Main extends Component {
                     <Row>
                       <Col sm={12}>
                         <div className="exercise-list_with-buttons">
-                          <button className="btn exercise-list_with-buttons__btn" onClick={e => this.onClickAddExercise(e, addExercise, refetch)}>
+                          <button
+                            className="btn exercise-list_with-buttons__btn"
+                            onClick={e => this.onClickAddExercise(e, addExercise, refetch)}
+                          >
                             Add exercise
                           </button>
                           <ExerciseList getDayData={getDayData} pickDate={pickDate} refetchGetDayData={refetch} />
