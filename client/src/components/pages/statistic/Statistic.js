@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { Query, withApollo } from 'react-apollo';
-import { Loader } from 'semantic-ui-react';
-import { elapsedTime } from '../../../helpers';
+import { Loader, Grid } from 'semantic-ui-react';
 import PickerDate from '../../PickerDate';
 import Message from '../../messages/Message';
 import Chart from './Chart';
 import StatisticTable from './StatisticTable';
+import TrainingTime from './TrainingTime';
 import { GET_DAY_DATA, GET_EXERCISE_APPROACHES } from '../../../queries';
 /* import Graphic from './Graphic' */
 
@@ -49,23 +47,22 @@ class Statistic extends Component {
             const { approaches, statistic } = getDayData;
             const filteredApproaches = _.groupBy(approaches, 'exerciseName');
             return (
-              <Grid className="statistic" fluid>
-                <Row>
-                  <Col>
+              <Grid className="statistic">
+                <Grid.Row>
+                  <Grid.Column width={8}>
                     <PickerDate pickDate={pickDate} onPickDate={this.handleChange} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm={5}>
-                    <div className="training_time">
-                      <span>Training time:</span>{' '}
-                      {statistic ? elapsedTime(Math.ceil(statistic.workoutTime / 1000)) : '0'}
-                    </div>
-
+                  </Grid.Column>
+                  <Grid.Column width={8}>
+                    <TrainingTime {...statistic} />
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column width={8}>
+                    <h3>Exercises</h3>
                     <StatisticTable onClickMore={this.onClickMore} filteredApproaches={filteredApproaches} />
-                  </Col>
-                  <Col sm={1} />
-                  <Col sm={6}>
+                  </Grid.Column>
+                  <Grid.Column width={1} />
+                  <Grid.Column width={7}>
                     {showExerciseStatistic && (
                       <Query query={GET_EXERCISE_APPROACHES} variables={{ exerciseName: showExerciseStatistic }}>
                         {({ data: { getExerciseApproaches }, loading: chartLoading }) => {
@@ -81,12 +78,10 @@ class Statistic extends Component {
                         }}
                       </Query>
                     )}
-                  </Col>
-                </Row>
+                  </Grid.Column>
+                </Grid.Row>
 
                 <Message />
-
-                
               </Grid>
             );
           }

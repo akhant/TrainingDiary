@@ -1,4 +1,8 @@
-.statistic-table
+.statistic
+  display: block
+  h3 
+    text-align: center
+  .statistic-table
   width: 100%
   font-size: 1rem
   .elem__header
@@ -11,8 +15,9 @@
       position: absolute
       top: 40px
       right: -135px
+      z-index: 3
       &:focus
-        color: $dark-blue
+        color: $elem_bg_dark
     .statistic-table__elem
       border-top: $bor-blue
       padding-top: 20px
@@ -40,44 +45,34 @@
   display: flex
 
 .training_time
-  color: $btn-color
+  color: $btn_col
   font-size: 18px
   border-radius: 10px
   overflow: hidden
   padding: 10px
-  background: linear-gradient(to bottom, lighten($bg-blue, 5%), $bg-blue)
+  background: linear-gradient(to bottom, lighten($elem_bg, 5%), $elem_bg)
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
   width: 200px
   margin: auto
   margin-bottom: 40px
   text-align: center
   .timer_numerals
-    background: radial-gradient($bg-blue, darken($dark-blue, 15%))
+    background: radial-gradient($elem_bg, darken($elem_bg_dark, 15%))
     border-radius: 5px
 
-.picker-date
-  width: 210px
-  height: 210px
-  background: radial-gradient($bg-blue, darken($bg-blue, 5%))
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-  border-radius: 50%
-  position: static
-  margin: auto
-  .react-datepicker
+.picker-date__wrapper
+  text-align: center
+  .picker-date 
     border: none
-    background: radial-gradient($bg-blue, darken($dark-blue, 10%))
-    color: #41A9F0
-    font-size: 30px
-    width: 174px
-    height: 174px
-    border-radius: 50%
+    background: radial-gradient($elem_bg, darken($elem_bg_dark, 10%))
+    color: $select_col
     text-align: center
-    position: relative
-    top: 18px
-    left: 18px
-    cursor: pointer
-    &-popper
-      z-index: 3 !important
+    cursor: pointer 
+    font-size: 30px
+    border-radius: 10px
 
+.react-datepicker-popper
+  z-index: 3 !important
+  
 .Chart
   max-width: 100%

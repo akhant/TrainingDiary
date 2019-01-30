@@ -16,12 +16,11 @@ import ForgotPasswordPage from './pages/forgotPasswordPage/ForgotPasswordPage';
 import ResetPasswordPage from './pages/resetPasswordPage/ResetPasswordPage';
 import ExercisesPage from './pages/exercisesPage/ExercisesPage';
 import HomePage from './HomePage';
-import Main from './pages/dashboard/Main';
+import Main from './pages/dashboard/Dashboard';
 import Statistic from './pages/statistic/Statistic';
 import withSession from './withSession';
 import '../assets/js';
 import 'semantic-ui-css/semantic.min.css';
-import '../assets/styles/bootstrap.css';
 import '../assets/styles/styles.sass';
 
 const store = configureStore();

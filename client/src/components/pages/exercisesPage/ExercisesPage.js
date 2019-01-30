@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Accordion, Loader } from 'semantic-ui-react';
+import { Accordion, Loader, Grid } from 'semantic-ui-react';
 import { Query } from 'react-apollo';
 import ElementOfList from './ElementOfList';
 import AddExerciseForm from './AddExerciseForm';
@@ -23,13 +22,9 @@ class ExercisesPage extends Component {
         {({ data, loading }) => {
           if (loading) return <Loader />;
           return (
-            <Grid>
-              <Row>
-                <Col sx={12} />
-                <h1 className="center">ExercisesPage</h1>
-              </Row>
-              <Row>
-                <Col sm={6}>
+            <Grid className="exercise-page">
+              <Grid.Row>
+                <Grid.Column width={8}>
                   <h3>List of exercises</h3>
                   <Accordion styled>
                     {data && data.getList ? (
@@ -46,12 +41,12 @@ class ExercisesPage extends Component {
                       <div>Add exercises to your list => </div>
                     )}
                   </Accordion>
-                </Col>
-                <Col sm={6}>
-                  <h3 className="center">Add exercise</h3>
+                </Grid.Column>
+                <Grid.Column width={8}>
+                  <h3>Add exercise</h3>
                   <AddExerciseForm />
-                </Col>
-              </Row>
+                </Grid.Column>
+              </Grid.Row>
             </Grid>
           );
         }}

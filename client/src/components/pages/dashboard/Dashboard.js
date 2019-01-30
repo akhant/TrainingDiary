@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid } from 'semantic-ui-react';
 import moment from 'moment';
 import { Mutation, Query, withApollo } from 'react-apollo';
 import { Loader } from 'semantic-ui-react';
@@ -46,13 +46,13 @@ export class Main extends Component {
                 {addExercise => (
                   <Grid className="dashboard" fluid>
                     <ErrorMessage />
-                    <Row>
-                      <Col>
+                    <Grid.Row>
+                      <Grid.Column>
                         <Timer {...getDayData} pickDate={pickDate} />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm={12}>
+                      </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                      <Grid.Column>
                         <div className="exercise-list_with-buttons">
                           <button
                             className="btn exercise-list_with-buttons__btn"
@@ -62,8 +62,8 @@ export class Main extends Component {
                           </button>
                           <ExerciseList getDayData={getDayData} pickDate={pickDate} refetchGetDayData={refetch} />
                         </div>
-                      </Col>
-                    </Row>
+                      </Grid.Column>
+                    </Grid.Row>
                   </Grid>
                 )}
               </Mutation>

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { withApollo } from 'react-apollo';
-import { addParam } from '../AC';
-/* import { GET_DAY_DATA } from '../queries'; */
 
 class PickerDate extends Component {
   state = {
@@ -20,10 +17,10 @@ class PickerDate extends Component {
 
   render() {
     return (
-      <div>
+      <div className="picker-date__wrapper">
         <DatePicker
           dateFormat="DD.MM.YYYY"
-          className="react-datepicker"
+          className="picker-date"
           selected={this.state.date}
           onChange={this.handleChange}
         />
@@ -32,11 +29,4 @@ class PickerDate extends Component {
   }
 }
 
-export default withApollo(
-  connect(
-    ({ params }) => ({
-      params,
-    }),
-    { addParam }
-  )(PickerDate)
-);
+export default withApollo(PickerDate);
