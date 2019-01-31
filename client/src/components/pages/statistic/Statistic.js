@@ -10,7 +10,7 @@ import Chart from './Chart';
 import StatisticTable from './StatisticTable';
 import TrainingTime from './TrainingTime';
 import { GET_DAY_DATA, GET_EXERCISE_APPROACHES } from '../../../queries';
-/* import Graphic from './Graphic' */
+import Rechart from './Rechart';
 
 class Statistic extends Component {
   state = {
@@ -69,7 +69,7 @@ class Statistic extends Component {
                           if (chartLoading) return <Loader />;
                           if (getExerciseApproaches) {
                             return (
-                              <Chart
+                              <Rechart
                                 showExerciseStatistic={showExerciseStatistic}
                                 approaches={getExerciseApproaches.approaches}
                               />

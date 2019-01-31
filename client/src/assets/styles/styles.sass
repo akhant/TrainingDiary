@@ -19,8 +19,8 @@ $elem_bg: #938F8E
 $elem_bg_dark: #333333
 $elem_bg_light: #F9F9F4
 $btn_bg: #DA032D
-$text_col: #fff
-$select_col: #fff
+$text_col: #eee
+$select_col: #eee
 $link_col: #DA032D
 $bor: 1px solid #ccc
 $bor-blue: 1px solid #41a9ec
@@ -41,6 +41,10 @@ html, body
 
 div, select
   outline: none 
+
+select 
+  option 
+    color: $elem_bg_dark
 
 form
   width: 50%
@@ -70,6 +74,7 @@ a
   &:hover,  &:focus
     text-decoration: none
     color: white
+    outline: none
 
 .confirm_restricted
   text-align: center
@@ -192,3 +197,4 @@ a
   a 
     font-size: 16px
     line-height: 4
+

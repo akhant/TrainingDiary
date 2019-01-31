@@ -196,7 +196,6 @@ const resolvers = {
         date,
       }).sort({ _id: 1 });
 
-      console.log('TCL: allApproachesForThisDay', allApproachesForThisDay.length);
       if (allApproachesForThisDay.length) {
         const last = allApproachesForThisDay[allApproachesForThisDay.length - 1];
 
