@@ -16,9 +16,9 @@ class ForgotPasswordForm extends React.Component {
     time: 5,
   };
 
-  onChange = (e) => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      data: { email: e.target.value },
     });
   };
 
@@ -50,6 +50,15 @@ class ForgotPasswordForm extends React.Component {
         }
       );
     }
+  };
+
+  tick = () => {
+    this.setState({ time: this.state.time - 1 });
+  };
+
+  timeCounter = () => {
+    this.timer = setInterval(this.tick, 1000);
+    if (this.state.time === 0) clearInterval(this.timer);
   };
 
   render() {
@@ -86,7 +95,7 @@ class ForgotPasswordForm extends React.Component {
                   name="email"
                   placeholder="email"
                   value={data.email}
-                  onChange={this.onChange}
+                  onChange={this.handleChange}
                 />
                 {errors.email && <InlineError text={errors.email} />}
               </Form.Field>

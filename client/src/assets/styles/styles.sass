@@ -19,7 +19,7 @@ $elem_bg: #938F8E
 $elem_bg_dark: #333333
 $elem_bg_light: #F9F9F4
 $btn_bg: #DA032D
-$btn_col: #fff
+$text_col: #fff
 $select_col: #fff
 $link_col: #DA032D
 $bor: 1px solid #ccc
@@ -59,9 +59,6 @@ body
   background-size: cover
   color: #fff
   
-text  
-  font-size: 12px
-
 .inline 
   display: inline-block
 
@@ -80,7 +77,7 @@ a
   font-size: 30px
 
 .btn
-  color: $btn_col
+  color: $text_col
   text-decoration: none
   padding: 10px 20px
   background: linear-gradient(to bottom, $btn_bg, darken($btn_bg, 30%))
@@ -98,7 +95,7 @@ a
     border: none
     background: linear-gradient(to bottom, lighten($btn_bg, 10%), darken($btn_bg, 30%))
   &:hover, &:active
-    color: darken($btn_col, 20%)
+    color: darken($text_col, 20%)
     background: linear-gradient(to bottom, lighten($btn_bg, 10%), darken($btn_bg, 30%))
     text-decoration: none
     outline: none

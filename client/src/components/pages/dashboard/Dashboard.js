@@ -44,7 +44,7 @@ export class Main extends Component {
             return (
               <Mutation mutation={ADD_EXERCISE} refetchQueries={[{ query: GET_DAY_DATA, variables: { date } }]}>
                 {addExercise => (
-                  <Grid className="dashboard" fluid>
+                  <Grid className="dashboard">
                     <ErrorMessage />
                     <Grid.Row>
                       <Grid.Column>

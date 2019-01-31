@@ -42,12 +42,12 @@ schema.methods.setConfirmationToken = function setConfirmationToken() {
 };
 
 schema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
-  return `${process.env.HOST}/confirmation/${this.confirmationToken}`;
+  return `${process.env.CLIENT_HOST}/confirmation/${this.confirmationToken}`;
 };
 
 schema.methods.generateResetPasswordLink = function generateResetPasswordLink() {
-  this.resetToken = this.generateResetPasswordToken();
-  return `${process.env.HOST}/reset_password_request/${this.resetToken}`;
+  const resetToken = this.generateResetPasswordToken();
+  return `${process.env.CLIENT_HOST}/reset_password/${resetToken}`;
 };
 
 schema.methods.generateJWT = function generateJWT() {
@@ -78,12 +78,11 @@ schema.methods.generateResetPasswordToken = function generateResetPasswordToken(
 
 schema.methods.toAuthJSON = function toAuthJSON() {
   return {
-    email: this.email,
     confirmed: this.confirmed,
     token: this.generateJWT(),
   };
 };
 
-schema.plugin(uniqueValidator, { message: 'This email is already taken' });
+schema.plugin(uniqueValidator, { message: 'This email is already exist' });
 
 export default mongoose.model('User', schema);

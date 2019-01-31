@@ -95,6 +95,7 @@ type Mutation {
     workoutStart(workoutStart: String!): Statistic
     workoutFinish(workoutFinish: String!): Statistic
     sendForgotPassword(email: String!): Ok
+    resetPassword(password: String, token: String!): Ok
 }
 `;
 

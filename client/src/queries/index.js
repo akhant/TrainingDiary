@@ -208,9 +208,9 @@ export const SEND_FORGOT_PASSWORD = gql`
 `;
 
 export const RESET_PASSWORD = gql`
-  mutation($email: String!, $password: String!) {
-    resetPassword(email: $email, password: $password) {
-      token
+  mutation($password: String!, $token: String!) {
+    resetPassword(password: $password, token: $token) {
+      ok
     }
   }
 `;

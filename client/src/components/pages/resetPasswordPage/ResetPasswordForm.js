@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
 import Delay from 'react-delay';
 import { Redirect } from 'react-router-dom';
@@ -12,13 +10,13 @@ import { validateForm } from '../../../helpers';
 class ResetPasswordForm extends React.Component {
   state = {
     data: {
-      email: '',
       password: '',
       passwordConfirmation: '',
     },
     loading: false,
     errors: {},
     time: 5,
+    message: '',
   };
 
   onChange = e => this.setState({
@@ -32,10 +30,10 @@ class ResetPasswordForm extends React.Component {
     if (!noErrors) return;
     this.setState({ loading: true });
     const {
-      data: { resetPassword: response },
+      data: { resetPassword: ok },
     } = await resetPassword();
-    if (response) {
-      this.setState({ loading: false }, () => {
+    if (ok) {
+      this.setState({ loading: false, message: 'Your password has been changed' }, () => {
         this.timeCounter();
       });
     }
@@ -55,13 +53,15 @@ class ResetPasswordForm extends React.Component {
   };
 
   render() {
-    const { errors, data, loading } = this.state;
+    const {
+      errors, data, loading, message,
+    } = this.state;
     // success message and redirect to login page
-    if (this.props.user.passwordChanged) {
+    if (message) {
       return (
         <div className="center">
           <Message style={{ fontSize: '30px' }} positive>
-            Your password has been change
+            {message}
           </Message>
 
           <h2> Redirect to log in page in {this.state.time} sec </h2>
@@ -75,42 +75,18 @@ class ResetPasswordForm extends React.Component {
     return (
       <div>
         <h1 className="center">Let's reset password</h1>
-        {/* if error return message and reload page in 10 sec */}
-        {loading && (
-          <div>
-            <Message className="center" style={{ fontSize: '30px' }} negative>
-              Oops, something goes wrong! Check your data again or confirm changing in email.
-            </Message>
 
-            {setTimeout(() => {
-              window.location.reload(true);
-            }, 5000)}
-          </div>
-        )}
         {/* if all is OK */}
-        <Mutation mutation={RESET_PASSWORD} variables={{ email: data.email, password: data.password }}>
+        <Mutation mutation={RESET_PASSWORD} variables={{ password: data.password, token: this.props.token }}>
           {resetPassword => (
             <Form onSubmit={e => this.onSubmit(e, resetPassword)} loading={loading}>
-              <Form.Field>
-                <label htmlFor="email">Your email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="abc@def.com"
-                  value={data.email}
-                  onChange={this.onChange}
-                />
-                {errors.email && <InlineError text={errors.email} />}
-              </Form.Field>
-
               <Form.Field error={!!errors.password}>
                 <label htmlFor="password">New Password</label>
                 <input
                   type="password"
                   id="password"
                   name="password"
-                  placeholder="your new password"
+                  placeholder="password"
                   value={data.password}
                   onChange={this.onChange}
                 />
@@ -123,7 +99,7 @@ class ResetPasswordForm extends React.Component {
                   type="password"
                   id="passwordConfirmation"
                   name="passwordConfirmation"
-                  placeholder="type it again, please"
+                  placeholder="password confirmation"
                   value={data.passwordConfirmation}
                   onChange={this.onChange}
                 />
@@ -139,8 +115,4 @@ class ResetPasswordForm extends React.Component {
   }
 }
 
-ResetPasswordForm.propTypes = {
-  submit: PropTypes.func.isRequired,
-};
-
-export default connect(({ user }) => ({ user }))(ResetPasswordForm);
+export default ResetPasswordForm;

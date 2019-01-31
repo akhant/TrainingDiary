@@ -91,14 +91,9 @@ const Chart = createReactClass({
     });
     return data;
   },
-
   render() {
-    const tooltipScatter = function (x, y) {
-      return `x: ${x} y:  ${y}`;
-    };
-
     return (
-      <div className="Chart">
+      <div className="chart">
         <h3 className="center">{this.props.showExerciseStatistic}</h3>
         <ScatterPlot
           data={this.state.data}
@@ -110,7 +105,7 @@ const Chart = createReactClass({
             left: 50,
             right: 20,
           }}
-          tooltipHtml={tooltipScatter}
+          
         />
       </div>
     );

@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { sendResetPasswordEmail, sendConfirmationEmail } from '../mailer';
 
 const resolvers = {
@@ -156,11 +157,11 @@ const resolvers = {
     },
 
     async addApproach(root, { exerciseId, startApproachTime }, {
-      currentUser, Approach, Exercise, List,
+      currentUser, Approach, Exercise, List, Statistic,
     }) {
       // need to find exercise description by exerciseId
       const exercise = await Exercise.findOne({ userId: currentUser.userId, exerciseId });
-
+      const date = new Date().toDateString();
       // need to find weight to
       const exerciseDescription = await List.findOne({
         userId: currentUser.userId,
@@ -172,22 +173,28 @@ const resolvers = {
         exerciseId,
         exerciseName: exercise.exerciseName,
         startApproachTime,
-        date: new Date().toDateString(),
+        approachTime: 0,
+        date,
         value: 0,
         weight: exerciseDescription.weightTo,
         restTime: 0,
       });
 
-      const allApproachesForThisExercise = await Approach.find({
+      const allApproachesForThisDay = await Approach.find({
         userId: currentUser.userId,
-        exerciseId,
+        date,
       }).sort({ _id: 1 });
 
-      if (allApproachesForThisExercise.length) {
-        const last = allApproachesForThisExercise[allApproachesForThisExercise.length - 1];
+      console.log('TCL: allApproachesForThisDay', allApproachesForThisDay.length);
+      if (allApproachesForThisDay.length) {
+        const last = allApproachesForThisDay[allApproachesForThisDay.length - 1];
 
         approach.weight = last.weight;
         approach.restTime = startApproachTime - last.finishApproachTime;
+      } else if (allApproachesForThisDay.length === 0) {
+        const todayStat = await Statistic.findOne({ userId: currentUser.userId, date });
+        console.log('todayStat', todayStat, todayStat.workoutStart);
+        approach.restTime = startApproachTime - todayStat.workoutStart;
       }
 
       approach.approachId = approach._id.toString();
@@ -262,12 +269,21 @@ const resolvers = {
     async sendForgotPassword(root, { email }, { User }) {
       const user = await User.findOne({ email });
       if (user) {
-        // user.sendResetPasswordEmail(user)
+        sendResetPasswordEmail(user);
       } else {
         throw new Error('Invalid email');
       }
 
       return { ok: 'email was sended' };
+    },
+    async resetPassword(root, { password, token }, { User }) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log('decoded', decoded);
+      const user = await User.findOne({ email: decoded.email });
+      if (user) {
+        user.setPassword(password);
+        return { ok: true };
+      }
     },
   },
 };

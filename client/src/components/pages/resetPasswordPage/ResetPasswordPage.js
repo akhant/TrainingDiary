@@ -1,9 +1,13 @@
 import React from 'react';
 import ResetPasswordForm from './ResetPasswordForm';
 
-const ResetPasswordPage = () => (
+const ResetPasswordPage = ({
+  match: {
+    params: { token },
+  },
+}) => (
   <div className="reset-password-page">
-    <ResetPasswordForm />
+    <ResetPasswordForm token={token} />
   </div>
 );
 
