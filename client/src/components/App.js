@@ -5,18 +5,18 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import configureStore from '../store';
 import Header from './Header/Header';
-import UserRoute from '../routes/UserRoute';
-import GuestRoute from '../routes/GuestRoute';
-/* import ConfirmedRoute from '../routes/ConfirmedRoute'; */
+import UserRoute from './routes/UserRoute';
+import GuestRoute from './routes/GuestRoute';
+/* import ConfirmedRoute from './routes/ConfirmedRoute'; */
 import SignupPage from './pages/signupPage/SignupPage';
 import LoginPage from './pages/loginPage/LoginPage';
 import NotFound from './pages/NotFound';
-import ConfirmationPage from './pages/ConfirmationPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage/ForgotPasswordPage';
 import ResetPasswordPage from './pages/resetPasswordPage/ResetPasswordPage';
 import ExercisesPage from './pages/exercisesPage/ExercisesPage';
 import HomePage from './HomePage';
 import Main from './pages/dashboard/Dashboard';
+import Confirmation from './Confirmation';
 import Statistic from './pages/statistic/Statistic';
 import withSession from './withSession';
 import '../assets/js';
@@ -45,7 +45,6 @@ const client = new ApolloClient({
   },
 });
 
-
 // TODO: return ConfirmedRoute for statistic and exercises pages
 const Root = () => (
   <Provider store={store}>
@@ -54,17 +53,13 @@ const Root = () => (
         <Header />
         <Switch>
           <Route path="/" exact component={HomePage} />
-          <Route exact path="/confirmation" component={ConfirmationPage} />
           <GuestRoute path="/signup" exact component={SignupPage} />
           <GuestRoute path="/login" exact component={LoginPage} />
-          <GuestRoute
-            path="/forgot_password"
-            exact
-            component={ForgotPasswordPage}
-          />
+          <GuestRoute path="/forgot_password" exact component={ForgotPasswordPage} />
           <UserRoute path="/dashboard" exact component={Main} />
           <Route path="/statistic" exact component={Statistic} />
           <GuestRoute path="/reset_password/:token" exact component={ResetPasswordPage} />
+          <Route path="/confirmation/:token" exact component={Confirmation} />
           <Route path="/exercises" exact component={ExercisesPage} />
           <Route component={NotFound} />
         </Switch>

@@ -214,3 +214,11 @@ export const RESET_PASSWORD = gql`
     }
   }
 `;
+
+export const CONFIRMATION = gql`
+  query( $token: String!) {
+    confirmation(token: $token) {
+      ok
+    }
+  }
+`;

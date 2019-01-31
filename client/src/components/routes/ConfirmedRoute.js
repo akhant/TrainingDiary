@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Route, Link } from 'react-router-dom';
-import { AuthContext } from '../components/context';
+import { AuthContext } from '../context';
 
 const ConfirmedRoute = ({ component: Component, ...rest }) => {
   const { data } = useContext(AuthContext);

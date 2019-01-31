@@ -1,29 +1,23 @@
 import React, { Fragment } from 'react';
 import { Form, Button, Message } from 'semantic-ui-react';
-import Delay from 'react-delay';
-import { Redirect } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { validateForm } from '../../../helpers';
 import InlineError from '../../messages/InlineError';
 import { SEND_FORGOT_PASSWORD } from '../../../queries';
+import RedirectWithMessage from '../../messages/RedirectWithMessage';
 
 class ForgotPasswordForm extends React.Component {
   state = {
     data: { email: '' },
     loading: false,
     errors: {},
-    message: '',
-    time: 5,
+    redirect: false,
   };
 
   handleChange = (e) => {
     this.setState({
       data: { email: e.target.value },
     });
-  };
-
-  componentWillUnmount = () => {
-    clearInterval(this.timer);
   };
 
   onSubmit = async (e, sendForgotPassword) => {
@@ -40,45 +34,22 @@ class ForgotPasswordForm extends React.Component {
     } = await sendForgotPassword();
 
     if (ok) {
-      this.setState(
-        {
-          loading: false,
-          message: 'Email has been sent. Please, check your email-box',
-        },
-        () => {
-          this.timeCounter();
-        }
-      );
+      this.setState({
+        loading: false,
+        redirect: true,
+      });
     }
-  };
-
-  tick = () => {
-    this.setState({ time: this.state.time - 1 });
-  };
-
-  timeCounter = () => {
-    this.timer = setInterval(this.tick, 1000);
-    if (this.state.time === 0) clearInterval(this.timer);
   };
 
   render() {
     const {
-      errors, data, loading, time, message,
+      errors, data, loading, redirect,
     } = this.state;
 
-    if (message) {
-      return (
-        <div className="center">
-          <Message style={{ fontSize: '30px' }} positive>
-            {message}
-          </Message>
-
-          <h2> Redirect to main in {time} sec </h2>
-          <Delay wait={time * 1000}>
-            <Redirect to="/" />
-          </Delay>
-        </div>
-      );
+    if (redirect) {
+      if (redirect) {
+        return <RedirectWithMessage to="/" message="Confirmation email has been sent" time={5} />;
+      }
     }
 
     return (

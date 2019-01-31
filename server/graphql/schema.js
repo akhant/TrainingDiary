@@ -77,6 +77,7 @@ type Query {
     getAllStatisticData: Data
     getDayData(date: String!): Data
     getExerciseApproaches(exerciseName: String!): Data
+    confirmation( token: String!): Ok
 }
 
 type Mutation {
@@ -96,6 +97,7 @@ type Mutation {
     workoutFinish(workoutFinish: String!): Statistic
     sendForgotPassword(email: String!): Ok
     resetPassword(password: String, token: String!): Ok
+   
 }
 `;
 

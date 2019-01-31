@@ -38,6 +38,17 @@ const resolvers = {
         approaches,
       };
     },
+
+    async confirmation(root, { token }, { User }) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findOne({ email: decoded.email });
+      if (!user) {
+        return new Error('Invalid data');
+      }
+      user.confirmed = true;
+      user.save();
+      return { ok: true };
+    },
   },
 
   Mutation: {
@@ -54,7 +65,7 @@ const resolvers = {
       newUser.setConfirmationToken();
       newUser.userId = newUser._id.toString();
       await newUser.save();
-      // sendConfirmationEmail(newUser)
+      sendConfirmationEmail(newUser);
       return { token: newUser.confirmationToken };
     },
 
@@ -265,7 +276,7 @@ const resolvers = {
 
       return stat;
     },
-    //  TODO: send reset password email
+
     async sendForgotPassword(root, { email }, { User }) {
       const user = await User.findOne({ email });
       if (user) {
@@ -276,14 +287,16 @@ const resolvers = {
 
       return { ok: 'email was sended' };
     },
+
     async resetPassword(root, { password, token }, { User }) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log('decoded', decoded);
       const user = await User.findOne({ email: decoded.email });
-      if (user) {
-        user.setPassword(password);
-        return { ok: true };
+      if (!user) {
+        return new Error('Invalid data');
       }
+      user.setPassword(password);
+      user.save();
+      return { ok: true };
     },
   },
 };

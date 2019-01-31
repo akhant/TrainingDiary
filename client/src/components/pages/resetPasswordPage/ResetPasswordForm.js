@@ -1,11 +1,10 @@
 import React from 'react';
-import { Form, Button, Message } from 'semantic-ui-react';
-import Delay from 'react-delay';
-import { Redirect } from 'react-router-dom';
+import { Form, Button } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import InlineError from '../../messages/InlineError';
 import { RESET_PASSWORD } from '../../../queries';
 import { validateForm } from '../../../helpers';
+import RedirectWithMessage from '../../messages/RedirectWithMessage';
 
 class ResetPasswordForm extends React.Component {
   state = {
@@ -15,8 +14,8 @@ class ResetPasswordForm extends React.Component {
     },
     loading: false,
     errors: {},
-    time: 5,
-    message: '',
+
+    redirect: false,
   };
 
   onChange = e => this.setState({
@@ -33,43 +32,17 @@ class ResetPasswordForm extends React.Component {
       data: { resetPassword: ok },
     } = await resetPassword();
     if (ok) {
-      this.setState({ loading: false, message: 'Your password has been changed' }, () => {
-        this.timeCounter();
-      });
+      this.setState({ loading: false, redirect: true });
     }
-  };
-
-  tick = () => {
-    this.setState({ time: this.state.time - 1 });
-  };
-
-  timeCounter = () => {
-    this.timer = setInterval(this.tick, 1000);
-    if (this.state.time === 0) clearInterval(this.timer);
-  };
-
-  componentWillUnmount = () => {
-    clearInterval(this.timer);
   };
 
   render() {
     const {
-      errors, data, loading, message,
+      errors, data, loading, redirect,
     } = this.state;
     // success message and redirect to login page
-    if (message) {
-      return (
-        <div className="center">
-          <Message style={{ fontSize: '30px' }} positive>
-            {message}
-          </Message>
-
-          <h2> Redirect to log in page in {this.state.time} sec </h2>
-          <Delay wait={5000}>
-            <Redirect to="/login" />
-          </Delay>
-        </div>
-      );
+    if (redirect) {
+      return <RedirectWithMessage to="/login" message="Your password has been changed" time={5} />;
     }
 
     return (
