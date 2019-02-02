@@ -22,6 +22,7 @@ import withSession from './withSession';
 import '../assets/js';
 import 'semantic-ui-css/semantic.min.css';
 import '../assets/styles/styles.sass';
+/* import ErrorBoundary from './ErrorBoundary'; */
 
 const store = configureStore();
 
@@ -57,10 +58,10 @@ const Root = () => (
           <GuestRoute path="/login" exact component={LoginPage} />
           <GuestRoute path="/forgot_password" exact component={ForgotPasswordPage} />
           <UserRoute path="/dashboard" exact component={Main} />
-          <Route path="/statistic" exact component={Statistic} />
+          <UserRoute path="/statistic" exact component={Statistic} />
           <GuestRoute path="/reset_password/:token" exact component={ResetPasswordPage} />
           <Route path="/confirmation/:token" exact component={Confirmation} />
-          <Route path="/exercises" exact component={ExercisesPage} />
+          <UserRoute path="/exercises" exact component={ExercisesPage} />
           <Route component={NotFound} />
         </Switch>
       </Fragment>

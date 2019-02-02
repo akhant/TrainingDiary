@@ -2,20 +2,31 @@
 .exercise-page
   width: 80%
   margin: 50px auto !important
+  label:after
+    content: '' !important
   h3 
     text-align: center
-  
-.element-of-list
-  position: relative
-  
-.change-exercise__form
-  .form
-    width: 100%
-    margin: 0
-    .fields
-      display: flex
-      width: 100%
-      align-items: flex-end
-      .field
-        width: 50%
-      
+  &__list
+    margin-top: 20px
+    width: 100% !important
+    border-radius: 10px !important
+    overflow: hidden
+  .element-of-list
+    position: relative
+    background: #fff
+    .title
+      color: $text_col_dark !important
+    .change-exercise__form
+      .form
+        width: 100%
+        margin: 0
+        .fields
+          display: flex
+          width: 100%
+          align-items: flex-end
+          .field
+            width: 50%
+  &__add-form
+    margin-top: 20px
+    label
+      color: $text_col !important

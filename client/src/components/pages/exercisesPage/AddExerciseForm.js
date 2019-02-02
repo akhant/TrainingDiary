@@ -41,7 +41,7 @@ export default class AddExerciseForm extends Component {
     return (
       <Mutation mutation={ADD_TO_LIST} refetchQueries={[{ query: GET_LIST }]}>
         {addToList => (
-          <Form onSubmit={e => this.onSubmit(e, addToList)}>
+          <Form className="exercise-page__add-form" onSubmit={e => this.onSubmit(e, addToList)}>
             <Form.Field
               error={!!errors.exerciseName}
               required

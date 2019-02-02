@@ -59,7 +59,7 @@ class ResetPasswordForm extends React.Component {
                   type="password"
                   id="password"
                   name="password"
-                  placeholder="password"
+                  placeholder="Password"
                   value={data.password}
                   onChange={this.onChange}
                 />
@@ -72,7 +72,7 @@ class ResetPasswordForm extends React.Component {
                   type="password"
                   id="passwordConfirmation"
                   name="passwordConfirmation"
-                  placeholder="password confirmation"
+                  placeholder="Password confirmation"
                   value={data.passwordConfirmation}
                   onChange={this.onChange}
                 />

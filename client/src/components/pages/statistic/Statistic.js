@@ -6,7 +6,6 @@ import { Query, withApollo } from 'react-apollo';
 import { Loader, Grid } from 'semantic-ui-react';
 import PickerDate from '../../PickerDate';
 import Message from '../../messages/Message';
-import Chart from './Chart';
 import StatisticTable from './StatisticTable';
 import TrainingTime from './TrainingTime';
 import { GET_DAY_DATA, GET_EXERCISE_APPROACHES } from '../../../queries';

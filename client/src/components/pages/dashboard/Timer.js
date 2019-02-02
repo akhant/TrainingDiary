@@ -55,11 +55,10 @@ class Timer extends Component {
 
   render() {
     const { elapsed } = this.state;
-
     return (
       <div className="timer">
         <div className="timer_time">
-          <div className="center timer_time_numerals"> {elapsedTime(elapsed)}</div>
+          <div className="timer_time_numerals"> {elapsedTime(elapsed)}</div>
         </div>
         <button className="timer_btn btn" onClick={this.start}>
           {' '}

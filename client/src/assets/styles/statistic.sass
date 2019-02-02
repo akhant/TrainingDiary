@@ -8,6 +8,7 @@
   .elem__header
     font-size: 18px
     font-weight: bold
+    margin-bottom: 6px
   .statistic-table__elem__wrapper
     padding: 20px 10px
     position: relative
@@ -17,12 +18,12 @@
       right: -135px
       z-index: 3
       &:focus
-        color: $elem_bg_dark
+        color: $sec_col
     .statistic-table__elem
-      border-top: $bor-blue
+      border-top: $bor_sec_col
       padding-top: 20px
     .elem_left
-      border-right: $bor-blue
+      border-right: $bor_sec_col 
       padding-right: 20px
       .elem_left_row
         height: 30px
@@ -36,7 +37,7 @@
         .column-counter
           font-weight: bold
         .elem_right__column__cell
-          border-bottom: $bor-blue
+          border-bottom: $bor_sec_col
           padding: 5px
           height: 30px
           text-align: center
@@ -44,21 +45,28 @@
 .statistic-table__elem, .elem_right
   display: flex
 
-.training_time
+.training-time
   color: $text_col
   font-size: 18px
   border-radius: 10px
+  font-size: 30px
   overflow: hidden
   padding: 10px
-  background: linear-gradient(to bottom, lighten($elem_bg, 5%), $elem_bg)
+  background: radial-gradient($elem_bg, darken($elem_bg_dark, 10%))
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-  width: 200px
   margin: auto
-  margin-bottom: 40px
+  width: 323px
   text-align: center
-  .timer_numerals
+  &__inner 
+    margin: auto
+    text-align: center
+    display: flex
+    justify-content: center
+    div 
+      margin: 0 5px
+/*   .timer_numerals
     background: radial-gradient($elem_bg, darken($elem_bg_dark, 15%))
-    border-radius: 5px
+    border-radius: 5px */
 
 .picker-date__wrapper
   text-align: center
@@ -74,5 +82,6 @@
 .react-datepicker-popper
   z-index: 3 !important
   
-
+.chart
+  margin-top: 40px
 

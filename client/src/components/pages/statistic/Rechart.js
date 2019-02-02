@@ -46,13 +46,16 @@ export default class Rechart extends Component {
 
   render() {
     return (
-      <LineChart className="line-chart" width={800} height={400} data={this.state.data}>
-        <XAxis dataKey="date" stroke="#eee" />
-        <YAxis dataKey="value" stroke="#eee" />
-        <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+      <div className="chart">
+        <h3>{this.props.showExerciseStatistic}</h3>
+        <LineChart className="line-chart" width={800} height={400} data={this.state.data}>
+          <XAxis dataKey="date" stroke="#eee" />
+          <YAxis dataKey="value" stroke="#eee" />
+          <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
 
-        <Line type="monotone" dataKey="value" stroke="#DA032D" />
-      </LineChart>
+          <Line type="monotone" dataKey="value" stroke="#DA032D" />
+        </LineChart>
+      </div >
     );
   }
 }

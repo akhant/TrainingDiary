@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
@@ -57,7 +57,7 @@ class LoginForm extends React.Component {
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="example@example.com"
+                    placeholder="Email"
                     value={data.email}
                     onChange={this.onChange}
                   />
@@ -69,13 +69,13 @@ class LoginForm extends React.Component {
                     type="password"
                     id="password"
                     name="password"
-                    
+                    placeholder="Password"
                     value={data.password}
                     onChange={this.onChange}
                   />
                   {errors.password && <InlineError text={errors.password} />}
                 </Form.Field>
-                <Button primary>Login</Button>
+                <button className="btn">Log in</button>
                 {error && <InlineError text={error.message} />}
               </Form>
             )}

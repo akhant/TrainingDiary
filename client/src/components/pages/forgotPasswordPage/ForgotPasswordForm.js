@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Form, Button, Message } from 'semantic-ui-react';
+import { Form, Message } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import { validateForm } from '../../../helpers';
 import InlineError from '../../messages/InlineError';
@@ -64,15 +64,15 @@ class ForgotPasswordForm extends React.Component {
                   type="email"
                   id="email"
                   name="email"
-                  placeholder="email"
+                  placeholder="Email"
                   value={data.email}
                   onChange={this.handleChange}
                 />
                 {errors.email && <InlineError text={errors.email} />}
               </Form.Field>
-              <Button className="btn" primary>
+              <button className="btn">
                 Send confirmation email
-              </Button>
+              </button>
             </Form>
 
             {error && (

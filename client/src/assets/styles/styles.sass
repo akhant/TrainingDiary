@@ -15,17 +15,19 @@
   font-family: "Interceptor"
   src: url("../fonts/interceptor/Interceptor.otf") format("otf")
 
-$elem_bg: #938F8E
-$elem_bg_dark: #333333
+$elem_bg: #fff
+$elem_bg_dark: #fff
 $elem_bg_light: #F9F9F4
 $btn_bg: #DA032D
 $text_col: #eee
-$select_col: #eee
+$text_col_dark: #333333
+$select_col: #000
 $link_col: #DA032D
 $bor: 1px solid #ccc
-$bor-blue: 1px solid #41a9ec
+$sec_col: #FFCC00
+$bor_sec_col: 1px solid $sec_col
 $remove: #DA032D
-$sec_col: #CFC202
+
 // red DA032D #DE2229
 
 
@@ -45,6 +47,13 @@ div, select
 select 
   option 
     color: $elem_bg_dark
+
+input
+  text-align: center
+
+input::placeholder
+  color: $text_col_dark !important
+
 
 form
   width: 50%
@@ -112,10 +121,12 @@ a
     background: linear-gradient(to bottom, lighten($remove, 10%), darken($remove, 30%))
 
 
-.forgot_password__link
+.forgot-password__link
   display: block
   margin: auto
   text-align: center 
+  color: $btn_bg
+  transition: 0.3s
 
 .header
   background-color: $elem_bg_light
@@ -198,3 +209,7 @@ a
     font-size: 16px
     line-height: 4
 
+.login-page, .signup-page, .reset-password-page
+  form 
+    margin-top: 10px
+    margin-bottom: 10px

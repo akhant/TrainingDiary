@@ -26,7 +26,7 @@ class ExercisesPage extends Component {
               <Grid.Row>
                 <Grid.Column width={8}>
                   <h3>List of exercises</h3>
-                  <Accordion styled>
+                  <Accordion className="exercise-page__list" styled>
                     {data && data.getList ? (
                       data.getList.list.map((exercise, index) => (
                         <ElementOfList

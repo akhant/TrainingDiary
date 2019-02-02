@@ -203,7 +203,6 @@ const resolvers = {
         approach.restTime = startApproachTime - last.finishApproachTime;
       } else if (allApproachesForThisDay.length === 0) {
         const todayStat = await Statistic.findOne({ userId: currentUser.userId, date });
-        console.log('todayStat', todayStat, todayStat.workoutStart);
         approach.restTime = startApproachTime - todayStat.workoutStart;
       }
 

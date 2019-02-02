@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -56,7 +56,7 @@ class SignupForm extends React.Component {
                   <input
                     id="username"
                     name="username"
-                    placeholder="Enter your name"
+                    placeholder="Username"
                     value={data.username}
                     onChange={this.onChange}
                   />
@@ -68,7 +68,7 @@ class SignupForm extends React.Component {
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="email@email.com"
+                    placeholder="Email"
                     value={data.email}
                     onChange={this.onChange}
                   />
@@ -77,11 +77,11 @@ class SignupForm extends React.Component {
 
                 <Form.Field error={!!errors.password}>
                   <label htmlFor="password">Password</label>
-                  <input type="password" id="password" name="password" value={data.password} onChange={this.onChange} />
+                  <input type="password" id="password" name="password" placeholder="Password" value={data.password} onChange={this.onChange} />
                   {errors.password && <InlineError text={errors.password} />}
                 </Form.Field>
 
-                <Button primary>Sign Up</Button>
+                <button  className="btn">Sign Up</button>
                 <br />
                 {error && <InlineError text={error.message} />}
               </Form>
