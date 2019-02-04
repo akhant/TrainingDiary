@@ -104,15 +104,27 @@ const resolvers = {
       return removed;
     },
 
-    async changeList(root, {
-      exerciseDescriptionId, exerciseName, weightFrom, weightTo,
-    }, { currentUser, List }) {
+    async changeList(
+      root,
+      {
+        exerciseDescriptionId, exerciseName, weightFrom, weightTo,
+      },
+      { currentUser, Approach, List }
+    ) {
       const updated = await List.findOneAndUpdate(
         {
           userId: currentUser.userId,
           exerciseDescriptionId,
         },
         { exerciseName, weightFrom, weightTo }
+      );
+      await Approach.updateMany(
+        { userId: currentUser.userId, exerciseName },
+        {
+          exerciseName,
+          weightFrom,
+          weightTo,
+        }
       );
 
       return updated;

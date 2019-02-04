@@ -1,11 +1,5 @@
 .dashboard
   position: relative
-  .error-message
-    text-align: center
-    width: 50%
-    left: 25%
-    top: -35px
-    position: absolute
 
 .exercise-list_with-buttons
   &__btn
@@ -15,15 +9,17 @@
     display: flex
     margin-top: 50px
     justify-content: center
-    overflow: auto
+    width: 100% 
+    flex-wrap: wrap
     .exercise
-      height: 132px
-      margin: 20px 10px
+      overflow-x: auto
+      min-height: 155px
+      margin: 0px 10px
       position: relative
-      padding: 10px 36px 25px 10px
-      border-radius: 10px
-      background: linear-gradient(to bottom, lighten($elem_bg, 20%), $elem_bg)
-      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
+      padding: 10px 36px 36px 10px
+      box-shadow: inset 0 0 1em $sec_col, 0 0 1em $sec_col
+      border: $sec_col solid 2px
+      margin-top: 20px
       &__btn_delete
         display: inline-block
         color: $remove 
@@ -33,7 +29,7 @@
         vertical-align: middle
         position: absolute
         top: 13px
-        right: -3px
+        right: 2px
         i 
           position: absolute
           font-size: 20px !important
@@ -49,10 +45,11 @@
     font-size: 18px
     font-weight: bold
   &__signs
-    position: relative
-    left: -3px
-    top: -2px
+    position: absolute
+    left: 7px
+    top: 46px
     width: 20px
+    z-index: 4
     i 
       position: absolute
   &__icon_up
@@ -62,6 +59,7 @@
   &__items
     display: flex
     margin-top: 10px
+    margin-left: 15px
   &__btn_add
     color: $sec_col
     z-index: 3 !important
@@ -69,8 +67,8 @@
     position: absolute
     width: 30px
     height: 30px
-    right: 2px
-    bottom: 35px
+    right: 5px
+    top: 70px
     i 
       position: absolute
       font-size: 25px !important
@@ -80,13 +78,15 @@
       display: block
       position: relative
       &:after
-        content: '|'
+        //content: '|'
         font-size: 30px
         font-weight: bold
         color: $elem_bg_dark
         position: absolute
         top: 10px
         left: 11px
+      select 
+        border-bottom: 1px $fir_col solid
     &__btn_delete
       position: relative
       i
@@ -102,9 +102,9 @@
 
 .custom_select
   color: $select_col
-  background: radial-gradient($elem_bg, darken($elem_bg_dark, 10%))
+  background: transparent //radial-gradient($elem_bg, darken($elem_bg_dark, 10%))
   border-style: none
-  border-radius: 5px
+  //border-radius: 5px
   text-align: center
   font-size: 18px
   appearance: none
@@ -119,49 +119,23 @@
 .timer
   position: relative
   margin:  30px auto
-  background: linear-gradient(to bottom, $elem_bg, darken($elem_bg, 15%))
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
-  border-radius: 20px
-  width: 440px
+  display: block
+  text-align: center
+  background: transparent
   .timer_btn
-    color: white
-    text-decoration: none
-    padding: 10px 20px
-    background-color: $btn_bg 
-    border-style: none
-    font-weight: normal
-    text-transform: uppercase
-    border-radius: 20px
-    margin-left: 6px
     margin-bottom: 20px
-    cursor: pointer
-    transition: .5s
-    font-family: 'Shadows Into Light', cursive
-    margin-left: 44px
     width: 150px
-    &:hover, &:focus
-      outline: none
-      color: darken($text_col, 20%)
-      text-decoration: none
-  .timer_time
-    background: radial-gradient($elem_bg, darken($elem_bg_dark, 15%))
-    border-radius: 20px
-    width: 80%
-    position: relative
-    height: 60px 
-    margin-bottom: 50px
-    top: 25px
-    left: 10%
-    margin-top: 20px !important
-    font-size: 40px
-    font-weight: bold
-    color: $select_col
+  &_time
+    background: radial-gradient(ellipse at center,  #0a2e38  0%, #000000 70%)
+    height: 100px
+    display: flex
+    justify-content: center
+    align-items: center
     &_numerals
-      text-align: center
-      position: absolute
-      width: 90%
-      left: 5%
-      top: 18px
+      font-size: 30px
+      text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0)
+      
+      
 
 .no-exercises
   text-align: center

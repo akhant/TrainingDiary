@@ -10,7 +10,6 @@ import InlineError from '../../messages/InlineError';
 import { AuthContext } from '../../context';
 import { validateForm } from '../../../helpers';
 
-
 class LoginForm extends React.Component {
   state = {
     data: {
@@ -47,7 +46,7 @@ class LoginForm extends React.Component {
 
     return (
       <Mutation mutation={SIGNIN_USER} variables={{ ...data }}>
-        {(signinUser, { error }) => (
+        {(signinUser, { error: serverError }) => (
           <AuthContext.Consumer>
             {({ refetch }) => (
               <Form onSubmit={e => this.onSubmit(e, signinUser, refetch)} loading={loading}>
@@ -76,7 +75,7 @@ class LoginForm extends React.Component {
                   {errors.password && <InlineError text={errors.password} />}
                 </Form.Field>
                 <button className="btn">Log in</button>
-                {error && <InlineError text={error.message} />}
+                {serverError && <InlineError text={serverError.message} />}
               </Form>
             )}
           </AuthContext.Consumer>

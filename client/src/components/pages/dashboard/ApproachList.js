@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
 import { Icon } from 'semantic-ui-react';
@@ -12,6 +12,7 @@ const ApproachList = (props) => {
     getDayData: { approaches },
     params: { started },
     addParam,
+    hover,
   } = props;
   const checkParams = () => {
     // clear from screen
@@ -52,29 +53,34 @@ const ApproachList = (props) => {
 
   return (
     <div className="approach-list">
-      <br />
-
-      <Mutation
-        mutation={ADD_APPROACH}
-        refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
-      >
-        {addApproach => (
-          <div
-            role="button"
-            tabIndex={0}
-            className="approach-list__btn_add"
-            onClick={e => onClickAddApproach(e, addApproach)}
+      {hover && (
+        <Fragment>
+          <Mutation
+            mutation={ADD_APPROACH}
+            refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
           >
-            <Icon size="mini" name="add circle" />
+            {addApproach => (
+              <div
+                role="button"
+                tabIndex={0}
+                className="approach-list__btn_add"
+                onClick={e => onClickAddApproach(e, addApproach)}
+              >
+                <Icon size="mini" name="add circle" />
+              </div>
+            )}
+          </Mutation>
+
+          <div className="approach-list__signs">
+            <Icon className="approach-list__icon_up" name="balance scale" />
+            <Icon className="approach-list__icon_down" name="pencil" />
           </div>
-        )}
-      </Mutation>
-      <div className="approach-list__signs">
-        <Icon className="approach-list__icon_up" name="balance scale" />
-        <Icon className="approach-list__icon_down" name="pencil" />
-      </div>
+        </Fragment>
+      )}
       <div className="approach-list__items">
-        {filteredApproachesByExerciseId.map(approach => <Approach approach={approach} key={approach.approachId} {...props} />)}
+        {filteredApproachesByExerciseId.map(approach => (
+          <Approach approach={approach} key={approach.approachId} {...props} />
+        ))}
       </div>
     </div>
   );

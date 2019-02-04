@@ -4,10 +4,13 @@ import {
 } from 'recharts';
 import _ from 'lodash';
 import moment from 'moment';
+import { Modal } from 'semantic-ui-react';
 
 export default class Rechart extends Component {
   state = {
     data: [{ x: 1, y: 2 }, { x: 2, y: 4 }],
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
   };
 
   componentDidUpdate(prevProps) {
@@ -44,18 +47,35 @@ export default class Rechart extends Component {
     return data;
   };
 
-  render() {
-    return (
-      <div className="chart">
-        <h3>{this.props.showExerciseStatistic}</h3>
-        <LineChart className="line-chart" width={800} height={400} data={this.state.data}>
-          <XAxis dataKey="date" stroke="#eee" />
-          <YAxis dataKey="value" stroke="#eee" />
-          <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+  handleClose = () => this.props.handleClose();
 
-          <Line type="monotone" dataKey="value" stroke="#DA032D" />
-        </LineChart>
-      </div >
+  render() {
+    const { data } = this.state;
+    const { showExerciseStatistic: exercise } = this.props;
+    const { clientWidth } = document.documentElement;
+    const width = clientWidth > 900 ? 800 : clientWidth - 100;
+    
+    return (
+      <Modal
+        className="chart"
+        // trigger={<Button onClick={this.handleOpen}>Show Modal</Button>}
+        open={!!exercise}
+        onClose={this.handleClose}
+        basic
+        size="large"
+        closeIcon
+      >
+        <Modal.Content>
+          <h3>{exercise}</h3>
+          <LineChart className="line-chart" width={width} height={width * 0.62} data={data}>
+            <XAxis dataKey="date" stroke="#eee" />
+            <YAxis dataKey="value" stroke="#eee" />
+            <CartesianGrid stroke="#888" strokeDasharray="5 5" />
+
+            <Line type="monotone" dataKey="value" stroke="#fb5454" />
+          </LineChart>
+        </Modal.Content>
+      </Modal>
     );
   }
 }

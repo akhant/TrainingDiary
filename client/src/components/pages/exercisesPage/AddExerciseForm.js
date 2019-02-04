@@ -45,8 +45,7 @@ export default class AddExerciseForm extends Component {
             <Form.Field
               error={!!errors.exerciseName}
               required
-              label="Name of exercise"
-              placeholder="Enter name of new exercise"
+              label="Exercise name"
               control="input"
               name="exerciseName"
               onChange={this.onChangeInput}
@@ -55,6 +54,7 @@ export default class AddExerciseForm extends Component {
             {errors.exerciseName && <InlineError text={errors.exerciseName} />}
             <Form.Group>
               <Form.Field
+                className="exercise-page__add-form__weight"
                 error={!!errors.weightFrom}
                 required
                 label="Weight from"
@@ -65,6 +65,7 @@ export default class AddExerciseForm extends Component {
               />
               {errors.weightFrom && <InlineError text={errors.weightFrom} />}
               <Form.Field
+                className="exercise-page__add-form__weight"
                 error={!!errors.weightTo}
                 required
                 label="Weight to"

@@ -33,7 +33,6 @@ export const staticTime = (time) => {
 };
 
 export const validateForm = (data) => {
-  console.log("validateForm dat", data)
   const errors = {};
   const {
     email, password, passwordConfirmation, username, exerciseName, weightTo, weightFrom,
@@ -59,7 +58,6 @@ export const validateForm = (data) => {
           if (username.length > 20) errors[key] = `${key} is too long`;
           break;
         case 'exerciseName':
-          if (exerciseName.length < 2) errors[key] = `${key} is too short`;
           if (exerciseName.length > 45) errors[key] = `${key} is too long`;
           break;
         case 'weightTo':

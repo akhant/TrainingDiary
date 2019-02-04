@@ -22,6 +22,7 @@ import withSession from './withSession';
 import '../assets/js';
 import 'semantic-ui-css/semantic.min.css';
 import '../assets/styles/styles.sass';
+// import '../assets/styles/style.css';
 /* import ErrorBoundary from './ErrorBoundary'; */
 
 const store = configureStore();

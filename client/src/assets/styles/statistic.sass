@@ -1,49 +1,55 @@
 .statistic
   display: block
+  width: 100%
   h3 
     text-align: center
-  .statistic-table
-  width: 100%
-  font-size: 1rem
-  .elem__header
-    font-size: 18px
-    font-weight: bold
-    margin-bottom: 6px
-  .statistic-table__elem__wrapper
-    padding: 20px 10px
+  &_more_btn
     position: relative
-    .statistic_more_btn
-      position: absolute
-      top: 40px
-      right: -135px
-      z-index: 3
-      &:focus
-        color: $sec_col
-    .statistic-table__elem
+    margin: 10px auto
+    display: block
+    padding: 15px 20px
+  .statistic-table
+    width: 100%
+    font-size: 1rem
+    .elem__header
+      font-size: 18px
+      font-weight: bold
+      margin-bottom: 6px
+    &__elem__wrapper
+      padding: 20px 10px
+      position: relative
+  
+    &:focus
+      color: $sec_col
+    &__elem
       border-top: $bor_sec_col
       padding-top: 20px
-    .elem_left
-      border-right: $bor_sec_col 
-      padding-right: 20px
-      .elem_left_row
-        height: 30px
-        padding: 0 10px
-    .elem_right
-      padding-left: 20px
-      justify-content: flex-start
-      overflow: auto
-      .elem_right__column
-        margin-left: 10px
-        .column-counter
-          font-weight: bold
-        .elem_right__column__cell
-          border-bottom: $bor_sec_col
-          padding: 5px
+      display: flex
+      .elem_left
+        border-right: $bor_sec_col 
+        width: 115px !important
+        flex: 0 0 auto
+        .elem_left_row
           height: 30px
-          text-align: center
+      .elem_right
+        padding-left: 20px
+        overflow: auto
+        display: flex
+        .elem_right__column
+          margin-left: 10px
+          display: inline-block
+          .column-counter
+            font-weight: bold
+          .elem_right__column__cell
+            border-bottom: $bor_sec_col
+            padding: 5px
+            height: 30px
+            width: 68px
+            text-align: center
+            .add-time 
+              
 
-.statistic-table__elem, .elem_right
-  display: flex
+
 
 .training-time
   color: $text_col
@@ -51,11 +57,9 @@
   border-radius: 10px
   font-size: 30px
   overflow: hidden
-  padding: 10px
-  background: radial-gradient($elem_bg, darken($elem_bg_dark, 10%))
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
+  padding: 40px 30px
+  background: radial-gradient(ellipse at center,  #0a2e38  0%, #000000 70%)
   margin: auto
-  width: 323px
   text-align: center
   &__inner 
     margin: auto
@@ -64,24 +68,30 @@
     justify-content: center
     div 
       margin: 0 5px
-/*   .timer_numerals
-    background: radial-gradient($elem_bg, darken($elem_bg_dark, 15%))
-    border-radius: 5px */
+      text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0)
 
 .picker-date__wrapper
   text-align: center
+  background: radial-gradient(ellipse at center,  #0a2e38  0%, #000000 70%)
   .picker-date 
     border: none
-    background: radial-gradient($elem_bg, darken($elem_bg_dark, 10%))
+    padding: 40px 30px
+    background: transparent
     color: $select_col
     text-align: center
     cursor: pointer 
     font-size: 30px
-    border-radius: 10px
+    width: 250px
+    text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0)
+    @media (max-width: 480px)
+      padding: 40px 0
+    
 
 .react-datepicker-popper
   z-index: 3 !important
+
+.line-chart
+  margin: 0 auto
+  width: 100%
   
-.chart
-  margin-top: 40px
 

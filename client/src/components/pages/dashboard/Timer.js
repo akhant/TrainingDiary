@@ -62,7 +62,7 @@ class Timer extends Component {
         </div>
         <button className="timer_btn btn" onClick={this.start}>
           {' '}
-          {elapsed ? 'Continue' : 'Start '}
+          {'Start'}
         </button>
 
         <button className="timer_btn btn" onClick={this.finish}>

@@ -42,7 +42,7 @@ export default class StatisticTable extends Component {
             <div className="elem_right">{this.tdRender(approaches[key])}</div>
           </div>
           <button className="btn statistic_more_btn" onClick={() => this.handleMoreClick(key)}>
-            More...
+            More
           </button>
         </div>
       );
@@ -54,8 +54,17 @@ export default class StatisticTable extends Component {
   render() {
     const { filteredApproaches } = this.props;
 
+    if (!Object.keys(filteredApproaches).length) {
+      return (
+        <div className="no-exercises">
+          <h2 className="no-exercises_h2">No exercises</h2>
+        </div>
+      );
+    }
+
     return (
       <div className="statistic-table">
+        <h3>Exercises</h3>
         {this.renderExerciseList(filteredApproaches)}
 
         <div />

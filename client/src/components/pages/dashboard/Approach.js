@@ -48,12 +48,12 @@ class Approach extends Component {
   };
 
   render() {
-    const { approach } = this.props;
+    const { approach, hover } = this.props;
 
     return (
       <div className="approach">
         <Weight {...this.props} />
-        
+
         <Mutation mutation={CHANGE_APPROACH_VALUE}>
           {changeApproachValue => (
             <select
@@ -65,22 +65,24 @@ class Approach extends Component {
             </select>
           )}
         </Mutation>
-        <Mutation
-          mutation={REMOVE_APPROACH}
-          variables={{ approachId: approach.approachId }}
-          refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
-        >
-          {removeApproach => (
-            <div
-              role="button"
-              tabIndex={0}
-              className="approach__btn_delete"
-              onClick={() => this.handleDeleteApproach(removeApproach)}
-            >
-              <Icon size="small" name="trash alternate outline" />
-            </div>
-          )}
-        </Mutation>
+        {hover && (
+          <Mutation
+            mutation={REMOVE_APPROACH}
+            variables={{ approachId: approach.approachId }}
+            refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+          >
+            {removeApproach => (
+              <div
+                role="button"
+                tabIndex={0}
+                className="approach__btn_delete"
+                onClick={() => this.handleDeleteApproach(removeApproach)}
+              >
+                <Icon size="small" name="trash alternate outline" />
+              </div>
+            )}
+          </Mutation>
+        )}
       </div>
     );
   }

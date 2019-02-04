@@ -23,6 +23,10 @@ class Statistic extends Component {
     });
   };
 
+  handleCloseModal = () => {
+    this.setState({ showExerciseStatistic: '' });
+  };
+
   handleChange = (choosenDate) => {
     this.setState({
       pickDate: choosenDate,
@@ -48,20 +52,18 @@ class Statistic extends Component {
             return (
               <Grid className="statistic">
                 <Grid.Row>
-                  <Grid.Column width={8}>
+                  <Grid.Column mobile={16} computer={8}>
                     <PickerDate pickDate={pickDate} onPickDate={this.handleChange} />
                   </Grid.Column>
-                  <Grid.Column width={8}>
+                  <Grid.Column mobile={16} computer={8}>
                     <TrainingTime {...statistic} />
                   </Grid.Column>
                 </Grid.Row>
-                <Grid.Row>
-                  <Grid.Column width={8}>
-                    <h3>Exercises</h3>
+                <Grid.Row centered>
+                  <Grid.Column mobile={16} computer={12}>
+                    
                     <StatisticTable onClickMore={this.onClickMore} filteredApproaches={filteredApproaches} />
-                  </Grid.Column>
-                  <Grid.Column width={1} />
-                  <Grid.Column width={7}>
+
                     {showExerciseStatistic && (
                       <Query query={GET_EXERCISE_APPROACHES} variables={{ exerciseName: showExerciseStatistic }}>
                         {({ data: { getExerciseApproaches }, loading: chartLoading }) => {
@@ -70,6 +72,7 @@ class Statistic extends Component {
                             return (
                               <Rechart
                                 showExerciseStatistic={showExerciseStatistic}
+                                handleClose={this.handleCloseModal}
                                 approaches={getExerciseApproaches.approaches}
                               />
                             );

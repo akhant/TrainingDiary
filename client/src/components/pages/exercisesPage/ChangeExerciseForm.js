@@ -12,12 +12,12 @@ class ChangeExerciseForm extends Component {
       weightFrom: 0,
       weightTo: 0,
     },
-
     errors: {},
   };
 
   componentDidMount = () => {
-    this.setState({ data: this.props.exercise });
+    const { exerciseName, weightFrom, weightTo } = this.props.exercise;
+    this.setState({ data: { exerciseName, weightFrom, weightTo } });
   };
 
   onChangeInput = (e) => {
@@ -43,7 +43,6 @@ class ChangeExerciseForm extends Component {
   render() {
     const { errors, data } = this.state;
     const { exercise } = this.props;
-
     return (
       <div className="change-exercise__form">
         <Mutation
@@ -61,12 +60,11 @@ class ChangeExerciseForm extends Component {
               <Form.Field
                 error={!!errors.exerciseName}
                 required
-                label="Name of exercise"
-                placeholder="Enter name of new exercise"
+                label="Exercise name"
                 control="input"
                 name="exerciseName"
                 onChange={this.onChangeInput}
-                value={this.state.data.exerciseName}
+                value={data.exerciseName}
               />
               {errors.exerciseName && <InlineError text={errors.exerciseName} />}
               <Form.Group>
@@ -77,7 +75,7 @@ class ChangeExerciseForm extends Component {
                   control="input"
                   name="weightFrom"
                   onChange={this.onChangeInput}
-                  value={this.state.data.weightFrom}
+                  value={data.weightFrom}
                 />
                 {errors.weightFrom && <InlineError text={errors.weightFrom} />}
                 <Form.Field
@@ -87,7 +85,7 @@ class ChangeExerciseForm extends Component {
                   control="input"
                   name="weightTo"
                   onChange={this.onChangeInput}
-                  value={this.state.data.weightTo}
+                  value={data.weightTo}
                 />
                 {errors.weightTo && <InlineError text={errors.weightTo} />}
               </Form.Group>

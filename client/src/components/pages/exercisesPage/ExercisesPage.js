@@ -24,7 +24,11 @@ class ExercisesPage extends Component {
           return (
             <Grid className="exercise-page">
               <Grid.Row>
-                <Grid.Column width={8}>
+                <Grid.Column mobile={16} computer={8}>
+                  <h3>Add exercise</h3>
+                  <AddExerciseForm />
+                </Grid.Column>
+                <Grid.Column mobile={16} computer={8}>
                   <h3>List of exercises</h3>
                   <Accordion className="exercise-page__list" styled>
                     {data && data.getList ? (
@@ -41,10 +45,6 @@ class ExercisesPage extends Component {
                       <div>Add exercises to your list => </div>
                     )}
                   </Accordion>
-                </Grid.Column>
-                <Grid.Column width={8}>
-                  <h3>Add exercise</h3>
-                  <AddExerciseForm />
                 </Grid.Column>
               </Grid.Row>
             </Grid>

@@ -9,26 +9,26 @@ const Header = () => {
   const { data } = useContext(AuthContext);
 
   return (
-    <Grid centered className="header">
-      <Grid.Row columns={3}>
-        <Grid.Column verticalAlign="middle">
+    <Grid  className="header">
+      {/* <Grid.Row centered columns={3}>
+        <Grid.Column width={5} verticalAlign="middle">
           <Link to="/dashboard">
-            <span className="header__h1 header__h1_left">Training</span>
+            <div className="header__h1 header__h1_left">Training</div>
           </Link>
         </Grid.Column>
-        <Grid.Column verticalAlign="middle">
-          <span className="header__logo">
+        <Grid.Column width={6} verticalAlign="middle">
+          <div className="header__logo">
             <Link to="/">
               <Image src={logo} alt="logo" />
             </Link>
-          </span>
+          </div>
         </Grid.Column>
-        <Grid.Column verticalAlign="middle">
+        <Grid.Column width={5} verticalAlign="middle">
           <Link to="/statistic">
-            <span className="header__h1 header__h1_right">Diary</span>
+            <div className="header__h1 header__h1_right">Diary</div>
           </Link>
         </Grid.Column>
-      </Grid.Row>
+      </Grid.Row> */}
 
       <div className="header__nav">
         {data && data.getCurrentUser ? (
