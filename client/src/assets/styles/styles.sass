@@ -114,6 +114,9 @@ h3
   text-align: center
   margin: auto
   font-size: 30px
+  margin-top: 200px
+  p 
+    margin-bottom: 40px
 
 .inline-error
   color: $fir_col
@@ -232,14 +235,18 @@ h3
   text-align: center
   margin: 100px auto
   height: 100%
-  p
-    font-size: 20px
-    margin-top: 10px
-    line-height: 2 !important
-    &:first-child
-      margin-top: 50px
+  font-size: 20px
+  &__text
+    margin: 50px auto
+  &__actions
+    a, p
+      display: inline-block
   h1 
-    font-size: 30px
+    font-size: 40px
+    text-transform: uppercase
+    background: radial-gradient(ellipse at center,  #0a2e38  0%, #000000 70%)
+    text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0)
+
 
 .login-page, .signup-page, .forgot-password-page, .reset-password-page
   margin-top: 100px

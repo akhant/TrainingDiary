@@ -7,7 +7,7 @@ import configureStore from '../store';
 import Header from './Header/Header';
 import UserRoute from './routes/UserRoute';
 import GuestRoute from './routes/GuestRoute';
-/* import ConfirmedRoute from './routes/ConfirmedRoute'; */
+import ConfirmedRoute from './routes/ConfirmedRoute';
 import SignupPage from './pages/signupPage/SignupPage';
 import LoginPage from './pages/loginPage/LoginPage';
 import NotFound from './pages/NotFound';
@@ -59,7 +59,7 @@ const Root = () => (
           <GuestRoute path="/login" exact component={LoginPage} />
           <GuestRoute path="/forgot_password" exact component={ForgotPasswordPage} />
           <UserRoute path="/dashboard" exact component={Main} />
-          <UserRoute path="/statistic" exact component={Statistic} />
+          <ConfirmedRoute path="/statistic" exact component={Statistic} />
           <GuestRoute path="/reset_password/:token" exact component={ResetPasswordPage} />
           <Route path="/confirmation/:token" exact component={Confirmation} />
           <UserRoute path="/exercises" exact component={ExercisesPage} />

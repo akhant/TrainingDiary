@@ -3,7 +3,7 @@ const typeDefs = `
 type User {
     username: String!
     email: String!
-    confirmed: String!
+    confirmed: Boolean!
     userId: ID!
 }
 

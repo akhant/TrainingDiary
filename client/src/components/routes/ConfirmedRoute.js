@@ -4,6 +4,7 @@ import { AuthContext } from '../context';
 
 const ConfirmedRoute = ({ component: Component, ...rest }) => {
   const { data } = useContext(AuthContext);
+  console.log('confirmed', data);
   return (
     <Route
       {...rest}
@@ -12,13 +13,10 @@ const ConfirmedRoute = ({ component: Component, ...rest }) => {
       ) : (
         <div className="confirm_restricted">
           {' '}
-            Please confirm your email to get access
-          {' '}
-          <br />
+          <p>Please confirm your email to get access </p>
           <Link to="/dashboard" className="btn">
               Dashboard
-          </Link>
-          {' '}
+          </Link>{' '}
         </div>
       ))
       }
