@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid } from 'semantic-ui-react';
 import moment from 'moment';
 import { Mutation, Query, withApollo } from 'react-apollo';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Grid } from 'semantic-ui-react';
 import { addParam } from '../../../AC';
 import ExerciseList from './ExerciseList';
 import Timer from './Timer';

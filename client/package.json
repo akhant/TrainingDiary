@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set SKIP_PREFLIGHT_CHECK=true&&set BROWSER=none&&set PORT=8000&& react-scripts start",
-    "build": "react-scripts build"
+    "start": "set SKIP_PREFLIGHT_CHECK=true&&set BROWSER=none&&set PORT=8000&&set MODE=development&& react-scripts start",
+    "build": "set SKIP_PREFLIGHT_CHECK=true&& react-scripts build"
   },
   "author": "",
   "license": "ISC",
@@ -30,7 +30,6 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "^2.1.1",
     "react-table": "^6.8.6",
-    "react-transition-group": "^1.2.0",
     "recharts": "^1.4.2",
     "redux": "^3.7.0",
     "redux-thunk": "^2.3.0",

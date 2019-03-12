@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import uniqueValidator from 'mongoose-unique-validator';
 
 const schema = new mongoose.Schema(
   {
@@ -40,12 +39,12 @@ schema.methods.setConfirmationToken = function () {
 };
 
 schema.methods.generateConfirmationUrl = function () {
-  return `${process.env.CLIENT_HOST}/confirmation/${this.confirmationToken}`;
+  return `${process.env.HOST}/confirmation/${this.confirmationToken}`;
 };
 
 schema.methods.generateResetPasswordLink = function () {
   const resetToken = this.generateResetPasswordToken();
-  return `${process.env.CLIENT_HOST}/reset_password/${resetToken}`;
+  return `${process.env.HOST}/reset_password/${resetToken}`;
 };
 
 schema.methods.generateJWT = function () {
@@ -76,6 +75,5 @@ schema.methods.toAuthJSON = function () {
   };
 };
 
-schema.plugin(uniqueValidator, { message: 'This email is already exist' });
 
 export default mongoose.model('User', schema);

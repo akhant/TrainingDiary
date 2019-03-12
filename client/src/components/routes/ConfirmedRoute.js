@@ -4,7 +4,6 @@ import { AuthContext } from '../context';
 
 const ConfirmedRoute = ({ component: Component, ...rest }) => {
   const { data } = useContext(AuthContext);
-  console.log('confirmed', data);
   return (
     <Route
       {...rest}

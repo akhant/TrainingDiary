@@ -27,8 +27,10 @@ import '../assets/styles/styles.sass';
 
 const store = configureStore();
 
+const URL = process.env.MODE === 'development' ? 'http://localhost:3000/graphql' : 'https://be-strong.herokuapp.com/graphql';
+
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: URL,
   fetchOptions: {
     credentials: 'include',
   },

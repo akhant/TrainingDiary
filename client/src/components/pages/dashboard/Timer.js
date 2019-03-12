@@ -5,7 +5,7 @@ import { addParam } from '../../../AC';
 import { elapsedTime } from '../../../helpers';
 import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
 
-// TODO: fix timer
+
 class Timer extends Component {
   state = {
     start: this.props.statistic ? this.props.statistic.workoutStart : Date.now(),
@@ -22,16 +22,22 @@ class Timer extends Component {
 
   componentDidMount = () => {
     const { started } = this.props.params;
+    console.log('TCL: Timer -> componentDidMount -> started', started);
+    console.log('elapsed', this.state.elapsed);
+    console.log('statistic', this.props.statistic);
+
     if (started) this.continue();
   };
 
   continue = () => {
+    console.log('continue');
     this.timer = setInterval(this.tick, 1000);
     this.props.addParam({ started: true, message: '' });
   };
 
   start = async () => {
     const { started } = this.props.params;
+
     if (started) return null;
     this.continue();
     // send start time to server only first time
@@ -41,7 +47,9 @@ class Timer extends Component {
   };
 
   stop = async () => {
+    console.log('stop');
     const { started } = this.props.params;
+
     if (!started) return null;
     // send finish time to server
     clearInterval(this.timer);
@@ -58,7 +66,7 @@ class Timer extends Component {
     return (
       <div className="timer">
         <div className="timer_time">
-          <div className="timer_time_numerals"> {elapsedTime(elapsed)}</div>
+          <div className="timer_time_numerals">{elapsedTime(elapsed)}</div>
         </div>
         <button className="timer_btn btn" onClick={this.start}>
           {' '}

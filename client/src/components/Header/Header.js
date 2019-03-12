@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Image, Grid } from 'semantic-ui-react';
-import logo from '../../assets/images/logo_middle.png';
+import { Grid } from 'semantic-ui-react';
 import { AuthContext } from '../context';
 import Logout from './Logout';
 
@@ -9,7 +8,7 @@ const Header = () => {
   const { data } = useContext(AuthContext);
 
   return (
-    <Grid  className="header">
+    <Grid className="header">
       {/* <Grid.Row centered columns={3}>
         <Grid.Column width={5} verticalAlign="middle">
           <Link to="/dashboard">

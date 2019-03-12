@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import Exercise from './Exercise';
 
 const ExerciseList = (props) => {
@@ -8,7 +9,9 @@ const ExerciseList = (props) => {
       {exercises.length ? (
         <div className="exercise-list">
           {exercises.map(exercise => (
-            <Exercise key={exercise.exerciseId} exercise={exercise} {...props} />
+            <CSSTransition in apear classNames="fade" timeout={5000}>
+              {state => <Exercise key={exercise.exerciseId} exercise={exercise} {...props} />}
+            </CSSTransition>
           ))}
         </div>
       ) : (

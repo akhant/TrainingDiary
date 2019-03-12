@@ -5,8 +5,7 @@ export const GET_CURRENT_USER = gql`
     getCurrentUser {
       username
       confirmed
-      userId
-    }
+      }
   }
 `;
 
