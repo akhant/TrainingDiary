@@ -1,0 +1,31 @@
+{
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "rules": {
+        "comma-dangle": ["warn", "always-multiline"],
+        "linebreak-style": "off",
+        "array-callback-return": "off",
+        "no-shadow": "warn",
+        "no-unused-vars": "warn",
+        "max-len": "off",
+        "react/jsx-filename-extension": "off",
+        "no-undef": "warn",
+        "import/no-named-as-default-member": "off",
+        "import/prefer-default-export": "warn",
+        "react/button-has-type": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "react/destructuring-assignment": "warn",
+        "react/prop-types": "off",
+        "react/no-unused-state": "warn",
+        "consistent-return": "off",
+        "no-plusplus": "off",
+        "no-underscore-dangle": "off",
+        "no-restricted-globals": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "import/no-named-as-default": "off",
+        "react/prefer-es6-class": "off",
+        "react/no-access-state-in-setstate": "warn",
+        "react/no-unescaped-entities": "warn"
+        
+    }
+}

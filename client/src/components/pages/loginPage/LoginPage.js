@@ -1,33 +1,16 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import LoginForm from "./LoginForm";
-import { login } from "../../../AC/auth";
+import React from 'react';
 
-class LoginPage extends Component {
-  submit = data => this.props.login(data);
+import { Link } from 'react-router-dom';
+import LoginForm from './LoginForm';
 
-  render() {
-    return (
-      <div>
-        <h1 className="center">Log In!</h1>
+const LoginPage = () => (
+  <div className="login-page">
+    <h1 className="center">Log In!</h1>
+    <LoginForm />
+    <Link className="forgot-password__link" to="/forgot_password">
+      Forgot Password?
+    </Link>
+  </div>
+);
 
-        <LoginForm submit={this.submit} />
-
-        <Link className="forgot_password__link" to="/forgot_password">
-          Forgot Password?
-        </Link>
-      </div>
-    );
-  }
-}
-
-LoginPage.propTypes = {
-  login: PropTypes.func.isRequired
-};
-
-export default connect(
-  null,
-  { login }
-)(LoginPage);
+export default LoginPage;

@@ -1,20 +1,20 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Message } from 'semantic-ui-react';
 
-const Message = props => {
-  const { messages } = props;
-
+const ErrorMessage = (props) => {
+  const { message } = props.params;
   return (
-    <div className="Message">
-      {messages.message && (
-        <div className="errorMessage">
-          <p>{messages.message}</p>
-        </div>
+    <div className="error-message">
+      {message && (
+        <Message negative>
+          <p>{message}</p>
+        </Message>
       )}
     </div>
   );
 };
 
-export default connect(({ messages }) => ({
-  messages
-}))(Message);
+export default connect(({ params }) => ({
+  params,
+}))(ErrorMessage);

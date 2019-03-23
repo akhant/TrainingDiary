@@ -1,81 +1,58 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Grid, Row, Col } from "react-bootstrap";
-import { Accordion, Icon } from "semantic-ui-react";
-import ElementOfList from "./ElementOfList";
-import { getListOfExercises, removeFromList } from "../../../AC/list";
-import AddExerciseForm from "./AddExerciseForm";
-import ChangeExerciseForm from "./ChangeExerciseForm";
+import React, { Component } from 'react';
+import { Accordion, Loader, Grid } from 'semantic-ui-react';
+import { Query } from 'react-apollo';
+import ElementOfList from './ElementOfList';
+import AddExerciseForm from './AddExerciseForm';
+import { GET_LIST } from '../../../queries';
 
 class ExercisesPage extends Component {
-  state = { activeIndex: "" };
+  state = { activeIndex: null };
 
-  componentDidMount = () => {
-    this.props.getListOfExercises();
-  };
-
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps;
+  handleClick = (index) => {
     const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+    const newIndex = activeIndex === index ? null : index;
 
     this.setState({ activeIndex: newIndex });
-  };
-
-  removeExercise = id => {
-    this.props.removeFromList(id);
   };
 
   render() {
     const { activeIndex } = this.state;
     return (
-      <div>
-        <Grid>
-          <Row>
-            <Col sx={12} />
-            <h1 className="center">ExercisesPage</h1>
-          </Row>
-          <Row>
-            <Col sm={6}>
-              <h3>List of exercises</h3>
-              <Accordion styled>
-                {this.props.listOfExercises.map((exercise, index) => (
-                  <div key={exercise._id}>
-                    <Accordion.Title
-                      active={activeIndex === index}
-                      index={index}
-                      onClick={this.handleClick}
-                    >
-                      <Icon name="dropdown" />
-                      {exercise.exerciseName}
-                    </Accordion.Title>
-                    <Accordion.Content active={activeIndex === index}>
-                      <ChangeExerciseForm
-                        exercise={exercise}
-                        id={exercise._id}
-                        removeExercise={this.removeExercise}
-                      />
-                    </Accordion.Content>
-                  </div>
-                ))}
-              </Accordion>
-            </Col>
-            <Col sm={6}>
-              <AddExerciseForm />
-            </Col>
-          </Row>
-          <Link className="btn" to="/dashboard">
-            Main page
-          </Link>
-        </Grid>
-      </div>
+      <Query query={GET_LIST}>
+        {({ data, loading }) => {
+          if (loading) return <Loader />;
+          return (
+            <Grid className="exercise-page">
+              <Grid.Row>
+                <Grid.Column mobile={16} computer={8}>
+                  <h3>Add exercise</h3>
+                  <AddExerciseForm />
+                </Grid.Column>
+                <Grid.Column mobile={16} computer={8}>
+                  <h3>List of exercises</h3>
+                  <Accordion className="exercise-page__list" styled>
+                    {data && data.getList ? (
+                      data.getList.list.map((exercise, index) => (
+                        <ElementOfList
+                          index={index}
+                          activeIndex={activeIndex}
+                          handleClick={this.handleClick}
+                          key={exercise.exerciseDescriptionId}
+                          exercise={exercise}
+                        />
+                      ))
+                    ) : (
+                      <div>Add exercises to your list </div>
+                    )}
+                  </Accordion>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          );
+        }}
+      </Query>
     );
   }
 }
 
-export default connect(
-  ({ listOfExercises }) => ({ listOfExercises }),
-  { getListOfExercises }
-)(ExercisesPage);
+export default ExercisesPage;

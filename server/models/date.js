@@ -1,9 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
 const DateSchema = new Schema({
-  date: String
+  userId: String,
+  date: String,
 });
 
-export default mongoose.model("Date", DateSchema);
+export default mongoose.model('TrainingDate', DateSchema);

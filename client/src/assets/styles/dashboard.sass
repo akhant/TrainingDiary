@@ -1,0 +1,144 @@
+.dashboard
+  position: relative
+.exercise-list_with-buttons
+  &__btn
+    display: block
+    margin: auto !important
+  .exercise-list 
+    display: flex
+    margin-top: 50px
+    justify-content: center
+    width: 100% 
+    flex-wrap: wrap
+    .exercise
+      overflow-x: auto
+      min-height: 155px
+      margin: 0px 10px
+      position: relative
+      padding: 10px 36px 36px 10px
+      box-shadow: inset 0 0 1em $sec_col, 0 0 1em $sec_col
+      border: $sec_col solid 2px
+      margin-top: 20px
+      &__btn_delete
+        display: inline-block
+        color: $remove 
+        cursor: pointer
+        height: 30px
+        width: 30px
+        vertical-align: middle
+        position: absolute
+        top: 13px
+        right: 2px
+        i 
+          position: absolute
+          font-size: 20px !important
+      &__select 
+        width: 230px
+
+.approach-list
+  display: flex
+  margin-top: 10px
+  margin-left: 5px
+  font-size: 18px
+  &__header
+    font-size: 18px
+    font-weight: bold
+  &__signs
+    position: absolute
+    left: 7px
+    top: 46px
+    width: 20px
+    z-index: 4
+    i 
+      position: absolute
+  &__icon_up
+    top: 15px
+  &__icon_down
+    top: 45px
+  &__items
+    display: flex
+    margin-top: 10px
+    margin-left: 15px
+  &__btn_add
+    color: $sec_col
+    z-index: 3 !important
+    cursor: pointer
+    position: absolute
+    width: 30px
+    height: 30px
+    right: 5px
+    top: 70px
+    i 
+      position: absolute
+      font-size: 25px !important
+  .approach
+    position: relative
+    .weight
+      display: block
+      position: relative
+      &:after
+        //content: '|'
+        font-size: 30px
+        font-weight: bold
+        color: $elem_bg_dark
+        position: absolute
+        top: 10px
+        left: 11px
+      select 
+        border-bottom: 1px $fir_col solid
+    &__btn_delete
+      position: relative
+      i
+        color: $remove 
+        cursor: pointer
+        vertical-align: middle
+        position: absolute
+        top: 8px
+        z-index: 1
+        bottom: -15px
+        right: 8px
+        line-height: 0
+
+.custom_select
+  color: $select_col
+  background: transparent //radial-gradient($elem_bg, darken($elem_bg_dark, 10%))
+  border-style: none
+  //border-radius: 5px
+  text-align: center
+  font-size: 18px
+  appearance: none
+  -moz-appearance: none
+  -webkit-appearance: none
+  cursor: pointer
+  margin: 2px
+  padding-right: 4px
+  position: relative
+  z-index: 2
+
+.timer
+  position: relative
+  margin:  30px auto
+  display: block
+  text-align: center
+  background: transparent
+  .timer_btn
+    margin-bottom: 20px
+    width: 150px
+  &_time
+    background: radial-gradient(ellipse at center,  #0a2e38  0%, #000000 70%)
+    height: 100px
+    display: flex
+    justify-content: center
+    align-items: center
+    &_numerals
+      font-size: 30px
+      text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0)
+
+ 
+
+.no-exercises
+  text-align: center
+  margin-top: 80px
+  font-size: 25px
+  .no-exercises_h2
+    margin: 40px

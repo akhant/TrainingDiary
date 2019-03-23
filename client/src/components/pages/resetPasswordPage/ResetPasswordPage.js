@@ -1,27 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-/* import { Message } from "semantic-ui-react"; */
-import ResetPasswordForm from "./ResetPasswordForm";
-import { resetPassword } from "../../../AC/auth";
+import React from 'react';
+import ResetPasswordForm from './ResetPasswordForm';
 
-class ResetPasswordPage extends React.Component {
-  submit = data => this.props.resetPassword(data);
+const ResetPasswordPage = ({
+  match: {
+    params: { token },
+  },
+}) => (
+  <div className="reset-password-page">
+    <ResetPasswordForm token={token} />
+  </div>
+);
 
-  render() {
-    return (
-      <div>
-        <ResetPasswordForm submit={this.submit} />
-      </div>
-    );
-  }
-}
-
-ResetPasswordPage.propTypes = {
-  resetPassword: PropTypes.func.isRequired
-};
-
-export default connect(
-  null,
-  { resetPassword }
-)(ResetPasswordPage);
+export default ResetPasswordPage;

@@ -1,136 +1,101 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import moment from "moment";
-import _ from "lodash";
-import { Grid, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { fetchData } from "../../../AC";
-import elapsedTime from "../../../helpers";
-import PickerDate from "../../PickerDate";
-import Message from "../../messages/Message";
-import Chart from "./Chart";
-import StatisticTable from "./StatisticTable";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import _ from 'lodash';
+import { Query, withApollo } from 'react-apollo';
+import { Loader, Grid } from 'semantic-ui-react';
+import PickerDate from '../../PickerDate';
+import Message from '../../messages/Message';
+import StatisticTable from './StatisticTable';
+import TrainingTime from './TrainingTime';
+import { GET_DAY_DATA, GET_EXERCISE_APPROACHES } from '../../../queries';
+import Rechart from './Rechart';
 
-export class Statistic extends Component {
+class Statistic extends Component {
   state = {
-    pickStatisticDate: moment(),
-    showExerciseStatistic: ""
+    pickDate: moment(),
+    showExerciseStatistic: '',
   };
 
-  componentDidMount = () => {
+  onClickMore = (exerciseName) => {
     this.setState({
-      pickStatisticDate: this.props.params.pickDate
+      showExerciseStatistic: exerciseName,
     });
   };
-  onClickMore = exerciseName => {
+
+  handleCloseModal = () => {
+    this.setState({ showExerciseStatistic: '' });
+  };
+
+  handleChange = (choosenDate) => {
     this.setState({
-      showExerciseStatistic: exerciseName
+      pickDate: choosenDate,
     });
   };
 
-  getWorkoutTime = () => {
-    const { workoutTime } = _.find(this.props.statistic, {
-      date: this.state.pickStatisticDate._d.toDateString()
+  componentDidMount = async () => {
+    await this.props.client.reFetchObservableQueries({
+      query: GET_DAY_DATA,
     });
-
-    return elapsedTime(workoutTime);
-  };
-  handleChange = choosenDate => {
-    this.setState(
-      {
-        pickStatisticDate: choosenDate
-      },
-      () => {
-        this.props.fetchData(this.state.pickStatisticDate);
-      }
-    );
   };
 
   render() {
-    const { approaches } = this.props;
+    const { pickDate, showExerciseStatistic } = this.state;
 
-    const selectedApproaches = approaches.filter(
-      approach =>
-        approach.date === this.state.pickStatisticDate._d.toDateString()
-    );
-
-    const filteredApproaches = _.groupBy(selectedApproaches, "exerciseName");
-    // если в данный день нет подходов
-    if (!selectedApproaches.length) {
-      return (
-        <div className="no_exercises">
-          <PickerDate
-            pickDateFromMain={this.state.pickStatisticDate}
-            className="PickerDate statistic_pikerDate"
-            handleChange={this.handleChange}
-          />
-          <h2 className="no_exercises_h2">No exercises this day</h2>
-          <div className="link_to_main__wrapper">
-            <Link className="link_to_main btn" to="/dashboard">
-              {" "}
-              To main{" "}
-            </Link>
-          </div>
-        </div>
-      );
-    }
-    // если есть подходы
     return (
-      <Grid fluid>
-        <Row>
-          <Col>
-            <PickerDate
-              pickDateFromMain={this.state.pickStatisticDate}
-              className="PickerDate statistic_pikerDate"
-              handleChange={this.handleChange}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={5}>
-            <div className="training_time">
-              <span>Training time: {this.getWorkoutTime()}</span>
-            </div>
+      <Query query={GET_DAY_DATA} variables={{ date: pickDate.format('ddd MMM DD YYYY') }}>
+        {({ data, data: { getDayData }, loading }) => {
+          if (loading) return <Loader />;
+          if (data && getDayData) {
+            const { approaches, statistic } = getDayData;
+            const filteredApproaches = _.groupBy(approaches, 'exerciseName');
+            return (
+              <Grid className="statistic">
+                <Grid.Row>
+                  <Grid.Column mobile={16} computer={8}>
+                    <PickerDate pickDate={pickDate} onPickDate={this.handleChange} />
+                  </Grid.Column>
+                  <Grid.Column mobile={16} computer={8}>
+                    <TrainingTime {...statistic} />
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row centered>
+                  <Grid.Column mobile={16} computer={12}>
+                    <StatisticTable onClickMore={this.onClickMore} filteredApproaches={filteredApproaches} />
 
-            <StatisticTable
-              onClickMore={this.onClickMore}
-              pickDate={this.state.pickStatisticDate}
-              filteredApproaches={filteredApproaches}
-            />
-          </Col>
-          <Col sm={1} />
-          <Col sm={6}>
-            {this.state.showExerciseStatistic && (
-              <Chart
-                showExerciseStatistic={this.state.showExerciseStatistic}
-                approaches={approaches}
-              />
-            )}
-          </Col>
-        </Row>
+                    {showExerciseStatistic && (
+                      <Query query={GET_EXERCISE_APPROACHES} variables={{ exerciseName: showExerciseStatistic }}>
+                        {({ data: { getExerciseApproaches }, loading: chartLoading }) => {
+                          if (chartLoading) return <Loader />;
+                          if (getExerciseApproaches) {
+                            return (
+                              <Rechart
+                                showExerciseStatistic={showExerciseStatistic}
+                                handleClose={this.handleCloseModal}
+                                approaches={getExerciseApproaches.approaches}
+                              />
+                            );
+                          }
+                        }}
+                      </Query>
+                    )}
+                  </Grid.Column>
+                </Grid.Row>
 
-        <Message />
+                <Message />
+              </Grid>
+            );
+          }
 
-        <Row>
-          <Col>
-            <div className="link_to_main__wrapper">
-              <Link className="link_to_main btn" to="/dashboard">
-                {" "}
-                To main{" "}
-              </Link>
-            </div>
-          </Col>
-        </Row>
-      </Grid>
+          return null;
+        }}
+      </Query>
     );
   }
 }
 
-export default connect(
-  ({ statistic, approaches, params }) => ({
-    statistic,
-    approaches,
-    params
-  }),
-  { fetchData }
-)(Statistic);
+export default withApollo(
+  connect(({ params }) => ({
+    params,
+  }))(Statistic)
+);

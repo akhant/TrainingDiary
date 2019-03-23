@@ -1,48 +1,57 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ApproachList from "./ApproachList";
-import ExerciseSelect from "./ExerciseSelect";
-import { deleteExercise, changeExerciseNameValue } from "../../../AC";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import { Icon } from 'semantic-ui-react';
+import ApproachList from './ApproachList';
+import ExerciseSelect from './ExerciseSelect';
+import { REMOVE_EXERCISE, GET_DAY_DATA } from '../../../queries';
 
-export class Exercise extends Component {
+class Exercise extends Component {
   state = {
-    id: this.props.exercise._id
+    hover: false,
   };
 
-  handleDeleteExercise = () => {
-    this.props.deleteExercise(this.props.pickDate, this.state.id);
+  handleRemoveExercise = async (removeExercise) => {
+    await removeExercise();
   };
 
-  handleChangeExerciseNameValue = e => {
-    this.props.changeExerciseNameValue(e, this.props.exercise._id);
+  handleHover = (arg) => {
+    this.setState({ hover: arg });
   };
 
   render() {
     const { exercise } = this.props;
-
+    const { hover } = this.state;
     return (
-      <div className="Exercise">
-        <ExerciseSelect
-          changeSelect={this.handleChangeExerciseNameValue}
-          exerciseName={exercise.exerciseName}
-        />
-        <div>
-          <ApproachList exercise={exercise} />
-        </div>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={this.handleDeleteExercise}
-          className="deleteExercise_btn"
-        >
-          {" "}
-        </div>
-      </div>
+      <Mutation
+        mutation={REMOVE_EXERCISE}
+        variables={{ exerciseId: exercise.exerciseId }}
+        refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+      >
+        {removeExercise => (
+          <div
+            onMouseEnter={() => this.handleHover(true)}
+            onMouseLeave={() => this.handleHover(false)}
+            className="exercise"
+          >
+            <ExerciseSelect {...this.props} />
+            <div>
+              <ApproachList hover={hover} {...this.props} />
+            </div>
+            {hover && (
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => this.handleRemoveExercise(removeExercise)}
+                className="exercise__btn_delete"
+              >
+                <Icon size="mini" name="trash alternate" />
+              </div>
+            )}
+          </div>
+        )}
+      </Mutation>
     );
   }
 }
 
-export default connect(
-  null,
-  { deleteExercise, changeExerciseNameValue }
-)(Exercise);
+export default Exercise;

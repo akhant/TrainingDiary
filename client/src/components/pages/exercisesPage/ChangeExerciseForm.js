@@ -1,108 +1,121 @@
-import React, { Component } from "react";
-import { Form } from "semantic-ui-react";
-import { connect } from "react-redux";
-import { changeList, removeFromList } from "../../../AC/list";
+import React, { Component } from 'react';
+import { Form } from 'semantic-ui-react';
+import { Mutation } from 'react-apollo';
+import { validateForm } from '../../../helpers';
+import InlineError from '../../messages/InlineError';
+import { REMOVE_FROM_LIST, CHANGE_LIST, GET_LIST } from '../../../queries';
 
 class ChangeExerciseForm extends Component {
   state = {
-    exerciseName: "",
-    weight: {
-      from: "",
-      to: ""
+    data: {
+      exerciseName: '',
+      weightFrom: 0,
+      weightTo: 0,
     },
-    errors: []
+    errors: {},
   };
 
   componentDidMount = () => {
-    this.setState({ ...this.props.exercise });
+    const { exerciseName, weightFrom, weightTo } = this.props.exercise;
+    this.setState({ data: { exerciseName, weightFrom, weightTo } });
   };
 
-  onRemoveExercise = () => {
-    this.props.removeFromList(this.props.id);
+  onChangeInput = (e) => {
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value },
+    });
   };
 
-  onChangeExerciseName = e => this.setState({ exerciseName: e.target.value });
-  onChangeWeightFrom = e =>
-    this.setState({ weight: { ...this.state.weight, from: e.target.value } });
-  onChangeWeightTo = e =>
-    this.setState({ weight: { ...this.state.weight, to: e.target.value } });
+  onRemoveExercise = async (removeFromList) => {
+    await removeFromList();
 
-  onSubmit = () => {
-    if (this.validate(this.state).length !== 0) return null;
-    this.props.changeList(this.props.id, this.state);
+    this.props.changeActiveIndex(null);
   };
-  validate = state => {
-    const { weight, exerciseName } = state;
-    const re = /[^$A-Za-z0-9\s]/g;
-    const errors = [];
-    for (let key in weight) {
-      if (typeof +weight[key] !== "number" || !Number.isInteger(+weight[key])) {
-        errors.push(`Field "${key}" have to be an integer number`);
-      } else if (
-        typeof +weight[key] == "number" &&
-        (+weight[key] < 0 || +weight[key] > 300)
-      ) {
-        errors.push(`Value of field "${key}" have to be from 0 to 300`);
-      }
-    }
-    if (re.test(exerciseName))
-      errors.push("You can use only alphabet symbols and numbers");
-    if (exerciseName.length > 100)
-      errors.push("Exercise name length have to be less than 20");
-    if (!errors.length) {
-      this.setState({ errors: [] });
-    } else {
-      this.setState({ errors });
-    }
 
-    return errors;
+  onSubmit = async (e, changeList) => {
+    e.preventDefault();
+    const { errors, noErrors } = validateForm(this.state.data);
+    this.setState({ errors });
+    if (!noErrors) return;
+    await changeList();
   };
+
   render() {
+    const { errors, data } = this.state;
+    const { exercise } = this.props;
     return (
-      <div className="ChangeExerciseForm">
-        <Form onSubmit={this.onSubmit}>
-          <ul>
-            {this.state.errors.map(error => <li key={error}>{error}</li>)}
-          </ul>
-          <Form.Group>
-            <Form.Field
-              label="Change name of exercise"
-              placeholder="Enter name of new exercise"
-              control="input"
-              value={this.state.exerciseName}
-              onChange={this.onChangeExerciseName}
-            />
-
-            <Form.Field
-              label="Weight from"
-              control="input"
-              value={this.state.weight.from}
-              onChange={this.onChangeWeightFrom}
-            />
-            <Form.Field
-              label="Weight to"
-              control="input"
-              value={this.state.weight.to}
-              onChange={this.onChangeWeightTo}
-            />
-          </Form.Group>
-          <button className="btn inline" type="submit">
-            {" "}
-            Change exercise{" "}
-          </button>
-          <button
-            className=" btn inline btn_remove"
-            onClick={this.onRemoveExercise}
-          >
-            Remove exercise
-          </button>
-        </Form>
+      <div className="change-exercise__form">
+        <Mutation
+          mutation={CHANGE_LIST}
+          variables={{
+            exerciseDescriptionId: exercise.exerciseDescriptionId,
+            exerciseName: data.exerciseName,
+            weightFrom: Number(data.weightFrom),
+            weightTo: Number(data.weightTo),
+          }}
+          refetchQueries={[{ query: GET_LIST }]}
+        >
+          {changeList => (
+            <Form onSubmit={e => this.onSubmit(e, changeList)}>
+              <Form.Field
+                error={!!errors.exerciseName}
+                required
+                label="Exercise name"
+                control="input"
+                name="exerciseName"
+                onChange={this.onChangeInput}
+                value={data.exerciseName}
+              />
+              {errors.exerciseName && <InlineError text={errors.exerciseName} />}
+              <Form.Group>
+                <Form.Field
+                  error={!!errors.weightFrom}
+                  required
+                  label="Weight from"
+                  control="input"
+                  name="weightFrom"
+                  onChange={this.onChangeInput}
+                  value={data.weightFrom}
+                />
+                {errors.weightFrom && <InlineError text={errors.weightFrom} />}
+                <Form.Field
+                  error={!!errors.weightTo}
+                  required
+                  label="Weight to"
+                  control="input"
+                  name="weightTo"
+                  onChange={this.onChangeInput}
+                  value={data.weightTo}
+                />
+                {errors.weightTo && <InlineError text={errors.weightTo} />}
+              </Form.Group>
+              <button className="btn inline" type="submit">
+                {' '}
+                Change exercise{' '}
+              </button>
+              <Mutation
+                mutation={REMOVE_FROM_LIST}
+                variables={{
+                  exerciseDescriptionId: this.props.exercise.exerciseDescriptionId,
+                }}
+                refetchQueries={[{ query: GET_LIST }]}
+              >
+                {(removeFromList, { data }) => (
+                  <button
+                    type="button"
+                    className=" btn inline btn_remove"
+                    onClick={() => this.onRemoveExercise(removeFromList)}
+                  >
+                    Remove exercise
+                  </button>
+                )}
+              </Mutation>
+            </Form>
+          )}
+        </Mutation>
       </div>
     );
   }
 }
 
-export default connect(
-  null,
-  { changeList, removeFromList }
-)(ChangeExerciseForm);
+export default ChangeExerciseForm;

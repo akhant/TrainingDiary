@@ -1,54 +1,26 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import DatePicker from "react-datepicker";
-import moment from "moment";
-import "react-datepicker/dist/react-datepicker.css";
-import { addParam } from "../AC";
-
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { withApollo } from 'react-apollo';
 
 class PickerDate extends Component {
   state = {
-    date: moment()
+    date: this.props.pickDate,
   };
 
-// date for Statistic component
-  componentDidMount = () => {
-    if (this.props.pickDateFromMain) {
-      this.setState({
-        date: this.props.pickDateFromMain
-      });
-    }
-  };
+  handleChange = async (date) => {
+    this.props.onPickDate(date);
+    this.setState({ date });
 
-  componentDidUpdate = () => {
-    if (
-      this.props.pickDateFromMain &&
-      this.state.date !== this.props.pickDateFromMain
-    ) {
-      this.setState({
-        date: this.props.pickDateFromMain
-      });
-    }
-  };
-
-  handleChange = date => {
-    this.setState(
-      {
-        date
-      },
-      () => {
-        this.props.addParam({ pickDate: date });
-        this.props.handleChange(date);
-      }
-    );
+    await this.props.client.resetStore();
   };
 
   render() {
     return (
-      <div className={this.props.className}>
+      <div className="picker-date__wrapper">
         <DatePicker
           dateFormat="DD.MM.YYYY"
-          className="react_datepicker"
+          className="picker-date"
           selected={this.state.date}
           onChange={this.handleChange}
         />
@@ -57,7 +29,4 @@ class PickerDate extends Component {
   }
 }
 
-export default connect(
-  null,
-  { addParam }
-)(PickerDate);
+export default withApollo(PickerDate);

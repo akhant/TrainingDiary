@@ -1,26 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import ForgotPasswordForm from "./ForgotPasswordForm";
-import { resetPasswordRequest } from "../../../AC/auth";
+import React from 'react';
+import ForgotPasswordForm from './ForgotPasswordForm';
 
-class ForgotPasswordPage extends React.Component {
-  submit = data => this.props.resetPasswordRequest(data);
+const ForgotPasswordPage = () => (
+  <div className="forgot-password-page">
+    <ForgotPasswordForm />
+  </div>
+);
 
-  render() {
-    return (
-      <div>
-        <ForgotPasswordForm submit={this.submit} />
-      </div>
-    );
-  }
-}
-
-ForgotPasswordPage.propTypes = {
-  resetPasswordRequest: PropTypes.func.isRequired
-};
-
-export default connect(
-  null,
-  { resetPasswordRequest }
-)(ForgotPasswordPage);
+export default ForgotPasswordPage;

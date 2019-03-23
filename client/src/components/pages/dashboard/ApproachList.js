@@ -1,176 +1,94 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Approach from "./Approach";
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Mutation } from 'react-apollo';
+import { Icon } from 'semantic-ui-react';
+import Approach from './Approach';
+import { addParam } from '../../../AC';
+import { ADD_APPROACH, GET_DAY_DATA } from '../../../queries';
 
-import {
-  addApproach,
-  deleteApproach,
-  changeApproach,
-  showMessage
-} from "../../../AC";
-import Weight from "./Weight";
-
-export class ApproachList extends Component {
-  state = {
-    startApproach: 0,
-    finishApproach: 0,
-    weight: 40
-  };
-
-  onChangeApproachValue = (
-    approachValue,
-    approachId,
-    exerciseTime,
-    restTime,
-    finishApproach
-  ) => {
-    this.setState({
-      finishApproach
-    });
-    this.props.changeApproach(
-      approachValue,
-      approachId,
-      exerciseTime,
-      restTime,
-      this.state.weight
-    );
-    this.props.showMessage({
-      message: ""
-    });
-  };
-
-  onClickAddApproach = () => {
-    if (!this.checkMessage()) return;
-
-    // approach start time
-    this.setState({
-      startApproach: Date.now()
-    });
-
-    // send add approach
-    if (this.props.approaches.length) {
-      this.props.addApproach(
-        this.props.exercise.date,
-        this.props.exercise.dateId,
-        this.props.exercise._id,
-        this.props.exercise.exerciseName,
-        this.props.approaches[this.props.approaches.length - 1]._id
-      );
-    } else {
-      this.props.addApproach(
-        this.props.exercise.date,
-        this.props.exercise.dateId,
-        this.props.exercise._id,
-        this.props.exercise.exerciseName
-      );
-    }
-
-    // check is this approach first
-    const firstTime = () => {
-      const date = new Date();
-      const today = date.toDateString();
-      // start time for this day
-      this.props.statistic.map(stat => {
-        if (stat.date === today) {
-          this.workoutStart = stat.workoutStart;
-        }
-      });
-      // Are there approaches?
-      return this.props.approaches.some(approach => approach.date === today);
-    };
-
-    // rest time for first approach and next
-    if (!firstTime()) {
-      this.restTime = Math.round((Date.now() - this.workoutStart) / 1000);
-    } else if (this.state.finishApproach) {
-      this.restTime = Math.ceil(
-        (Date.now() - this.state.finishApproach) / 1000
-      );
-    }
-  };
-
-  onDeleteApproach = approachId => {
-    this.props.deleteApproach(approachId);
-  };
-  onChangeWeight = weightValue => {
-    this.setState({
-      weight: weightValue
-    });
-  };
-
-  checkMessage = () => {
+const ApproachList = (props) => {
+  const {
+    exercise,
+    getDayData: { approaches },
+    params: { started },
+    addParam,
+    hover,
+  } = props;
+  const checkParams = () => {
     // clear from screen
-    this.props.showMessage({
-      message: ""
+    addParam({
+      message: '',
     });
-    if (!this.props.messages.started) {
-      this.props.showMessage({
-        message: 'First click "start training"'
+    // if day didn't start
+    if (!started) {
+      addParam({
+        message: 'Click "start" first',
       });
       return false;
     }
-
-    // check not empty value
-    if (this.props.statistic.length) {
-      let flag = 0;
-      this.props.approaches.map(approach => {
-        if (!approach.value) {
-          flag = 1;
-        }
-      });
-      // if not fill preveus value
-      if (flag === 1) {
-        this.props.showMessage({ message: "Fill previous approach" });
-        return false;
-      }
+    // if didn't choose exercise
+    if (!exercise.exerciseName) {
+      addParam({ message: 'Set exercise first' });
+      return false;
     }
+
+    // if some approach value is empty
+    if (approaches.length && !approaches.every(approach => approach.value !== '0')) {
+      addParam({ message: 'Fill previous approach' });
+      return false;
+    }
+
     return true;
   };
 
-  render() {
-    const { approaches, exercise } = this.props;
-    if (!approaches) return null;
-    return (
-      <div className="ApproachList">
-        <Weight onChangeWeight={this.onChangeWeight} />
-        <br />
-        <p className="approach_header">Approaches: </p>
-        <div
-          role="button"
-          tabIndex={0}
-          className="addApproach_btn"
-          onClick={this.onClickAddApproach}
-        >
-          +
-        </div>
-        {/* filter exercise with necessary exercise id */}
-        <div className="approachList_items">
-          {approaches.map(approach => {
-            if (approach.exerciseId === exercise._id) {
-              return (
-                <Approach
-                  restTime={this.restTime}
-                  startApproach={this.state.startApproach}
-                  exercise={exercise}
-                  key={approach._id}
-                  approach={approach}
-                  onChangeApproachValue={this.onChangeApproachValue}
-                  onDeleteApproach={this.onDeleteApproach}
-                />
-              );
-            }
-          })}
-        </div>
+  const onClickAddApproach = async (e, addApproach) => {
+    if (!checkParams()) return;
+
+    await addApproach({
+      variables: { exerciseId: exercise.exerciseId, startApproachTime: Date.now().toString() },
+    });
+  };
+
+  const filteredApproachesByExerciseId = approaches.filter(approach => approach.exerciseId === exercise.exerciseId);
+
+  return (
+    <div className="approach-list">
+      {hover && (
+        <Fragment>
+          <Mutation
+            mutation={ADD_APPROACH}
+            refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+          >
+            {addApproach => (
+              <div
+                role="button"
+                tabIndex={0}
+                className="approach-list__btn_add"
+                onClick={e => onClickAddApproach(e, addApproach)}
+              >
+                <Icon size="mini" name="add circle" />
+              </div>
+            )}
+          </Mutation>
+
+          <div className="approach-list__signs">
+            <Icon className="approach-list__icon_up" name="balance scale" />
+            <Icon className="approach-list__icon_down" name="pencil" />
+          </div>
+        </Fragment>
+      )}
+      <div className="approach-list__items">
+        {filteredApproachesByExerciseId.map(approach => (
+          <Approach approach={approach} key={approach.approachId} {...props} />
+        ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default connect(
-  ({ approaches, statistic, messages }) => ({
-    approaches,
-    statistic,
-    messages
+  ({ params }) => ({
+    params,
   }),
-  { addApproach, deleteApproach, changeApproach, showMessage }
+  { addParam }
 )(ApproachList);

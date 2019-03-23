@@ -1,43 +1,34 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import { Icon } from 'semantic-ui-react';
+import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE, GET_DAY_DATA } from '../../../queries';
+import Weight from './Weight';
 
-export class Approach extends Component {
+class Approach extends Component {
   state = {
-    approachValue: "",
-    finishApproach: 0
+    approachValue: '',
   };
+
   componentDidMount = () => {
     this.setState({
-      approachValue: this.props.approach.value
+      approachValue: this.props.approach.value,
     });
   };
 
-  handleChangeApproachValue = e => {
-    // exercise finished
-
-    // exercise Time
-    this.exerciseTime = Date.now() - this.props.startApproach;
-
-    this.setState(
-      {
-        approachValue: e.target.value,
-        finishApproach: Date.now()
+  handleChangeApproachValue = async (e, changeApproachValue) => {
+    const { value } = e.target;
+    this.setState({ approachValue: value });
+    await changeApproachValue({
+      variables: {
+        approachId: this.props.approach.approachId,
+        value,
+        finishApproachTime: Date.now().toString(),
       },
-      () => {
-        // save changes
-        this.props.onChangeApproachValue(
-          this.state.approachValue,
-          this.props.approach._id,
-          this.exerciseTime,
-          this.props.restTime,
-          this.state.finishApproach
-        );
-      }
-    );
+    });
   };
 
-  handleDeleteApproach = () => {
-    this.props.onDeleteApproach(this.props.approach._id);
+  handleDeleteApproach = async (removeApproach) => {
+    await removeApproach();
   };
 
   optionsList = () => {
@@ -53,28 +44,44 @@ export class Approach extends Component {
   };
 
   render() {
+    const { approach, hover } = this.props;
+
     return (
-      <div className="Approach">
-        <select
-          className="Approach__select custom_select"
-          value={this.state.approachValue}
-          onChange={this.handleChangeApproachValue}
-        >
-          {this.optionsList()}
-        </select>
-        <div
-          role="button"
-          tabIndex={0}
-          className="deleteApproach_btn"
-          onClick={this.handleDeleteApproach}
-        >
-          -
-        </div>
+      <div className="approach">
+        <Weight {...this.props} />
+
+        <Mutation mutation={CHANGE_APPROACH_VALUE}>
+          {changeApproachValue => (
+            <select
+              className="approach__select custom_select"
+              value={this.state.approachValue}
+              onChange={e => this.handleChangeApproachValue(e, changeApproachValue)}
+            >
+              {this.optionsList()}
+            </select>
+          )}
+        </Mutation>
+        {hover && (
+          <Mutation
+            mutation={REMOVE_APPROACH}
+            variables={{ approachId: approach.approachId }}
+            refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+          >
+            {removeApproach => (
+              <div
+                role="button"
+                tabIndex={0}
+                className="approach__btn_delete"
+                onClick={() => this.handleDeleteApproach(removeApproach)}
+              >
+                <Icon size="small" name="trash alternate outline" />
+              </div>
+            )}
+          </Mutation>
+        )}
       </div>
     );
   }
 }
 
-export default connect(({ statistic }) => ({
-  statistic
-}))(Approach);
+export default Approach;

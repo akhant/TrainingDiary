@@ -1,80 +1,78 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import uniqueValidator from "mongoose-unique-validator";
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const schema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      lowercase: true,
+      index: true,
+      /* unique: true, */
+    },
     email: {
       type: String,
       required: true,
       lowercase: true,
       index: true,
-      unique: true
+      unique: true,
     },
+    userId: String,
     passwordHash: { type: String, required: true },
     confirmed: { type: Boolean, default: false },
-    confirmationToken: { type: String, default: "" },
-    resetToken: { type: String, default: "" },
-    requestChangePassword: { type: Boolean, default: false }
+    confirmationToken: { type: String, default: '' },
   },
   { timestamps: true }
 );
 
-schema.methods.isValidPassword = function isValidPassword(password) {
+schema.methods.isValidPassword = function (password) {
   return bcrypt.compareSync(password, this.passwordHash);
 };
 
-schema.methods.setPassword = function setPassword(password) {
+schema.methods.setPassword = function (password) {
   this.passwordHash = bcrypt.hashSync(password, 10);
 };
 
-schema.methods.setConfirmationToken = function setConfirmationToken() {
+schema.methods.setConfirmationToken = function () {
   this.confirmationToken = this.generateJWT();
 };
 
-schema.methods.generateConfirmationUrl = function generateConfirmationUrl() {
+schema.methods.generateConfirmationUrl = function () {
   return `${process.env.HOST}/confirmation/${this.confirmationToken}`;
 };
 
-schema.methods.generateResetPasswordLink = function generateResetPasswordLink() {
-  this.resetToken = this.generateResetPasswordToken();
-  return `${process.env.HOST}/reset_password_request/${this.resetToken}`;
+schema.methods.generateResetPasswordLink = function () {
+  const resetToken = this.generateResetPasswordToken();
+  return `${process.env.HOST}/reset_password/${resetToken}`;
 };
 
-schema.methods.generateJWT = function generateJWT() {
+schema.methods.generateJWT = function () {
   return jwt.sign(
     {
       email: this.email,
-      confirmed: this.confirmed
+      confirmed: this.confirmed,
+      userId: this.userId,
     },
     process.env.JWT_SECRET
   );
 };
-schema.methods.changeRequestPasswordState = function changeRequestPasswordState(
-  e
-) {
-  this.requestChangePassword = e;
-};
 
-schema.methods.generateResetPasswordToken = function generateResetPasswordToken() {
+schema.methods.generateResetPasswordToken = function () {
   return jwt.sign(
     {
-      email: this.email
+      email: this.email,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: '1h' }
   );
 };
 
-schema.methods.toAuthJSON = function toAuthJSON() {
+schema.methods.toAuthJSON = function () {
   return {
-    email: this.email,
     confirmed: this.confirmed,
-    token: this.generateJWT()
+    token: this.generateJWT(),
   };
 };
 
-schema.plugin(uniqueValidator, { message: "This email is already taken" });
-
-export default mongoose.model("User", schema);
+export default mongoose.model('User', schema);

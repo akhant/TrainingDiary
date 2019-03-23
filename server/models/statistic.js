@@ -1,15 +1,16 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
 const StatisticSchema = new Schema({
-  dateId: { type: Schema.Types.ObjectId, ref: "Date" },
-  exerciseId: { type: Schema.Types.ObjectId, ref: "Exercise" },
-  approachId: { type: Schema.Types.ObjectId, ref: "Approach" },
+  dateId: String,
+  exerciseId: String,
+  approachId: String,
+  userId: String,
   date: String,
-  workoutStart: Number,
-  workoutFinish: Number,
-  workoutTime: Number,
-  });
+  workoutStart: String,
+  workoutFinish: String,
+  workoutTime: { type: String, default: '0' },
+});
 
-export default mongoose.model("Statistic", StatisticSchema);
+export default mongoose.model('Statistic', StatisticSchema);

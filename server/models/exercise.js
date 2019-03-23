@@ -1,11 +1,12 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
 const ExerciseSchema = new Schema({
-  approachId: { type: Schema.Types.ObjectId, ref: "Date" },
-  exerciseName: String,
-  date: String
+  exerciseId: String,
+  userId: String,
+  exerciseName: { type: String, default: '' },
+  date: String,
 });
 
-export default mongoose.model("Exercise", ExerciseSchema);
+export default mongoose.model('Exercise', ExerciseSchema);
