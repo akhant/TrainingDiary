@@ -17,7 +17,6 @@ import Approach from './models/approach';
 import Statistic from './models/statistic';
 import List from './models/list';
 
-
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
@@ -66,13 +65,11 @@ app.use(
     graphiql: true,
   }))
 );
-
-if (process.env.MODE === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.get('/*', (req, res) => {
     res.sendFile(path.resolve(`${__dirname}/build_client/index.html`));
   });
 }
-
 
 // server
 app.listen(PORT, () => console.log(`Express server listening on port ${PORT}`));

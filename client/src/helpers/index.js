@@ -3,7 +3,7 @@ import isEmail from 'validator/lib/isEmail';
 
 // time - in seconds
 export const elapsedTime = (time) => {
-  if (!time) return <div className="add-time">00 : 00 : 00</div>;
+  if (!time) return null; // <div className="add-time">00 : 00 : 00</div>;
   const S = time % 60 < 10 ? `0${time % 60}` : `${time % 60}`;
   const H = time < 3600 ? '00' : time / 3600 < 10 ? `0${Math.floor(time / 3600)}` : `${Math.floor(time / 3600)}`;
   const M = time < 60

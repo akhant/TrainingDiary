@@ -9,8 +9,6 @@ import { Modal } from 'semantic-ui-react';
 export default class Rechart extends Component {
   state = {
     data: [{ x: 1, y: 2 }, { x: 2, y: 4 }],
-    width: document.documentElement.clientWidth,
-    height: document.documentElement.clientHeight,
   };
 
   componentDidUpdate(prevProps) {
@@ -54,11 +52,10 @@ export default class Rechart extends Component {
     const { showExerciseStatistic: exercise } = this.props;
     const { clientWidth } = document.documentElement;
     const width = clientWidth > 900 ? 800 : clientWidth - 100;
-    
+
     return (
       <Modal
         className="chart"
-        // trigger={<Button onClick={this.handleOpen}>Show Modal</Button>}
         open={!!exercise}
         onClose={this.handleClose}
         basic

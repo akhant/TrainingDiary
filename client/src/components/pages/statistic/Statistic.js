@@ -61,7 +61,6 @@ class Statistic extends Component {
                 </Grid.Row>
                 <Grid.Row centered>
                   <Grid.Column mobile={16} computer={12}>
-                    
                     <StatisticTable onClickMore={this.onClickMore} filteredApproaches={filteredApproaches} />
 
                     {showExerciseStatistic && (

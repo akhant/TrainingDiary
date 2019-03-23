@@ -42,7 +42,7 @@ class ExercisesPage extends Component {
                         />
                       ))
                     ) : (
-                      <div>Add exercises to your list => </div>
+                      <div>Add exercises to your list </div>
                     )}
                   </Accordion>
                 </Grid.Column>

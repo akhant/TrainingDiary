@@ -54,28 +54,32 @@ class ResetPasswordForm extends React.Component {
           {resetPassword => (
             <Form onSubmit={e => this.onSubmit(e, resetPassword)} loading={loading}>
               <Form.Field error={!!errors.password}>
-                <label htmlFor="password">New Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                  value={data.password}
-                  onChange={this.onChange}
-                />
+                <label htmlFor="password">
+                  New Password
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    value={data.password}
+                    onChange={this.onChange}
+                  />
+                </label>
                 {errors.password && <InlineError text={errors.password} />}
               </Form.Field>
 
               <Form.Field error={!!errors.passwordConfirmation}>
-                <label htmlFor="passwordConfirmation">Confirm your new password</label>
-                <input
-                  type="password"
-                  id="passwordConfirmation"
-                  name="passwordConfirmation"
-                  placeholder="Password confirmation"
-                  value={data.passwordConfirmation}
-                  onChange={this.onChange}
-                />
+                <label htmlFor="passwordConfirmation">
+                  Confirm your new password
+                  <input
+                    type="password"
+                    id="passwordConfirmation"
+                    name="passwordConfirmation"
+                    placeholder="Password confirmation"
+                    value={data.passwordConfirmation}
+                    onChange={this.onChange}
+                  />
+                </label>
                 {errors.passwordConfirmation && <InlineError text={errors.passwordConfirmation} />}
               </Form.Field>
 

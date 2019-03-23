@@ -22,12 +22,10 @@ import withSession from './withSession';
 import '../assets/js';
 import 'semantic-ui-css/semantic.min.css';
 import '../assets/styles/styles.sass';
-// import '../assets/styles/style.css';
-/* import ErrorBoundary from './ErrorBoundary'; */
 
 const store = configureStore();
 
-const URL = process.env.MODE === 'development' ? 'http://localhost:3000/graphql' : 'https://be-strong.herokuapp.com/graphql';
+const URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/graphql' : 'https://be-strong.herokuapp.com/graphql';
 
 const client = new ApolloClient({
   uri: URL,
@@ -49,7 +47,6 @@ const client = new ApolloClient({
   },
 });
 
-// TODO: return ConfirmedRoute for statistic and exercises pages
 const Root = () => (
   <Provider store={store}>
     <Router>

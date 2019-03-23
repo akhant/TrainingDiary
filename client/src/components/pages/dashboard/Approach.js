@@ -7,8 +7,6 @@ import Weight from './Weight';
 class Approach extends Component {
   state = {
     approachValue: '',
-    finishApproach: 0,
-    weight: 0,
   };
 
   componentDidMount = () => {
@@ -27,12 +25,10 @@ class Approach extends Component {
         finishApproachTime: Date.now().toString(),
       },
     });
-    this.props.refetchGetDayData();
   };
 
   handleDeleteApproach = async (removeApproach) => {
     await removeApproach();
-    // this.props.refetchGetDayData();
   };
 
   optionsList = () => {

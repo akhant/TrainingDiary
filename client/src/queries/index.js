@@ -5,7 +5,7 @@ export const GET_CURRENT_USER = gql`
     getCurrentUser {
       username
       confirmed
-      }
+    }
   }
 `;
 
@@ -194,6 +194,7 @@ export const WORKOUT_FINISH = gql`
   mutation($workoutFinish: String!) {
     workoutFinish(workoutFinish: $workoutFinish) {
       workoutFinish
+      workoutTime
     }
   }
 `;
@@ -215,7 +216,7 @@ export const RESET_PASSWORD = gql`
 `;
 
 export const CONFIRMATION = gql`
-  query( $token: String!) {
+  query($token: String!) {
     confirmation(token: $token) {
       ok
     }

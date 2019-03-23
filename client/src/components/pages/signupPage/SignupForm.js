@@ -52,36 +52,49 @@ class SignupForm extends React.Component {
             {({ refetch }) => (
               <Form onSubmit={e => this.onSubmit(e, signupUser, refetch)} loading={loading}>
                 <Form.Field error={!!errors.username}>
-                  <label htmlFor="username">Username</label>
-                  <input
-                    id="username"
-                    name="username"
-                    placeholder="Username"
-                    value={data.username}
-                    onChange={this.onChange}
-                  />
+                  <label htmlFor="username">
+                    Username
+                    <input
+                      id="username"
+                      name="username"
+                      placeholder="Username"
+                      value={data.username}
+                      onChange={this.onChange}
+                    />
+                  </label>
                   {errors.username && <InlineError text={errors.username} />}
                 </Form.Field>
                 <Form.Field error={!!errors.email}>
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    value={data.email}
-                    onChange={this.onChange}
-                  />
+                  <label htmlFor="email">
+                    Email
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
+                      value={data.email}
+                      onChange={this.onChange}
+                    />
+                  </label>
                   {errors.email && <InlineError text={errors.email} />}
                 </Form.Field>
 
                 <Form.Field error={!!errors.password}>
-                  <label htmlFor="password">Password</label>
-                  <input type="password" id="password" name="password" placeholder="Password" value={data.password} onChange={this.onChange} />
+                  <label htmlFor="password">
+                    Password
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder="Password"
+                      value={data.password}
+                      onChange={this.onChange}
+                    />
+                  </label>
                   {errors.password && <InlineError text={errors.password} />}
                 </Form.Field>
 
-                <button  className="btn">Sign Up</button>
+                <button className="btn">Sign Up</button>
                 <br />
                 {error && <InlineError text={error.message} />}
               </Form>

@@ -261,8 +261,6 @@ const resolvers = {
         date: new Date().toDateString(),
       });
       if (existing) {
-        existing.workoutStart = workoutStart;
-        existing.save();
         return existing;
       }
       const newStat = new Statistic({
@@ -283,7 +281,6 @@ const resolvers = {
       stat.workoutTime = stat.workoutFinish - stat.workoutStart;
 
       await stat.save();
-
       return stat;
     },
 

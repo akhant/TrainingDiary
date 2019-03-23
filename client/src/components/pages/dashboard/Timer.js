@@ -5,11 +5,12 @@ import { addParam } from '../../../AC';
 import { elapsedTime } from '../../../helpers';
 import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
 
-
 class Timer extends Component {
   state = {
     start: this.props.statistic ? this.props.statistic.workoutStart : Date.now(),
-    elapsed: this.props.statistic ? Math.ceil(this.props.statistic.workoutTime / 1000) : 0,
+    elapsed:
+      this.props.statistic && !this.props.params.started ? Math.ceil(this.props.statistic.workoutTime / 1000) : 0,
+    timerOpacity: 0,
   };
 
   componentWillUnmount = () => {
@@ -17,43 +18,52 @@ class Timer extends Component {
   };
 
   tick = () => {
-    this.setState({ elapsed: Math.round((Date.now() - this.state.start) / 1000) });
+    const { start } = this.state;
+
+    this.setState({ elapsed: Math.round((Date.now() - start) / 1000) });
   };
 
   componentDidMount = () => {
     const { started } = this.props.params;
-    console.log('TCL: Timer -> componentDidMount -> started', started);
-    console.log('elapsed', this.state.elapsed);
-    console.log('statistic', this.props.statistic);
-
-    if (started) this.continue();
+    this.setState({ timerOpacity: 1 });
+    if (started) {
+      this.continue();
+    }
   };
 
   continue = () => {
-    console.log('continue');
     this.timer = setInterval(this.tick, 1000);
     this.props.addParam({ started: true, message: '' });
   };
 
   start = async () => {
-    const { started } = this.props.params;
+    const {
+      params: { started },
+      client,
+      statistic,
+    } = this.props;
+    const { elapsed } = this.state;
 
     if (started) return null;
+    this.setState({ start: statistic ? statistic.workoutStart : Date.now() });
     this.continue();
     // send start time to server only first time
-    if (!this.state.elapsed) {
-      await this.props.client.mutate({ mutation: WORKOUT_START, variables: { workoutStart: Date.now().toString() } });
+    if (!elapsed) {
+      await client.mutate({ mutation: WORKOUT_START, variables: { workoutStart: Date.now().toString() } });
     }
   };
 
   stop = async () => {
-    console.log('stop');
     const { started } = this.props.params;
 
     if (!started) return null;
+
     // send finish time to server
     clearInterval(this.timer);
-    await this.props.client.mutate({ mutation: WORKOUT_FINISH, variables: { workoutFinish: Date.now().toString() } });
+    await this.props.client.mutate({
+      mutation: WORKOUT_FINISH,
+      variables: { workoutFinish: Date.now().toString() },
+    });
   };
 
   finish = async () => {
@@ -62,11 +72,13 @@ class Timer extends Component {
   };
 
   render() {
-    const { elapsed } = this.state;
+    const { elapsed, timerOpacity } = this.state;
     return (
       <div className="timer">
         <div className="timer_time">
-          <div className="timer_time_numerals">{elapsedTime(elapsed)}</div>
+          <div className="timer_time_numerals" style={{ opacity: timerOpacity, transitionDelay: '1s' }}>
+            {elapsedTime(elapsed)}
+          </div>
         </div>
         <button className="timer_btn btn" onClick={this.start}>
           {' '}

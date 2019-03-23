@@ -7,13 +7,11 @@ import { REMOVE_EXERCISE, GET_DAY_DATA } from '../../../queries';
 
 class Exercise extends Component {
   state = {
-    exerciseId: this.props.exercise.exerciseId,
     hover: false,
   };
 
   handleRemoveExercise = async (removeExercise) => {
     await removeExercise();
-    /* this.props.refetchGetDayData(); */
   };
 
   handleHover = (arg) => {

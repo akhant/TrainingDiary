@@ -9,7 +9,7 @@ const StatisticSchema = new Schema({
   userId: String,
   date: String,
   workoutStart: String,
-  finishWorkout: String,
+  workoutFinish: String,
   workoutTime: { type: String, default: '0' },
 });
 

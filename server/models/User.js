@@ -75,5 +75,4 @@ schema.methods.toAuthJSON = function () {
   };
 };
 
-
 export default mongoose.model('User', schema);
