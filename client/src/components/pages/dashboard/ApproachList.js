@@ -31,7 +31,6 @@ const ApproachList = (props) => {
       addParam({ message: 'Set exercise first' });
       return false;
     }
-
     // if some approach value is empty
     if (approaches.length && !approaches.every(approach => approach.value !== '0')) {
       addParam({ message: 'Fill previous approach' });

@@ -50,7 +50,10 @@ class Approach extends Component {
       <div className="approach">
         <Weight {...this.props} />
 
-        <Mutation mutation={CHANGE_APPROACH_VALUE}>
+        <Mutation
+          mutation={CHANGE_APPROACH_VALUE}
+          refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+        >
           {changeApproachValue => (
             <select
               className="approach__select custom_select"
