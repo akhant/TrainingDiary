@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon index.js --exec babel-node"
+    "start": "nodemon --exec babel-node index.js"
   },
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
@@ -16,16 +16,16 @@
     "graphql-tools": "^4.0.3",
     "idempotent-babel-polyfill": "^7.0.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.3",
+    "mongoose": "^5.11.16",
     "nodemailer": "^4.6.7"
   },
   "devDependencies": {
-    "babel-cli": "^7.0.0-beta.3",
-    "babel-core": "^6.26.3",
+    "@babel/cli": "^7.12.16",
+    "@babel/core": "^7.12.16",
+    "@babel/node": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
     "babel-loader": "7",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "nodemon": "^1.18.1",
+    "nodemon": "^2.0.7",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
   }
