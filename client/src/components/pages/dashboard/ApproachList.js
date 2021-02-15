@@ -32,7 +32,10 @@ const ApproachList = (props) => {
       return false;
     }
     // if some approach value is empty
-    if (approaches.length && !approaches.every(approach => approach.value !== '0')) {
+    if (
+      approaches.length &&
+      !approaches.every((approach) => approach.value !== '0')
+    ) {
       addParam({ message: 'Fill previous approach' });
       return false;
     }
@@ -44,40 +47,50 @@ const ApproachList = (props) => {
     if (!checkParams()) return;
 
     await addApproach({
-      variables: { exerciseId: exercise.exerciseId, startApproachTime: Date.now().toString() },
+      variables: {
+        exerciseId: exercise.exerciseId,
+        startApproachTime: Date.now().toString(),
+      },
     });
   };
 
-  const filteredApproachesByExerciseId = approaches.filter(approach => approach.exerciseId === exercise.exerciseId);
+  const filteredApproachesByExerciseId = approaches.filter(
+    (approach) => approach.exerciseId === exercise.exerciseId
+  );
 
   return (
-    <div className="approach-list">
+    <div className='approach-list'>
       {hover && (
         <Fragment>
           <Mutation
             mutation={ADD_APPROACH}
-            refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+            refetchQueries={[
+              {
+                query: GET_DAY_DATA,
+                variables: { date: new Date().toDateString() },
+              },
+            ]}
           >
-            {addApproach => (
+            {(addApproach) => (
               <div
-                role="button"
+                role='button'
                 tabIndex={0}
-                className="approach-list__btn_add"
-                onClick={e => onClickAddApproach(e, addApproach)}
+                className='approach-list__btn_add'
+                onClick={(e) => onClickAddApproach(e, addApproach)}
               >
-                <Icon size="mini" name="add circle" />
+                <Icon className='add-icon' size='mini' name='add circle' />
               </div>
             )}
           </Mutation>
 
-          <div className="approach-list__signs">
-            <Icon className="approach-list__icon_up" name="balance scale" />
-            <Icon className="approach-list__icon_down" name="pencil" />
+          <div className='approach-list__signs'>
+            <Icon className='approach-list__icon_up' name='balance scale' />
+            <Icon className='approach-list__icon_down' name='pencil' />
           </div>
         </Fragment>
       )}
-      <div className="approach-list__items">
-        {filteredApproachesByExerciseId.map(approach => (
+      <div className='approach-list__items'>
+        {filteredApproachesByExerciseId.map((approach) => (
           <Approach approach={approach} key={approach.approachId} {...props} />
         ))}
       </div>

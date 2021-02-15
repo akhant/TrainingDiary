@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { Icon } from 'semantic-ui-react';
-import { REMOVE_APPROACH, CHANGE_APPROACH_VALUE, GET_DAY_DATA } from '../../../queries';
+import {
+  REMOVE_APPROACH,
+  CHANGE_APPROACH_VALUE,
+  GET_DAY_DATA,
+} from '../../../queries';
 import Weight from './Weight';
 
 class Approach extends Component {
@@ -47,18 +51,25 @@ class Approach extends Component {
     const { approach, hover } = this.props;
 
     return (
-      <div className="approach">
+      <div className='approach'>
         <Weight {...this.props} />
 
         <Mutation
           mutation={CHANGE_APPROACH_VALUE}
-          refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+          refetchQueries={[
+            {
+              query: GET_DAY_DATA,
+              variables: { date: new Date().toDateString() },
+            },
+          ]}
         >
-          {changeApproachValue => (
+          {(changeApproachValue) => (
             <select
-              className="approach__select custom_select"
+              className='approach__select custom-select'
               value={this.state.approachValue}
-              onChange={e => this.handleChangeApproachValue(e, changeApproachValue)}
+              onChange={(e) =>
+                this.handleChangeApproachValue(e, changeApproachValue)
+              }
             >
               {this.optionsList()}
             </select>
@@ -68,16 +79,21 @@ class Approach extends Component {
           <Mutation
             mutation={REMOVE_APPROACH}
             variables={{ approachId: approach.approachId }}
-            refetchQueries={[{ query: GET_DAY_DATA, variables: { date: new Date().toDateString() } }]}
+            refetchQueries={[
+              {
+                query: GET_DAY_DATA,
+                variables: { date: new Date().toDateString() },
+              },
+            ]}
           >
-            {removeApproach => (
+            {(removeApproach) => (
               <div
-                role="button"
+                role='button'
                 tabIndex={0}
-                className="approach__btn_delete"
+                className='approach__btn_delete'
                 onClick={() => this.handleDeleteApproach(removeApproach)}
               >
-                <Icon size="small" name="trash alternate outline" />
+                <Icon size='small' name='trash alternate outline' />
               </div>
             )}
           </Mutation>

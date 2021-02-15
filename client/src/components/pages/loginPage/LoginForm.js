@@ -20,9 +20,10 @@ class LoginForm extends React.Component {
     errors: {},
   };
 
-  onChange = e => this.setState({
-    data: { ...this.state.data, [e.target.name]: e.target.value },
-  });
+  onChange = (e) =>
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value },
+    });
 
   onSubmit = async (e, signinUser, refetch) => {
     e.preventDefault();
@@ -49,36 +50,34 @@ class LoginForm extends React.Component {
         {(signinUser, { error: serverError }) => (
           <AuthContext.Consumer>
             {({ refetch }) => (
-              <Form onSubmit={e => this.onSubmit(e, signinUser, refetch)} loading={loading}>
+              <Form
+                onSubmit={(e) => this.onSubmit(e, signinUser, refetch)}
+                loading={loading}
+              >
                 <Form.Field error={!!errors.email}>
-                  <label htmlFor="email">
-                    Email
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Email"
-                      value={data.email}
-                      onChange={this.onChange}
-                    />
-                  </label>
+                  <input
+                    type='email'
+                    id='email'
+                    name='email'
+                    placeholder='Username'
+                    value={data.email}
+                    onChange={this.onChange}
+                  />
+
                   {errors.email && <InlineError text={errors.email} />}
                 </Form.Field>
                 <Form.Field error={!!errors.password}>
-                  <label htmlFor="password">
-                    Password
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                      value={data.password}
-                      onChange={this.onChange}
-                    />
-                  </label>
+                  <input
+                    type='password'
+                    id='password'
+                    name='password'
+                    placeholder='Password'
+                    value={data.password}
+                    onChange={this.onChange}
+                  />
                   {errors.password && <InlineError text={errors.password} />}
                 </Form.Field>
-                <button className="btn">Log in</button>
+                <button className='btn'>Log in</button>
                 {serverError && <InlineError text={serverError.message} />}
               </Form>
             )}

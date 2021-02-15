@@ -19,12 +19,15 @@ class Weight extends Component {
   };
 
   optionsList = () => {
-    const exercise = _.find(this.props.getDayData.list, e => this.props.exercise.exerciseName === e.exerciseName);
+    const exercise = _.find(
+      this.props.getDayData.list,
+      (e) => this.props.exercise.exerciseName === e.exerciseName
+    );
 
     const renderList = [];
 
     if (exercise) {
-      for (let i = exercise.weightTo; i > exercise.weightFrom; i--) {
+      for (let i = exercise.weightTo; i > exercise.weightFrom; i = i - 0.5) {
         renderList.push(
           <option key={i + 1} value={i}>
             {i}
@@ -38,12 +41,12 @@ class Weight extends Component {
   render() {
     return (
       <Mutation mutation={CHANGE_APPROACH_WEIGHT}>
-        {changeApproachWeight => (
-          <div className="weight">
+        {(changeApproachWeight) => (
+          <div className='weight'>
             <select
-              className="weight__select custom_select"
+              className='weight__select custom-select'
               value={this.state.weight}
-              onChange={e => this.handleChangeWeight(e, changeApproachWeight)}
+              onChange={(e) => this.handleChangeWeight(e, changeApproachWeight)}
             >
               {this.optionsList()}
             </select>

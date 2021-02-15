@@ -18,9 +18,10 @@ class ResetPasswordForm extends React.Component {
     redirect: false,
   };
 
-  onChange = e => this.setState({
-    data: { ...this.state.data, [e.target.name]: e.target.value },
-  });
+  onChange = (e) =>
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value },
+    });
 
   onSubmit = async (e, resetPassword) => {
     e.preventDefault();
@@ -37,50 +38,57 @@ class ResetPasswordForm extends React.Component {
   };
 
   render() {
-    const {
-      errors, data, loading, redirect,
-    } = this.state;
+    const { errors, data, loading, redirect } = this.state;
     // success message and redirect to login page
     if (redirect) {
-      return <RedirectWithMessage to="/login" message="Your password has been changed" time={5} />;
+      return (
+        <RedirectWithMessage
+          to='/login'
+          message='Your password has been changed'
+          time={5}
+        />
+      );
     }
 
     return (
       <div>
-        <h1 className="center">Let's reset password</h1>
+        <h1 className='center'>Let's reset password</h1>
 
         {/* if all is OK */}
-        <Mutation mutation={RESET_PASSWORD} variables={{ password: data.password, token: this.props.token }}>
-          {resetPassword => (
-            <Form onSubmit={e => this.onSubmit(e, resetPassword)} loading={loading}>
+        <Mutation
+          mutation={RESET_PASSWORD}
+          variables={{ password: data.password, token: this.props.token }}
+        >
+          {(resetPassword) => (
+            <Form
+              onSubmit={(e) => this.onSubmit(e, resetPassword)}
+              loading={loading}
+            >
               <Form.Field error={!!errors.password}>
-                <label htmlFor="password">
-                  New Password
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    value={data.password}
-                    onChange={this.onChange}
-                  />
-                </label>
+                <input
+                  type='password'
+                  id='password'
+                  name='password'
+                  placeholder='New password'
+                  value={data.password}
+                  onChange={this.onChange}
+                />
+
                 {errors.password && <InlineError text={errors.password} />}
               </Form.Field>
 
               <Form.Field error={!!errors.passwordConfirmation}>
-                <label htmlFor="passwordConfirmation">
-                  Confirm your new password
-                  <input
-                    type="password"
-                    id="passwordConfirmation"
-                    name="passwordConfirmation"
-                    placeholder="Password confirmation"
-                    value={data.passwordConfirmation}
-                    onChange={this.onChange}
-                  />
-                </label>
-                {errors.passwordConfirmation && <InlineError text={errors.passwordConfirmation} />}
+                <input
+                  type='password'
+                  id='passwordConfirmation'
+                  name='passwordConfirmation'
+                  placeholder='Password confirmation'
+                  value={data.passwordConfirmation}
+                  onChange={this.onChange}
+                />
+                {errors.passwordConfirmation && (
+                  <InlineError text={errors.passwordConfirmation} />
+                )}
               </Form.Field>
 
               <Button primary>Reset</Button>

@@ -42,13 +42,17 @@ class ForgotPasswordForm extends React.Component {
   };
 
   render() {
-    const {
-      errors, data, loading, redirect,
-    } = this.state;
+    const { errors, data, loading, redirect } = this.state;
 
     if (redirect) {
       if (redirect) {
-        return <RedirectWithMessage to="/" message="Confirmation email has been sent" time={5} />;
+        return (
+          <RedirectWithMessage
+            to='/'
+            message='Confirmation email has been sent'
+            time={5}
+          />
+        );
       }
     }
 
@@ -56,23 +60,23 @@ class ForgotPasswordForm extends React.Component {
       <Mutation mutation={SEND_FORGOT_PASSWORD} variables={{ ...data }}>
         {(sendForgotPassword, { error }) => (
           <Fragment>
-            <Form onSubmit={e => this.onSubmit(e, sendForgotPassword)} loading={loading}>
+            <Form
+              onSubmit={(e) => this.onSubmit(e, sendForgotPassword)}
+              loading={loading}
+            >
               {!!errors.global && <Message negative>{errors.global}</Message>}
               <Form.Field error={!!errors.email}>
-                <label htmlFor="email">
-                  Email
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    value={data.email}
-                    onChange={this.handleChange}
-                  />
-                </label>
+                <input
+                  type='email'
+                  id='email'
+                  name='email'
+                  placeholder='Email'
+                  value={data.email}
+                  onChange={this.handleChange}
+                />
                 {errors.email && <InlineError text={errors.email} />}
               </Form.Field>
-              <button className="btn">Send confirmation email</button>
+              <button className='btn'>Send confirmation email</button>
             </Form>
 
             {error && (

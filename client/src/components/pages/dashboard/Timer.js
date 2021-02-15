@@ -7,9 +7,13 @@ import { WORKOUT_START, WORKOUT_FINISH } from '../../../queries';
 
 class Timer extends Component {
   state = {
-    start: this.props.statistic ? this.props.statistic.workoutStart : Date.now(),
+    start: this.props.statistic
+      ? this.props.statistic.workoutStart
+      : Date.now(),
     elapsed:
-      this.props.statistic && !this.props.params.started ? Math.ceil(this.props.statistic.workoutTime / 1000) : 0,
+      this.props.statistic && !this.props.params.started
+        ? Math.ceil(this.props.statistic.workoutTime / 1000)
+        : 0,
     timerOpacity: 0,
   };
 
@@ -49,7 +53,10 @@ class Timer extends Component {
     this.continue();
     // send start time to server only first time
     if (!elapsed) {
-      await client.mutate({ mutation: WORKOUT_START, variables: { workoutStart: Date.now().toString() } });
+      await client.mutate({
+        mutation: WORKOUT_START,
+        variables: { workoutStart: Date.now().toString() },
+      });
     }
   };
 
@@ -74,18 +81,28 @@ class Timer extends Component {
   render() {
     const { elapsed, timerOpacity } = this.state;
     return (
-      <div className="timer">
-        <div className="timer_time">
-          <div className="timer_time_numerals" style={{ opacity: timerOpacity, transitionDelay: '1s' }}>
-            {elapsedTime(elapsed)}
-          </div>
-        </div>
-        <button className="timer_btn btn" onClick={this.start}>
+      <div className='timer'>
+        <button
+          className='timer__btn timer__btn_start btn'
+          onClick={this.start}
+        >
           {' '}
           {'Start'}
         </button>
 
-        <button className="timer_btn btn" onClick={this.finish}>
+        <div className='timer__time'>
+          <div
+            className='timer__time_numerals'
+            style={{ opacity: timerOpacity, transitionDelay: '1s' }}
+          >
+            {elapsedTime(elapsed)}
+          </div>
+        </div>
+
+        <button
+          className='timer__btn timer__btn_finish btn'
+          onClick={this.finish}
+        >
           {' '}
           Finish{' '}
         </button>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Mutation, Query, withApollo } from 'react-apollo';
-import { Loader, Grid } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
 import { addParam } from '../../../AC';
 import ExerciseList from './ExerciseList';
 import Timer from './Timer';
@@ -41,29 +41,32 @@ export class Main extends Component {
           if (loading) return <Loader />;
           if (data && getDayData) {
             return (
-              <Mutation mutation={ADD_EXERCISE} refetchQueries={[{ query: GET_DAY_DATA, variables: { date } }]}>
-                {addExercise => (
-                  <Grid className="dashboard">
+              <Mutation
+                mutation={ADD_EXERCISE}
+                refetchQueries={[{ query: GET_DAY_DATA, variables: { date } }]}
+              >
+                {(addExercise) => (
+                  <div className='dashboard'>
                     <ErrorMessage />
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Timer {...getDayData} pickDate={pickDate} />
-                      </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <div className="exercise-list_with-buttons">
-                          <button
-                            className="btn exercise-list_with-buttons__btn"
-                            onClick={e => this.onClickAddExercise(e, addExercise, refetch)}
-                          >
-                            Add exercise
-                          </button>
-                          <ExerciseList getDayData={getDayData} pickDate={pickDate} refetchGetDayData={refetch} />
-                        </div>
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
+
+                    <Timer {...getDayData} pickDate={pickDate} />
+
+                    <div className='exercise-list_with-buttons'>
+                      <button
+                        className='btn exercise-list_with-buttons__btn'
+                        onClick={(e) =>
+                          this.onClickAddExercise(e, addExercise, refetch)
+                        }
+                      >
+                        Add exercise
+                      </button>
+                      <ExerciseList
+                        getDayData={getDayData}
+                        pickDate={pickDate}
+                        refetchGetDayData={refetch}
+                      />
+                    </div>
+                  </div>
                 )}
               </Mutation>
             );

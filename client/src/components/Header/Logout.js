@@ -10,8 +10,14 @@ const Logout = ({ history }) => {
   };
   return (
     <ApolloConsumer>
-      {client => (
-        <button className="header__nav_link" onClick={() => onLogout(client)}>
+      {(client) => (
+        <button
+          style={{
+            color: window.location.pathname === '/' ? '#cc0000' : '#111',
+          }}
+          className='header__nav_link'
+          onClick={() => onLogout(client)}
+        >
           Logout
         </button>
       )}

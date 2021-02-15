@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
+import { Icon } from 'semantic-ui-react';
 import { CHANGE_SELECT_EXERCISE_NAME } from '../../../queries';
 
 class ExerciseSelect extends Component {
@@ -32,13 +33,17 @@ class ExerciseSelect extends Component {
     } = this.props;
     const renderList = [];
     renderList.push(
-      <option key={0} value="Choose exercise">
-        Choose exercise
+      <option key={0} value='Choose exercise'>
+        choose exercise
       </option>
     );
     for (let i = 0; i < list.length; i++) {
       renderList.push(
-        <option key={i + 1} value={list[i].exerciseName}>
+        <option
+          className='custom-select__option'
+          key={i + 1}
+          value={list[i].exerciseName}
+        >
           {list[i].exerciseName}
         </option>
       );
@@ -49,14 +54,17 @@ class ExerciseSelect extends Component {
   render() {
     return (
       <Mutation mutation={CHANGE_SELECT_EXERCISE_NAME}>
-        {changeSelectExerciseName => (
-          <select
-            onChange={e => this.onChangeSelect(e, changeSelectExerciseName)}
-            value={this.state.selectedExercise}
-            className="exercise__select custom_select"
-          >
-            {this.optionsList()}
-          </select>
+        {(changeSelectExerciseName) => (
+          <div className='custom-select__wrapper'>
+            <select
+              onChange={(e) => this.onChangeSelect(e, changeSelectExerciseName)}
+              value={this.state.selectedExercise}
+              className='exercise__select custom-select_padding'
+            >
+              {this.optionsList()}
+            </select>
+            <Icon className='custom-select__icon' name='caret down' />
+          </div>
         )}
       </Mutation>
     );

@@ -16,7 +16,9 @@ export default class AddExerciseForm extends Component {
   };
 
   onChangeInput = (e) => {
-    this.setState({ data: { ...this.state.data, [e.target.name]: e.target.value } });
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value },
+    });
   };
 
   onSubmit = (e, addToList) => {
@@ -40,43 +42,46 @@ export default class AddExerciseForm extends Component {
     const { errors } = this.state;
     return (
       <Mutation mutation={ADD_TO_LIST} refetchQueries={[{ query: GET_LIST }]}>
-        {addToList => (
-          <Form className="exercise-page__add-form" onSubmit={e => this.onSubmit(e, addToList)}>
+        {(addToList) => (
+          <Form
+            className='exercise-page__add-form'
+            onSubmit={(e) => this.onSubmit(e, addToList)}
+          >
             <Form.Field
               error={!!errors.exerciseName}
               required
-              label="Exercise name"
-              control="input"
-              name="exerciseName"
+              label='Exercise name'
+              control='input'
+              name='exerciseName'
               onChange={this.onChangeInput}
               value={this.state.data.exerciseName}
             />
             {errors.exerciseName && <InlineError text={errors.exerciseName} />}
             <Form.Group>
               <Form.Field
-                className="exercise-page__add-form__weight"
+                className='exercise-page__add-form__weight'
                 error={!!errors.weightFrom}
                 required
-                label="Weight from"
-                control="input"
-                name="weightFrom"
+                label='Weight from'
+                control='input'
+                name='weightFrom'
                 onChange={this.onChangeInput}
                 value={this.state.data.weightFrom}
               />
               {errors.weightFrom && <InlineError text={errors.weightFrom} />}
               <Form.Field
-                className="exercise-page__add-form__weight"
+                className='exercise-page__add-form__weight'
                 error={!!errors.weightTo}
                 required
-                label="Weight to"
-                control="input"
-                name="weightTo"
+                label='Weight to'
+                control='input'
+                name='weightTo'
                 onChange={this.onChangeInput}
                 value={this.state.data.weightTo}
               />
               {errors.weightTo && <InlineError text={errors.weightTo} />}
             </Form.Group>
-            <button type="submit" className="btn">
+            <button type='submit' className='btn'>
               {' '}
               Add new exercise{' '}
             </button>
