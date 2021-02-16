@@ -1,6 +1,8 @@
 # Training Diary
 
-This is app for trainings, you can make your own exercises, manage your approaches, watch your statistic and progress on charts.
+This is app for trainings, you can make your own exercises, manage your approaches, watch your statistic and progress with charts.
+
+Demo: https://be-strong.herokuapp.com/
 
 Stack:
 - "React", "Redux";
