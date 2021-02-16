@@ -24,7 +24,10 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // mongodb
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URL, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
 
 // middlewares
 app.use(cors());

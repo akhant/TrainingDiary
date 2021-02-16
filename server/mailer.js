@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const from = '"Training Diary" <info@trdiary.com>';
+const from = '"Training Diary" <repemorizer@gmail.com>';
 
 function setup() {
   return nodemailer.createTransport({
