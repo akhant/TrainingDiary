@@ -16,7 +16,7 @@
     "graphql": "^14.0.2",
     "graphql-tools": "^4.0.3",
     "idempotent-babel-polyfill": "^7.0.0",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.11.16",
     "nodemailer": "^4.6.7",
     "webpack-node-externals": "^2.5.2"
